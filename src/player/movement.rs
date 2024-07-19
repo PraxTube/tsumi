@@ -21,10 +21,7 @@ fn player_movement(
     velocity.linvel = direction * speed;
 }
 
-fn flip_sprite(
-    player_input: Res<PlayerInput>,
-    mut q_player: Query<&mut TextureAtlasSprite, With<Player>>,
-) {
+fn flip_sprite(player_input: Res<PlayerInput>, mut q_player: Query<&mut Sprite, With<Player>>) {
     let mut sprite = match q_player.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,

@@ -31,8 +31,12 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
             Ccd::enabled(),
             YSort(0.0),
             animator,
-            SpriteSheetBundle {
-                texture_atlas: assets.player.clone(),
+            SpriteBundle {
+                texture: assets.player_texture.clone(),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.player_layout.clone(),
                 ..default()
             },
         ))

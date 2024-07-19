@@ -19,7 +19,7 @@ use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::Animation2DPlugin;
 use bevy_tweening::*;
 
-const BACKGROUND_COLOR: Color = Color::rgb(0.1, 0.1, 0.1);
+const BACKGROUND_COLOR: Color = Color::srgb(0.1, 0.1, 0.1);
 
 #[derive(States, Clone, Eq, PartialEq, Debug, Hash, Default)]
 pub enum GameState {
@@ -31,9 +31,13 @@ pub enum GameState {
 
 fn main() {
     App::new()
-        .insert_resource(AssetMetaCheck::Never)
         .add_plugins((
             DefaultPlugins
+                .set(ImagePlugin::default_nearest())
+                .set(AssetPlugin {
+                    meta_check: AssetMetaCheck::Never,
+                    ..default()
+                })
                 .set(WindowPlugin {
                     primary_window: Some(Window {
                         present_mode: PresentMode::Fifo,
@@ -43,7 +47,6 @@ fn main() {
                     }),
                     ..default()
                 })
-                .set(ImagePlugin::default_nearest())
                 .build(),
             RapierPhysicsPlugin::<NoUserData>::default(),
             RapierDebugRenderPlugin {
@@ -55,7 +58,7 @@ fn main() {
             TweeningPlugin,
         ))
         .insert_resource(Msaa::Off)
-        .add_state::<GameState>()
+        .init_state::<GameState>()
         .add_loading_state(
             LoadingState::new(GameState::AssetLoading)
                 .continue_to_state(GameState::Gaming)

@@ -1,10 +1,15 @@
 pub mod camera;
 
+mod map;
+
 use bevy::prelude::*;
 use bevy_rapier2d::plugin::RapierConfiguration;
 use camera::GameCameraPlugin;
 
 use crate::{GameAssets, GameState};
+
+pub const BACKGROUND_ZINDEX_ABS: f32 = 1_000.0;
+pub const CHUNK_SIZE: f32 = 32.0 * 32.0;
 
 pub struct WorldPlugin;
 

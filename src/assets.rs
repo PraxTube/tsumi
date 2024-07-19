@@ -5,9 +5,11 @@ use bevy_trickfilm::prelude::*;
 
 #[derive(AssetCollection, Resource)]
 pub struct GameAssets {
-    #[asset(texture_atlas(tile_size_x = 128.0, tile_size_y = 128.0, columns = 8, rows = 3))]
     #[asset(path = "player.png")]
-    pub player: Handle<TextureAtlas>,
+    pub player_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 128, tile_size_y = 128, columns = 8, rows = 3))]
+    pub player_layout: Handle<TextureAtlasLayout>,
+
     #[asset(
         paths(
             "player.trickfilm#idle",

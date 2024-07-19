@@ -1,7 +1,17 @@
 [
     (
         name: "idle",
-        keyframes: KeyframesRange((start: 0, end: 1)),
-        duration: 1.0,
+        keyframes: KeyframesRange((start: 0, end: 8)),
+        duration: 0.8,
+    ),
+    (
+        name: "walk",
+        keyframes: KeyframesRange((start: 8, end: 16)),
+        duration: 0.8,
+    ),
+    (
+        name: "run",
+        keyframes: KeyframesRange((start: 16, end: 24)),
+        duration: 0.6,
     ),
 ]

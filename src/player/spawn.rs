@@ -20,7 +20,7 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
         .id();
 
     let mut animator = AnimationPlayer2D::default();
-    animator.play(assets.player_animations[0].clone());
+    animator.play(assets.player_animations[0].clone()).repeat();
 
     commands
         .spawn((

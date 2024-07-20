@@ -22,8 +22,11 @@ pub struct GameAssets {
     pub player_animations: Vec<Handle<AnimationClip2D>>,
 
     // --- MAP ---
-    #[asset(path = "map/level.ldtk")]
+    #[asset(path = "map/big.ldtk")]
     pub level: Handle<LdtkProject>,
+
+    #[asset(path = "map/aspect_socket.png")]
+    pub aspect_socket: Handle<Image>,
 
     // --- MISC ---
     #[asset(path = "dummy_background.png")]

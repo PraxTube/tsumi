@@ -1,5 +1,6 @@
 #![allow(clippy::too_many_arguments, clippy::type_complexity)]
 
+mod aspect;
 mod assets;
 mod audio;
 mod player;
@@ -72,6 +73,7 @@ fn main() {
             audio::GameAudioPlugin,
             player::PlayerPlugin,
             utils::UtilsPlugin,
+            aspect::AspectPlugin,
         ))
         .run();
 }

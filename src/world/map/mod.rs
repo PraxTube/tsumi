@@ -5,9 +5,9 @@ use bevy_rapier2d::geometry::Collider;
 use crate::{GameAssets, GameState};
 
 const Z_LEVEL_BACKGROUND: f32 = -999.0;
-const BORDER_THICKNESS: f32 = 10.0;
+const BORDER_THICKNESS: f32 = 16.0;
 const ROOM_SIZE: Vec2 = Vec2::new(512.0, 512.0);
-const INPADDING: Vec2 = Vec2::new(16.0, 16.0);
+const INPADDING: Vec2 = Vec2::new(32.0, 32.0);
 
 fn spawn_world_borders(mut commands: Commands) {
     commands.spawn((

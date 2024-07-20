@@ -31,7 +31,7 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
             LockedAxes::ROTATION_LOCKED,
             Velocity::zero(),
             Ccd::enabled(),
-            YSort(0.0),
+            YSort(32.0),
             animator,
             SpriteBundle {
                 texture: assets.player_texture.clone(),

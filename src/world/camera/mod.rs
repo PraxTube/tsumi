@@ -87,7 +87,6 @@ fn apply_y_sort_static_child(
 }
 
 fn spawn_camera(mut commands: Commands) {
-    info!("spawnign cam");
     let mut camera = Camera2dBundle::default();
     camera.projection.scaling_mode = ScalingMode::FixedVertical(PROJECTION_SCALE);
     commands.spawn((MainCamera, camera, AudioReceiver));

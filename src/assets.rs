@@ -22,8 +22,8 @@ pub struct GameAssets {
     pub player_animations: Vec<Handle<AnimationClip2D>>,
 
     // --- MAP ---
-    #[asset(path = "map.ldtk")]
-    pub map: Handle<LdtkProject>,
+    #[asset(path = "map/level.ldtk")]
+    pub level: Handle<LdtkProject>,
 
     // --- MISC ---
     #[asset(path = "dummy_background.png")]

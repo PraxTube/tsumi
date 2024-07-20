@@ -61,8 +61,7 @@ fn spawn_world_borders(mut commands: Commands) {
 
 fn spawn_ldtk_world(mut commands: Commands, assets: Res<GameAssets>) {
     commands.spawn(LdtkWorldBundle {
-        // transform: Transform::from_translation(Vec3::new(0.0, 0.0, -BACKGROUND_ZINDEX_ABS)),
-        ldtk_handle: assets.map.clone(),
+        ldtk_handle: assets.level.clone(),
         ..default()
     });
 }

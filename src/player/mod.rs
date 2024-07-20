@@ -5,6 +5,8 @@ mod spawn;
 
 use bevy::prelude::*;
 
+pub const PLAYER_PIVOT: Vec2 = Vec2::new(0.0, -32.0);
+
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {

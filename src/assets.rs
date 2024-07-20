@@ -21,12 +21,22 @@ pub struct GameAssets {
     )]
     pub player_animations: Vec<Handle<AnimationClip2D>>,
 
+    // --- ASPECTS ---
+    #[asset(path = "aspects/joy_icon.png")]
+    pub joy_icon: Handle<Image>,
+    #[asset(path = "aspects/anger_icon.png")]
+    pub anger_icon: Handle<Image>,
+    #[asset(path = "aspects/nostalgia_icon.png")]
+    pub nostalgia_icon: Handle<Image>,
+
     // --- MAP ---
     #[asset(path = "map/big.ldtk")]
     pub level: Handle<LdtkProject>,
 
     #[asset(path = "map/aspect_socket.png")]
-    pub aspect_socket: Handle<Image>,
+    pub aspect_socket_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 2, rows = 1))]
+    pub aspect_socket_layout: Handle<TextureAtlasLayout>,
 
     // --- MISC ---
     #[asset(path = "dummy_background.png")]

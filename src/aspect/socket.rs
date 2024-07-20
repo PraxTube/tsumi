@@ -2,9 +2,15 @@ use bevy::prelude::*;
 use bevy_ecs_ldtk::GridCoords;
 use bevy_rapier2d::prelude::*;
 
-use crate::{world::camera::YSort, GameAssets, GameState};
+use crate::{
+    player::{Player, PLAYER_PIVOT},
+    world::camera::{YSort, YSortChild},
+    GameAssets, GameState,
+};
 
 use super::Aspect;
+
+const PLAYER_HIGHLIGHT_DISTANCE: f32 = 32.0;
 
 #[derive(Component)]
 struct Socket(Aspect);
@@ -15,7 +21,6 @@ fn spawn_aspect_sockets(
     q_items: Query<(&Aspect, &GridCoords), Added<Aspect>>,
 ) {
     for (aspect, grid_coords) in &q_items {
-        info!("spawnign socket");
         let pos = Vec3::new(
             grid_coords.x as f32 * 32.0,
             grid_coords.y as f32 * 32.0,
@@ -31,17 +36,63 @@ fn spawn_aspect_sockets(
             ))
             .id();
 
+        let icon = match aspect {
+            Aspect::Joy => assets.joy_icon.clone(),
+            Aspect::Anger => assets.anger_icon.clone(),
+            Aspect::Nostalgia => assets.nostalgia_icon.clone(),
+            Aspect::NotImplemented => assets.joy_icon.clone(),
+        };
+
+        let icon = commands
+            .spawn((
+                YSortChild(100.0),
+                SpriteBundle {
+                    texture: icon,
+                    transform: Transform::from_translation(Vec3::new(0.0, 16.0, 0.0)),
+                    ..default()
+                },
+            ))
+            .id();
+
         commands
             .spawn((
                 YSort(0.0),
                 Socket(aspect.clone()),
                 SpriteBundle {
-                    texture: assets.aspect_socket.clone(),
+                    texture: assets.aspect_socket_texture.clone(),
                     transform: Transform::from_translation(pos),
                     ..default()
                 },
+                TextureAtlas {
+                    layout: assets.aspect_socket_layout.clone(),
+                    ..default()
+                },
             ))
-            .push_children(&[collider]);
+            .push_children(&[collider, icon]);
+    }
+}
+
+fn highlight_sockets(
+    q_player: Query<&Transform, With<Player>>,
+    mut q_sockets: Query<(&Transform, &mut TextureAtlas), Without<Player>>,
+) {
+    let player_transform = match q_player.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    for (transform, mut atlas) in &mut q_sockets {
+        let index = if transform
+            .translation
+            .truncate()
+            .distance_squared(player_transform.translation.truncate() + PLAYER_PIVOT)
+            <= PLAYER_HIGHLIGHT_DISTANCE.powi(2)
+        {
+            1
+        } else {
+            0
+        };
+        atlas.index = index;
     }
 }
 
@@ -51,7 +102,7 @@ impl Plugin for AspectSocketPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (spawn_aspect_sockets,).run_if(in_state(GameState::Gaming)),
+            (spawn_aspect_sockets, highlight_sockets).run_if(in_state(GameState::Gaming)),
         );
     }
 }

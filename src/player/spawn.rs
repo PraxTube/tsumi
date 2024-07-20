@@ -5,7 +5,7 @@ use bevy_trickfilm::prelude::*;
 use crate::world::camera::YSort;
 use crate::{GameAssets, GameState};
 
-use super::Player;
+use super::{Player, PLAYER_PIVOT};
 
 const SPAWN_POSITION: Vec3 = Vec3::new(128.0, 128.0, 0.0);
 
@@ -15,9 +15,7 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
             Collider::ball(12.0),
             ActiveEvents::COLLISION_EVENTS,
             CollisionGroups::default(),
-            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
-                0.0, -32.0, 0.0,
-            ))),
+            TransformBundle::from_transform(Transform::from_translation(PLAYER_PIVOT.extend(0.0))),
         ))
         .id();
 

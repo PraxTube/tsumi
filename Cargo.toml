@@ -13,7 +13,7 @@ opt-level = 3
 [dependencies]
 rand = "0.8.5"
 rand_xoshiro = "0.6.0"
-chrono = "0.4.31"
+chrono = "0.4.38"
 
 bevy = "0.14.0"
 bevy_asset_loader = { version = "0.21.0", features = ["2d"] }

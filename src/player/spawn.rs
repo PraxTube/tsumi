@@ -7,10 +7,12 @@ use crate::{GameAssets, GameState};
 
 use super::Player;
 
+const SPAWN_POSITION: Vec3 = Vec3::new(128.0, 128.0, 0.0);
+
 fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
     let collider = commands
         .spawn((
-            Collider::ball(16.0),
+            Collider::ball(12.0),
             ActiveEvents::COLLISION_EVENTS,
             CollisionGroups::default(),
             TransformBundle::from_transform(Transform::from_translation(Vec3::new(
@@ -33,6 +35,7 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
             animator,
             SpriteBundle {
                 texture: assets.player_texture.clone(),
+                transform: Transform::from_translation(SPAWN_POSITION),
                 ..default()
             },
             TextureAtlas {

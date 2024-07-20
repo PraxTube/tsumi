@@ -38,7 +38,7 @@ fn spawn_world_borders(mut commands: Commands) {
         Collider::cuboid(ROOM_SIZE.x / 2.0, BORDER_THICKNESS),
         TransformBundle::from_transform(Transform::from_translation(Vec3::new(
             ROOM_SIZE.x / 2.0,
-            ROOM_SIZE.y + BORDER_THICKNESS - INPADDING.y,
+            ROOM_SIZE.y + BORDER_THICKNESS - INPADDING.y - 32.0,
             0.0,
         ))),
     ));

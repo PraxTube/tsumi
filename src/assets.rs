@@ -30,13 +30,17 @@ pub struct GameAssets {
     pub nostalgia_icon: Handle<Image>,
 
     // --- MAP ---
-    #[asset(path = "map/big.ldtk")]
+    #[asset(path = "map/level.ldtk")]
     pub level: Handle<LdtkProject>,
 
     #[asset(path = "map/aspect_socket.png")]
     pub aspect_socket_texture: Handle<Image>,
     #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 2, rows = 1))]
     pub aspect_socket_layout: Handle<TextureAtlasLayout>,
+    #[asset(path = "map/aspect_combiner.png")]
+    pub aspect_combiner_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 2, rows = 1))]
+    pub aspect_combiner_layout: Handle<TextureAtlasLayout>,
 
     // --- MISC ---
     #[asset(path = "dummy_background.png")]

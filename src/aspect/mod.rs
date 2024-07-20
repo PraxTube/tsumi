@@ -11,7 +11,8 @@ pub struct AspectPlugin;
 impl Plugin for AspectPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(socket::AspectSocketPlugin)
-            .register_ldtk_entity::<AspectBundle>("AspectSocket");
+            .register_ldtk_entity::<AspectBundle>("AspectSocket")
+            .register_ldtk_entity::<CombinerBundle>("CombinerSocket");
     }
 }
 
@@ -24,10 +25,29 @@ pub enum Aspect {
     Nostalgia,
 }
 
-#[derive(Resource, Default, Deref, DerefMut)]
-pub struct ActiveItems(pub Vec<Aspect>);
-#[derive(Resource, Deref, DerefMut)]
-pub struct MaxItems(pub usize);
+impl Aspect {
+    fn from_field(entity_instance: &EntityInstance) -> Self {
+        match entity_instance.get_enum_field("aspect") {
+            Ok(s) => Aspect::from_str(s).unwrap_or_default(),
+            Err(_) => Self::default(),
+        }
+    }
+}
+
+#[derive(Component, Default)]
+pub struct AspectCombiner {
+    left_aspect: Option<Aspect>,
+    right_aspect: Option<Aspect>,
+}
+
+#[derive(Component, Default)]
+pub struct AspectCombinerInitiater;
+
+impl AspectCombinerInitiater {
+    fn from_field(_entity_instance: &EntityInstance) -> Self {
+        Self
+    }
+}
 
 #[derive(Default, Bundle, LdtkEntity)]
 struct AspectBundle {
@@ -39,11 +59,12 @@ struct AspectBundle {
     worldly: Worldly,
 }
 
-impl Aspect {
-    fn from_field(entity_instance: &EntityInstance) -> Aspect {
-        match entity_instance.get_enum_field("aspect") {
-            Ok(s) => Aspect::from_str(s).unwrap_or_default(),
-            Err(_) => Aspect::default(),
-        }
-    }
+#[derive(Default, Bundle, LdtkEntity)]
+struct CombinerBundle {
+    #[with(AspectCombinerInitiater::from_field)]
+    aspect_combiner: AspectCombinerInitiater,
+    #[grid_coords]
+    grid_coords: GridCoords,
+    #[worldly]
+    worldly: Worldly,
 }

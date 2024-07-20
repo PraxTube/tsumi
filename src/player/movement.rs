@@ -17,7 +17,7 @@ fn player_movement(
     };
 
     let direction = player_input.move_direction;
-    let speed = 100.0;
+    let speed = if player_input.running { 200.0 } else { 150.0 };
     velocity.linvel = direction * speed;
 }
 

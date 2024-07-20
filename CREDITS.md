@@ -7,3 +7,7 @@ Disclaimer: I do NOT own any of these assets. All of them are licensed under a l
 ### Player
 
 https://craftpix.net/freebies/free-yokai-pixel-art-character-sprites/
+
+### Map
+
+https://gif-superretroworld.itch.io/interior-pack

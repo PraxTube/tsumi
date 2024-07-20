@@ -19,7 +19,7 @@ use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::Animation2DPlugin;
 use bevy_tweening::*;
 
-const BACKGROUND_COLOR: Color = Color::srgb(0.1, 0.1, 0.1);
+const BACKGROUND_COLOR: Color = Color::srgb(0.0, 0.0, 0.0);
 
 #[derive(States, Clone, Eq, PartialEq, Debug, Hash, Default)]
 pub enum GameState {

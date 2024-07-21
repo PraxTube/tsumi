@@ -14,6 +14,21 @@ pub struct Combiner {
     pub right_aspect: Option<Aspect>,
 }
 
+pub fn is_socket_combination_possible(combiner: &Res<Combiner>, socket: &Socket) -> bool {
+    let combiner_aspect = if socket.on_left_side {
+        match combiner.right_aspect {
+            Some(r) => r,
+            None => return true,
+        }
+    } else {
+        match combiner.left_aspect {
+            Some(r) => r,
+            None => return true,
+        }
+    };
+    aspect_combinations(&socket.aspect, &combiner_aspect) != Aspect::NotImplemented
+}
+
 fn aspect_combinations(left_aspect: &Aspect, right_aspect: &Aspect) -> Aspect {
     fn match_aspects(left_aspect: &Aspect, right_aspect: &Aspect) -> Aspect {
         match (left_aspect, right_aspect) {
@@ -39,22 +54,22 @@ fn select_aspects(
         return;
     }
 
-    let mut left_aspect = combiner.left_aspect.clone();
-    let mut right_aspect = combiner.right_aspect.clone();
+    let mut left_aspect = combiner.left_aspect;
+    let mut right_aspect = combiner.right_aspect;
     for (atlas, socket) in &q_sockets {
         if atlas.index == 0 {
             continue;
         }
 
         if socket.on_left_side {
-            left_aspect = if combiner.left_aspect != Some(socket.aspect.clone()) {
-                Some(socket.aspect.clone())
+            left_aspect = if combiner.left_aspect != Some(socket.aspect) {
+                Some(socket.aspect)
             } else {
                 None
             };
         } else {
-            right_aspect = if combiner.right_aspect != Some(socket.aspect.clone()) {
-                Some(socket.aspect.clone())
+            right_aspect = if combiner.right_aspect != Some(socket.aspect) {
+                Some(socket.aspect)
             } else {
                 None
             };
@@ -75,13 +90,12 @@ fn show_combiner_icon(
         Err(_) => return,
     };
 
-    let (left_aspect, right_aspect) = if let (Some(l_aspect), Some(r_aspect)) =
-        (combiner.left_aspect.clone(), combiner.right_aspect.clone())
-    {
-        (l_aspect, r_aspect)
-    } else {
-        return;
-    };
+    let (left_aspect, right_aspect) =
+        if let (Some(l_aspect), Some(r_aspect)) = (combiner.left_aspect, combiner.right_aspect) {
+            (l_aspect, r_aspect)
+        } else {
+            return;
+        };
 
     *visibility = Visibility::Inherited;
     let combined_aspect = aspect_combinations(&left_aspect, &right_aspect);

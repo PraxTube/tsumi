@@ -22,7 +22,7 @@ impl Plugin for AspectPlugin {
     }
 }
 
-#[derive(Default, Reflect, Clone, PartialEq, EnumString, Display, Debug)]
+#[derive(Default, Reflect, Clone, PartialEq, EnumString, Display, Debug, Copy)]
 pub enum Aspect {
     #[default]
     NotImplemented,

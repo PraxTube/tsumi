@@ -9,6 +9,7 @@ use crate::{
 };
 
 use super::{
+    combiner::{is_socket_combination_possible, Combiner},
     icon::{icon_texture, DEFAULT_ICON_POSITION},
     Aspect, AspectCombiner, AspectCombinerInitiater, AspectSocketInitiater,
 };
@@ -31,7 +32,7 @@ fn spawn_aspect_sockets(
     q_items: Query<(&AspectSocketInitiater, &GridCoords), Added<AspectSocketInitiater>>,
 ) {
     for (aspect_initiater, grid_coords) in &q_items {
-        let aspect = aspect_initiater.aspect.clone();
+        let aspect = aspect_initiater.aspect;
         let on_left_side = aspect_initiater.on_left_side;
 
         let pos = Vec3::new(
@@ -141,20 +142,22 @@ fn spawn_combiner_socket(
 }
 
 fn highlight_sockets(
+    combiner: Res<Combiner>,
     q_player: Query<&Transform, With<Player>>,
-    mut q_sockets: Query<(&Transform, &mut TextureAtlas), (With<Socket>, Without<Player>)>,
+    mut q_sockets: Query<(&Transform, &mut TextureAtlas, &Socket), Without<Player>>,
 ) {
     let player_transform = match q_player.get_single() {
         Ok(r) => r,
         Err(_) => return,
     };
 
-    for (transform, mut atlas) in &mut q_sockets {
-        let index = if transform
-            .translation
-            .truncate()
-            .distance_squared(player_transform.translation.truncate() + PLAYER_PIVOT)
-            <= PLAYER_HIGHLIGHT_DISTANCE.powi(2)
+    for (transform, mut atlas, socket) in &mut q_sockets {
+        let index = if is_socket_combination_possible(&combiner, socket)
+            && transform
+                .translation
+                .truncate()
+                .distance_squared(player_transform.translation.truncate() + PLAYER_PIVOT)
+                <= PLAYER_HIGHLIGHT_DISTANCE.powi(2)
         {
             1
         } else {

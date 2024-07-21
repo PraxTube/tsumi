@@ -3,7 +3,9 @@
 mod aspect;
 mod assets;
 mod audio;
+mod npc;
 mod player;
+mod ui;
 mod utils;
 mod world;
 
@@ -13,6 +15,7 @@ pub type GameRng = rand_xoshiro::Xoshiro256PlusPlus;
 use bevy::asset::AssetMetaCheck;
 use bevy::prelude::*;
 use bevy::window::{PresentMode, Window, WindowMode, WindowResolution};
+use bevy_yarnspinner::prelude::*;
 
 use bevy_asset_loader::prelude::*;
 use bevy_particle_systems::ParticleSystemPlugin;
@@ -59,6 +62,8 @@ fn main() {
             ParticleSystemPlugin,
             Animation2DPlugin,
             TweeningPlugin,
+            YarnSpinnerPlugin::with_yarn_sources([YarnFileSource::file("dialogue/main.yarn")])
+                .with_development_file_generation(DevelopmentFileGeneration::None),
         ))
         .insert_resource(Msaa::Off)
         .init_state::<GameState>()
@@ -74,6 +79,7 @@ fn main() {
             player::PlayerPlugin,
             utils::UtilsPlugin,
             aspect::AspectPlugin,
+            ui::UiPlugin,
         ))
         .run();
 }

@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 use bevy_ecs_ldtk::prelude::LdtkProject;
+use bevy_kira_audio::AudioSource;
 use bevy_trickfilm::prelude::*;
 
 #[derive(AssetCollection, Resource)]
@@ -52,6 +53,27 @@ pub struct GameAssets {
     pub aspect_combiner_texture: Handle<Image>,
     #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 2, rows = 1))]
     pub aspect_combiner_layout: Handle<TextureAtlasLayout>,
+
+    // --- UI ---
+    #[asset(path = "ui/white_pixel.png")]
+    pub white_pixel: Handle<Image>,
+
+    #[asset(path = "ui/dialogue_edge.png")]
+    pub dialogue_edge: Handle<Image>,
+    #[asset(path = "ui/dialogue_continue.png")]
+    pub dialogue_continue: Handle<Image>,
+
+    // --- AUDIO ---
+    #[asset(path = "audio/ami_blip.ogg")]
+    pub ami_blip_sound: Handle<AudioSource>,
+    #[asset(path = "audio/ima_blip.ogg")]
+    pub ima_blip_sound: Handle<AudioSource>,
+
+    // --- FONT ---
+    #[asset(path = "fonts/PressStart2P.ttf")]
+    pub pixel_font: Handle<Font>,
+    #[asset(path = "fonts/Silver.ttf")]
+    pub silver_font: Handle<Font>,
 
     // --- MISC ---
     #[asset(path = "dummy_background.png")]

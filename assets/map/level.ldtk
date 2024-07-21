@@ -11,7 +11,7 @@
 	"iid": "d1b3c960-25d0-11ef-821e-4725ad0bd601",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 12,
+	"nextUid": 13,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -185,6 +185,43 @@
 					"allowedRefsEntityUid": null,
 					"allowedRefTags": [],
 					"tilesetUid": null
+				},
+				{
+					"identifier": "on_left_side",
+					"doc": null,
+					"__type": "Bool",
+					"uid": 12,
+					"type": "F_Bool",
+					"isArray": false,
+					"canBeNull": false,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "NameAndValue",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": true,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
 				}
 			]
 		},
@@ -345,10 +382,16 @@
 							"height": 32,
 							"defUid": 3,
 							"px": [64,256],
-							"fieldInstances": [{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["Joy"]
-							}] }],
+							"fieldInstances": [
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["Joy"]
+								}] },
+								{ "__identifier": "on_left_side", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
+							],
 							"__worldX": 64,
 							"__worldY": 256
 						},
@@ -364,10 +407,16 @@
 							"height": 32,
 							"defUid": 3,
 							"px": [64,320],
-							"fieldInstances": [{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Anger", "__tile": null, "defUid": 6, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["Anger"]
-							}] }],
+							"fieldInstances": [
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Anger", "__tile": null, "defUid": 6, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["Anger"]
+								}] },
+								{ "__identifier": "on_left_side", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
+							],
 							"__worldX": 64,
 							"__worldY": 320
 						},
@@ -383,10 +432,16 @@
 							"height": 32,
 							"defUid": 3,
 							"px": [64,192],
-							"fieldInstances": [{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Nostalgia", "__tile": null, "defUid": 6, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["Nostalgia"]
-							}] }],
+							"fieldInstances": [
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Nostalgia", "__tile": null, "defUid": 6, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["Nostalgia"]
+								}] },
+								{ "__identifier": "on_left_side", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
+							],
 							"__worldX": 64,
 							"__worldY": 192
 						},
@@ -402,10 +457,13 @@
 							"height": 32,
 							"defUid": 3,
 							"px": [416,256],
-							"fieldInstances": [{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["Joy"]
-							}] }],
+							"fieldInstances": [
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["Joy"]
+								}] },
+								{ "__identifier": "on_left_side", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [null] }
+							],
 							"__worldX": 416,
 							"__worldY": 256
 						},
@@ -421,10 +479,13 @@
 							"height": 32,
 							"defUid": 3,
 							"px": [416,320],
-							"fieldInstances": [{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Anger", "__tile": null, "defUid": 6, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["Anger"]
-							}] }],
+							"fieldInstances": [
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Anger", "__tile": null, "defUid": 6, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["Anger"]
+								}] },
+								{ "__identifier": "on_left_side", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
+							],
 							"__worldX": 416,
 							"__worldY": 320
 						},
@@ -440,10 +501,13 @@
 							"height": 32,
 							"defUid": 3,
 							"px": [416,192],
-							"fieldInstances": [{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Nostalgia", "__tile": null, "defUid": 6, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["Nostalgia"]
-							}] }],
+							"fieldInstances": [
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Nostalgia", "__tile": null, "defUid": 6, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["Nostalgia"]
+								}] },
+								{ "__identifier": "on_left_side", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
+							],
 							"__worldX": 416,
 							"__worldY": 192
 						},

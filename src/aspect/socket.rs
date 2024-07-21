@@ -8,21 +8,30 @@ use crate::{
     GameAssets, GameState,
 };
 
-use super::{Aspect, AspectCombiner, AspectCombinerInitiater};
+use super::{
+    icon::DEFAULT_ICON_POSITION, Aspect, AspectCombiner, AspectCombinerInitiater,
+    AspectSocketInitiater,
+};
 
 const PLAYER_HIGHLIGHT_DISTANCE: f32 = 32.0;
 
 #[derive(Component)]
-struct Socket(Aspect);
+pub struct AspectIcon;
 #[derive(Component)]
-struct CombinerSocket;
+pub struct Socket {
+    pub aspect: Aspect,
+    pub on_left_side: bool,
+}
 
 fn spawn_aspect_sockets(
     mut commands: Commands,
     assets: Res<GameAssets>,
-    q_items: Query<(&Aspect, &GridCoords), Added<Aspect>>,
+    q_items: Query<(&AspectSocketInitiater, &GridCoords), Added<AspectSocketInitiater>>,
 ) {
-    for (aspect, grid_coords) in &q_items {
+    for (aspect_initiater, grid_coords) in &q_items {
+        let aspect = aspect_initiater.aspect.clone();
+        let on_left_side = aspect_initiater.on_left_side;
+
         let pos = Vec3::new(
             grid_coords.x as f32 * 32.0,
             grid_coords.y as f32 * 32.0,
@@ -47,21 +56,31 @@ fn spawn_aspect_sockets(
 
         let icon = commands
             .spawn((
+                AspectIcon,
                 YSortChild(100.0),
                 SpriteBundle {
                     texture: icon,
-                    transform: Transform::from_translation(Vec3::new(0.0, 16.0, 0.0)),
+                    transform: Transform::from_translation(DEFAULT_ICON_POSITION.extend(0.0)),
                     ..default()
                 },
             ))
             .id();
 
+        let texture = if on_left_side {
+            assets.aspect_socket_texture_left.clone()
+        } else {
+            assets.aspect_socket_texture_right.clone()
+        };
+
         commands
             .spawn((
                 YSort(0.0),
-                Socket(aspect.clone()),
+                Socket {
+                    aspect,
+                    on_left_side,
+                },
                 SpriteBundle {
-                    texture: assets.aspect_socket_texture.clone(),
+                    texture,
                     transform: Transform::from_translation(pos),
                     ..default()
                 },
@@ -98,7 +117,7 @@ fn spawn_combiner_socket(
         commands
             .spawn((
                 YSort(0.0),
-                AspectCombiner::default(),
+                AspectCombiner,
                 SpriteBundle {
                     texture: assets.aspect_combiner_texture.clone(),
                     transform: Transform::from_translation(pos),

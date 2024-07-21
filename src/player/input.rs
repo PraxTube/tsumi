@@ -16,6 +16,8 @@ pub struct PlayerInput {
     pub running: bool,
     pub escape: bool,
 
+    pub select_socket: bool,
+
     pub start_dialogue: bool,
     pub dialogue_confirm: bool,
     pub dialogue_continue: bool,
@@ -118,6 +120,10 @@ fn input_escape(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<Player
     player_input.escape = keys.just_pressed(KeyCode::Escape);
 }
 
+fn select_socket(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
+    player_input.select_socket = keys.just_pressed(KeyCode::KeyE);
+}
+
 fn input_dialogue(
     keys: Res<ButtonInput<KeyCode>>,
     mouse_buttons: Res<ButtonInput<MouseButton>>,
@@ -167,6 +173,7 @@ impl Plugin for InputPlugin {
                 player_movement,
                 input_running,
                 input_escape,
+                select_socket,
                 input_dialogue,
                 toggle_fullscreen,
                 toggle_debug,

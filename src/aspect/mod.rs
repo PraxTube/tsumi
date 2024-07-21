@@ -1,3 +1,5 @@
+mod combiner;
+mod icon;
 mod socket;
 
 use std::str::FromStr;
@@ -10,13 +12,17 @@ pub struct AspectPlugin;
 
 impl Plugin for AspectPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(socket::AspectSocketPlugin)
-            .register_ldtk_entity::<AspectBundle>("AspectSocket")
-            .register_ldtk_entity::<CombinerBundle>("CombinerSocket");
+        app.add_plugins((
+            socket::AspectSocketPlugin,
+            combiner::AspectCombinerPlugin,
+            icon::AspectIconPlugin,
+        ))
+        .register_ldtk_entity::<AspectBundle>("AspectSocket")
+        .register_ldtk_entity::<CombinerBundle>("CombinerSocket");
     }
 }
 
-#[derive(Debug, Default, Component, Reflect, Clone, PartialEq, EnumString, Display)]
+#[derive(Default, Reflect, Clone, PartialEq, EnumString, Display, Debug)]
 pub enum Aspect {
     #[default]
     NotImplemented,
@@ -25,19 +31,30 @@ pub enum Aspect {
     Nostalgia,
 }
 
-impl Aspect {
-    fn from_field(entity_instance: &EntityInstance) -> Self {
-        match entity_instance.get_enum_field("aspect") {
-            Ok(s) => Aspect::from_str(s).unwrap_or_default(),
-            Err(_) => Self::default(),
-        }
-    }
+#[derive(Default, Component)]
+pub struct AspectSocketInitiater {
+    aspect: Aspect,
+    on_left_side: bool,
 }
 
-#[derive(Component, Default)]
-pub struct AspectCombiner {
-    left_aspect: Option<Aspect>,
-    right_aspect: Option<Aspect>,
+impl AspectSocketInitiater {
+    fn from_field(entity_instance: &EntityInstance) -> Self {
+        let aspect = match entity_instance.get_enum_field("aspect") {
+            Ok(r) => Aspect::from_str(r).unwrap_or_default(),
+            Err(_) => Aspect::default(),
+        };
+        let on_left_side = match entity_instance.get_bool_field("on_left_side") {
+            Ok(r) => r.to_owned(),
+            Err(err) => {
+                error!("counld not find field, {}", err);
+                false
+            }
+        };
+        Self {
+            aspect,
+            on_left_side,
+        }
+    }
 }
 
 #[derive(Component, Default)]
@@ -51,8 +68,8 @@ impl AspectCombinerInitiater {
 
 #[derive(Default, Bundle, LdtkEntity)]
 struct AspectBundle {
-    #[with(Aspect::from_field)]
-    aspect: Aspect,
+    #[with(AspectSocketInitiater::from_field)]
+    aspect_initiater: AspectSocketInitiater,
     #[grid_coords]
     grid_coords: GridCoords,
     #[worldly]
@@ -68,3 +85,6 @@ struct CombinerBundle {
     #[worldly]
     worldly: Worldly,
 }
+
+#[derive(Component, Default)]
+struct AspectCombiner;

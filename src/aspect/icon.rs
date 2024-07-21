@@ -18,6 +18,7 @@ pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> 
         Aspect::Anger => assets.anger_icon.clone(),
         Aspect::Nostalgia => assets.nostalgia_icon.clone(),
         Aspect::Test => assets.test_icon.clone(),
+        Aspect::Blocking => assets.placeholder_icon.clone(),
         Aspect::NotImplemented => assets.placeholder_icon.clone(),
     }
 }

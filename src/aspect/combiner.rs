@@ -5,13 +5,19 @@ use crate::{player::input::PlayerInput, GameAssets, GameState};
 use super::{
     icon::icon_texture,
     socket::{CombinerIcon, Socket},
-    Aspect,
+    Aspect, AspectCombiner,
 };
 
 #[derive(Resource, Default, Debug)]
 pub struct Combiner {
     pub left_aspect: Option<Aspect>,
     pub right_aspect: Option<Aspect>,
+}
+
+impl Combiner {
+    pub fn is_full(&self) -> bool {
+        self.left_aspect.is_some() && self.right_aspect.is_some()
+    }
 }
 
 pub fn is_socket_combination_possible(combiner: &Res<Combiner>, socket: &Socket) -> bool {
@@ -98,6 +104,11 @@ fn show_combiner_icon(
         };
 
     *visibility = Visibility::Inherited;
+
+    if left_aspect == Aspect::Blocking && right_aspect == Aspect::Blocking {
+        return;
+    }
+
     let combined_aspect = aspect_combinations(&left_aspect, &right_aspect);
     *texture = icon_texture(&assets, &combined_aspect);
 }
@@ -116,13 +127,49 @@ fn hide_combiner_icon(
     }
 }
 
+fn select_combined_aspect(
+    player_input: Res<PlayerInput>,
+    mut combiner: ResMut<Combiner>,
+    q_combiner: Query<&TextureAtlas, With<AspectCombiner>>,
+) {
+    if !player_input.select_socket {
+        return;
+    }
+    let atlas = match q_combiner.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    if atlas.index != 1 {
+        return;
+    }
+
+    let (left_aspect, right_aspect) =
+        if let (Some(l_aspect), Some(r_aspect)) = (combiner.left_aspect, combiner.right_aspect) {
+            (l_aspect, r_aspect)
+        } else {
+            return;
+        };
+
+    let combined_aspect = aspect_combinations(&left_aspect, &right_aspect);
+    info!("COMIBNED! {}", combined_aspect);
+
+    combiner.left_aspect = Some(Aspect::Blocking);
+    combiner.right_aspect = Some(Aspect::Blocking);
+}
+
 pub struct AspectCombinerPlugin;
 
 impl Plugin for AspectCombinerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (select_aspects, show_combiner_icon, hide_combiner_icon)
+            (
+                select_aspects,
+                show_combiner_icon,
+                hide_combiner_icon,
+                select_combined_aspect,
+            )
                 .run_if(in_state(GameState::Gaming)),
         )
         .init_resource::<Combiner>();

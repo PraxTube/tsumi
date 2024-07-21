@@ -168,27 +168,33 @@ fn highlight_sockets(
 }
 
 fn highlight_combiner(
+    combiner: Res<Combiner>,
     q_player: Query<&Transform, With<Player>>,
-    mut q_sockets: Query<(&Transform, &mut TextureAtlas), (With<AspectCombiner>, Without<Player>)>,
+    mut q_combiner: Query<(&Transform, &mut TextureAtlas), (With<AspectCombiner>, Without<Player>)>,
 ) {
+    if !combiner.is_full() {
+        return;
+    }
     let player_transform = match q_player.get_single() {
         Ok(r) => r,
         Err(_) => return,
     };
+    let (transform, mut atlas) = match q_combiner.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
 
-    for (transform, mut atlas) in &mut q_sockets {
-        let index = if transform
-            .translation
-            .truncate()
-            .distance_squared(player_transform.translation.truncate() + PLAYER_PIVOT)
-            <= PLAYER_HIGHLIGHT_DISTANCE.powi(2)
-        {
-            1
-        } else {
-            0
-        };
-        atlas.index = index;
-    }
+    let index = if transform
+        .translation
+        .truncate()
+        .distance_squared(player_transform.translation.truncate() + PLAYER_PIVOT)
+        <= PLAYER_HIGHLIGHT_DISTANCE.powi(2)
+    {
+        1
+    } else {
+        0
+    };
+    atlas.index = index;
 }
 
 pub struct AspectSocketPlugin;

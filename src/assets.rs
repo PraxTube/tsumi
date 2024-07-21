@@ -37,6 +37,11 @@ pub struct GameAssets {
     #[asset(path = "map/level.ldtk")]
     pub level: Handle<LdtkProject>,
 
+    #[asset(path = "map/bed.png")]
+    pub bed_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 2, rows = 1))]
+    pub bed_layout: Handle<TextureAtlasLayout>,
+
     #[asset(path = "map/aspect_socket_left.png")]
     pub aspect_socket_texture_left: Handle<Image>,
     #[asset(path = "map/aspect_socket_right.png")]

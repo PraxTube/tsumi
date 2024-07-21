@@ -1,3 +1,4 @@
+mod bed;
 mod collisions;
 
 use bevy::prelude::*;
@@ -12,7 +13,7 @@ pub struct MapPlugin;
 impl Plugin for MapPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(LdtkPlugin)
-            .add_plugins((collisions::CollisionsPlugin,))
+            .add_plugins((collisions::CollisionsPlugin, bed::MapBedPlugin))
             .insert_resource(LevelSelection::index(0))
             .add_systems(OnEnter(GameState::Gaming), spawn_ldtk_world);
     }

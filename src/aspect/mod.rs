@@ -2,6 +2,8 @@ mod combiner;
 mod icon;
 mod socket;
 
+pub use combiner::Combiner;
+
 use std::str::FromStr;
 
 use bevy::prelude::*;

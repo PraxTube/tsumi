@@ -11,7 +11,7 @@
 	"iid": "d1b3c960-25d0-11ef-821e-4725ad0bd601",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 13,
+	"nextUid": 14,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -43,7 +43,7 @@
 	"defs": { "layers": [
 		{
 			"__type": "Entities",
-			"identifier": "Sockets",
+			"identifier": "Entities",
 			"type": "Entities",
 			"uid": 4,
 			"doc": null,
@@ -294,6 +294,41 @@
 			"pivotX": 0,
 			"pivotY": 0,
 			"fieldDefs": []
+		},
+		{
+			"identifier": "Bed",
+			"uid": 13,
+			"tags": [],
+			"exportToToc": false,
+			"allowOutOfBounds": false,
+			"doc": null,
+			"width": 32,
+			"height": 32,
+			"resizableX": false,
+			"resizableY": false,
+			"minWidth": null,
+			"maxWidth": null,
+			"minHeight": null,
+			"maxHeight": null,
+			"keepAspectRatio": false,
+			"tileOpacity": 1,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#EAD4AA",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileRenderMode": "FitInside",
+			"tileRect": null,
+			"uiTileRect": null,
+			"nineSliceBorders": [],
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": []
 		}
 	], "tilesets": [
 		{
@@ -347,7 +382,7 @@
 			"fieldInstances": [],
 			"layerInstances": [
 				{
-					"__identifier": "Sockets",
+					"__identifier": "Entities",
 					"__type": "Entities",
 					"__cWid": 16,
 					"__cHei": 16,
@@ -590,6 +625,22 @@
 							"fieldInstances": [],
 							"__worldX": 32,
 							"__worldY": 32
+						},
+						{
+							"__identifier": "Bed",
+							"__grid": [7,3],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#EAD4AA",
+							"iid": "3bc49500-25d0-11ef-bb34-27a4489f4549",
+							"width": 32,
+							"height": 32,
+							"defUid": 13,
+							"px": [224,96],
+							"fieldInstances": [],
+							"__worldX": 224,
+							"__worldY": 96
 						}
 					]
 				},

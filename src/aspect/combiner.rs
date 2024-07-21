@@ -152,7 +152,10 @@ fn select_combined_aspect(
         };
 
     let combined_aspect = aspect_combinations(&left_aspect, &right_aspect);
-    info!("COMIBNED! {}", combined_aspect);
+    info!(
+        "COMIBNED! {}\nFire your event(s) from here.",
+        combined_aspect
+    );
 
     combiner.left_aspect = Some(Aspect::Blocking);
     combiner.right_aspect = Some(Aspect::Blocking);

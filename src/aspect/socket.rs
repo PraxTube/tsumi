@@ -9,8 +9,8 @@ use crate::{
 };
 
 use super::{
-    icon::DEFAULT_ICON_POSITION, Aspect, AspectCombiner, AspectCombinerInitiater,
-    AspectSocketInitiater,
+    icon::{icon_texture, DEFAULT_ICON_POSITION},
+    Aspect, AspectCombiner, AspectCombinerInitiater, AspectSocketInitiater,
 };
 
 const PLAYER_HIGHLIGHT_DISTANCE: f32 = 32.0;
@@ -22,6 +22,8 @@ pub struct Socket {
     pub aspect: Aspect,
     pub on_left_side: bool,
 }
+#[derive(Component)]
+pub struct CombinerIcon;
 
 fn spawn_aspect_sockets(
     mut commands: Commands,
@@ -47,19 +49,12 @@ fn spawn_aspect_sockets(
             ))
             .id();
 
-        let icon = match aspect {
-            Aspect::Joy => assets.joy_icon.clone(),
-            Aspect::Anger => assets.anger_icon.clone(),
-            Aspect::Nostalgia => assets.nostalgia_icon.clone(),
-            Aspect::NotImplemented => assets.joy_icon.clone(),
-        };
-
         let icon = commands
             .spawn((
                 AspectIcon,
                 YSortChild(100.0),
                 SpriteBundle {
-                    texture: icon,
+                    texture: icon_texture(&assets, &aspect),
                     transform: Transform::from_translation(DEFAULT_ICON_POSITION.extend(0.0)),
                     ..default()
                 },
@@ -114,6 +109,19 @@ fn spawn_combiner_socket(
             ))
             .id();
 
+        let icon = commands
+            .spawn((
+                CombinerIcon,
+                YSortChild(100.0),
+                SpriteBundle {
+                    texture: icon_texture(&assets, &Aspect::NotImplemented),
+                    transform: Transform::from_translation(DEFAULT_ICON_POSITION.extend(0.0)),
+                    visibility: Visibility::Hidden,
+                    ..default()
+                },
+            ))
+            .id();
+
         commands
             .spawn((
                 YSort(0.0),
@@ -128,7 +136,7 @@ fn spawn_combiner_socket(
                     ..default()
                 },
             ))
-            .push_children(&[collider]);
+            .push_children(&[collider, icon]);
     }
 }
 

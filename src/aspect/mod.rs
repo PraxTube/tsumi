@@ -29,6 +29,7 @@ pub enum Aspect {
     Joy,
     Anger,
     Nostalgia,
+    Test,
 }
 
 #[derive(Default, Component)]

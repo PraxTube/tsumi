@@ -1,13 +1,26 @@
 use bevy::prelude::*;
 
+use crate::GameAssets;
+
 use super::{
     combiner::Combiner,
     socket::{AspectIcon, Socket},
+    Aspect,
 };
 
 pub const DEFAULT_ICON_POSITION: Vec2 = Vec2::new(0.0, 16.0);
 const HIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 32.0);
 const DEHIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 0.0);
+
+pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> {
+    match aspect {
+        Aspect::Joy => assets.joy_icon.clone(),
+        Aspect::Anger => assets.anger_icon.clone(),
+        Aspect::Nostalgia => assets.nostalgia_icon.clone(),
+        Aspect::Test => assets.test_icon.clone(),
+        Aspect::NotImplemented => assets.placeholder_icon.clone(),
+    }
+}
 
 fn set_icon_pos(
     q_icons: &mut Query<&mut Transform, With<AspectIcon>>,

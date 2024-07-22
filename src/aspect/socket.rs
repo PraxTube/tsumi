@@ -4,7 +4,10 @@ use bevy_rapier2d::prelude::*;
 
 use crate::{
     player::{Player, PLAYER_PIVOT},
-    world::camera::{YSort, YSortChild},
+    world::{
+        camera::{YSort, YSortChild},
+        PlayerWentToBed,
+    },
     GameAssets, GameState,
 };
 
@@ -18,6 +21,7 @@ use super::{
 const PLAYER_HIGHLIGHT_DISTANCE: f32 = 32.0;
 const ASPECT_TEXT_OFFSET: Vec3 = Vec3::new(0.0, -24.0, 900.0);
 const COMBINED_ASPECT_TEXT_OFFSET: Vec3 = Vec3::new(0.0, 48.0, 900.0);
+const TEXT_SCALE: Vec3 = Vec3::splat(0.1);
 
 #[derive(Component)]
 pub struct AspectIcon;
@@ -31,8 +35,13 @@ pub struct CombinerIcon;
 #[derive(Component)]
 pub struct CombinerText;
 
-fn spawn_sub_text(commands: &mut Commands, assets: &Res<GameAssets>, text: &str) -> Entity {
-    let sub_text_style = TextStyle {
+fn spawn_bg_text(
+    commands: &mut Commands,
+    assets: &Res<GameAssets>,
+    text: &str,
+    pos: Vec3,
+) -> Entity {
+    let text_style = TextStyle {
         font: assets.silver_font.clone(),
         font_size: 320.0,
         color: Color::BLACK,
@@ -40,20 +49,22 @@ fn spawn_sub_text(commands: &mut Commands, assets: &Res<GameAssets>, text: &str)
 
     commands
         .spawn((Text2dBundle {
-            text: Text::from_section(text, sub_text_style).with_justify(JustifyText::Center),
-            transform: Transform::from_translation(Vec3::new(16.0, -16.0, -1.0)),
+            text: Text::from_section(text, text_style).with_justify(JustifyText::Center),
+            transform: Transform::from_translation(pos + Vec3::new(2.0, -2.0, -1.0))
+                .with_scale(TEXT_SCALE),
+            visibility: Visibility::Hidden,
             ..default()
         },))
         .id()
 }
 
-fn spawn_main_text(
+fn spawn_fg_text(
     commands: &mut Commands,
     assets: &Res<GameAssets>,
     text: &str,
     offset: Vec3,
 ) -> Entity {
-    let main_text_style = TextStyle {
+    let text_style = TextStyle {
         font: assets.silver_font.clone(),
         font_size: 320.0,
         color: Color::WHITE,
@@ -61,8 +72,8 @@ fn spawn_main_text(
 
     commands
         .spawn((Text2dBundle {
-            text: Text::from_section(text, main_text_style).with_justify(JustifyText::Center),
-            transform: Transform::from_translation(offset).with_scale(Vec3::splat(0.1)),
+            text: Text::from_section(text, text_style).with_justify(JustifyText::Center),
+            transform: Transform::from_translation(offset).with_scale(TEXT_SCALE),
             visibility: Visibility::Hidden,
             ..default()
         },))
@@ -112,12 +123,10 @@ fn spawn_aspect_sockets(
         };
 
         let aspect_string = aspect.to_string();
-        let text = spawn_main_text(&mut commands, &assets, &aspect_string, ASPECT_TEXT_OFFSET);
-        let sub_text = spawn_sub_text(&mut commands, &assets, &aspect_string);
-        commands
-            .entity(text)
-            .insert(AspectNameText)
-            .add_child(sub_text);
+        let fg_text = spawn_fg_text(&mut commands, &assets, &aspect_string, ASPECT_TEXT_OFFSET);
+        let bg_text = spawn_bg_text(&mut commands, &assets, &aspect_string, ASPECT_TEXT_OFFSET);
+        commands.entity(bg_text).insert(AspectNameText);
+        commands.entity(fg_text).insert(AspectNameText);
 
         commands
             .spawn((
@@ -136,7 +145,7 @@ fn spawn_aspect_sockets(
                     ..default()
                 },
             ))
-            .push_children(&[collider, icon, text]);
+            .push_children(&[collider, icon, fg_text, bg_text]);
     }
 }
 
@@ -174,18 +183,20 @@ fn spawn_combiner_socket(
             ))
             .id();
 
-        let text = spawn_main_text(
+        let fg_text = spawn_fg_text(
             &mut commands,
             &assets,
             "SHOULD NEVER HAPPEN",
             COMBINED_ASPECT_TEXT_OFFSET,
         );
-        let sub_text = spawn_sub_text(&mut commands, &assets, "SHOULD NEVER HAPPEN");
-        commands.entity(sub_text).insert(CombinerText);
-        commands
-            .entity(text)
-            .insert(CombinerText)
-            .add_child(sub_text);
+        let bg_text = spawn_bg_text(
+            &mut commands,
+            &assets,
+            "SHOULD NEVER HAPPEN",
+            COMBINED_ASPECT_TEXT_OFFSET,
+        );
+        commands.entity(bg_text).insert(CombinerText);
+        commands.entity(fg_text).insert(CombinerText);
 
         commands
             .spawn((
@@ -201,7 +212,7 @@ fn spawn_combiner_socket(
                     ..default()
                 },
             ))
-            .push_children(&[collider, icon, text]);
+            .push_children(&[collider, icon, fg_text, bg_text]);
     }
 }
 
@@ -266,6 +277,62 @@ fn highlight_combiner(
     atlas.index = index;
 }
 
+fn set_visuals_for_socket(
+    assets: &Res<GameAssets>,
+    combiner: &Res<Combiner>,
+    q_sockets: &mut Query<(&Children, &Transform, &mut Socket), Without<Player>>,
+    q_icons: &mut Query<&mut Handle<Image>, With<AspectIcon>>,
+    q_texts: &mut Query<&mut Text, With<AspectNameText>>,
+    on_left_side: bool,
+) {
+    if let Some((children, _, mut socket)) = q_sockets
+        .iter_mut()
+        .filter(|(_, _, socket)| {
+            socket.aspect == Aspect::NotImplemented && socket.on_left_side == on_left_side
+        })
+        .max_by(|(_, x_transform, _), (_, y_transform, _)| {
+            x_transform
+                .translation
+                .y
+                .total_cmp(&y_transform.translation.y)
+        })
+    {
+        socket.aspect = combiner.last_combined_aspect;
+        for child in children {
+            if let Ok(mut icon) = q_icons.get_mut(*child) {
+                *icon = icon_texture(assets, &combiner.last_combined_aspect);
+            } else if let Ok(mut text) = q_texts.get_mut(*child) {
+                text.sections[0].value = combiner.last_combined_aspect.to_string();
+            }
+        }
+    }
+}
+
+fn push_combined_aspect(
+    assets: Res<GameAssets>,
+    combiner: Res<Combiner>,
+    mut q_sockets: Query<(&Children, &Transform, &mut Socket), Without<Player>>,
+    mut q_icons: Query<&mut Handle<Image>, With<AspectIcon>>,
+    mut q_texts: Query<&mut Text, With<AspectNameText>>,
+) {
+    set_visuals_for_socket(
+        &assets,
+        &combiner,
+        &mut q_sockets,
+        &mut q_icons,
+        &mut q_texts,
+        true,
+    );
+    set_visuals_for_socket(
+        &assets,
+        &combiner,
+        &mut q_sockets,
+        &mut q_icons,
+        &mut q_texts,
+        false,
+    );
+}
+
 pub struct AspectSocketPlugin;
 
 impl Plugin for AspectSocketPlugin {
@@ -277,6 +344,7 @@ impl Plugin for AspectSocketPlugin {
                 spawn_combiner_socket,
                 highlight_sockets,
                 highlight_combiner,
+                push_combined_aspect.run_if(on_event::<PlayerWentToBed>()),
             )
                 .run_if(in_state(GameState::Gaming)),
         );

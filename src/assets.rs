@@ -23,6 +23,8 @@ pub struct GameAssets {
     pub player_animations: Vec<Handle<AnimationClip2D>>,
 
     // --- ASPECTS ---
+    #[asset(path = "aspects/transparent_icon.png")]
+    pub transparent_icon: Handle<Image>,
     #[asset(path = "aspects/placeholder_icon.png")]
     pub placeholder_icon: Handle<Image>,
     #[asset(path = "aspects/joy_icon.png")]

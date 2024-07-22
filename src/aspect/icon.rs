@@ -1,4 +1,4 @@
-use bevy::{prelude::*, render::texture::TRANSPARENT_IMAGE_HANDLE};
+use bevy::prelude::*;
 
 use crate::GameAssets;
 
@@ -25,7 +25,7 @@ pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> 
         Aspect::Vengfulness => assets.vengfulness_icon.clone(),
         Aspect::Elation => assets.elation_icon.clone(),
         Aspect::Blocking => assets.placeholder_icon.clone(),
-        Aspect::NotImplemented => TRANSPARENT_IMAGE_HANDLE,
+        Aspect::NotImplemented => assets.transparent_icon.clone(),
     }
 }
 

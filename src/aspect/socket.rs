@@ -11,6 +11,7 @@ use crate::{
 use super::{
     combiner::{is_socket_combination_possible, Combiner},
     icon::{icon_texture, DEFAULT_ICON_POSITION},
+    name_text::AspectNameText,
     Aspect, AspectCombiner, AspectCombinerInitiater, AspectSocketInitiater,
 };
 
@@ -31,6 +32,17 @@ fn spawn_aspect_sockets(
     assets: Res<GameAssets>,
     q_items: Query<(&AspectSocketInitiater, &GridCoords), Added<AspectSocketInitiater>>,
 ) {
+    let text_style = TextStyle {
+        font: assets.silver_font.clone(),
+        font_size: 320.0,
+        color: Color::WHITE,
+    };
+    let sub_text_style = TextStyle {
+        font: assets.silver_font.clone(),
+        font_size: 320.0,
+        color: Color::BLACK,
+    };
+
     for (aspect_initiater, grid_coords) in &q_items {
         let aspect = aspect_initiater.aspect;
         let on_left_side = aspect_initiater.on_left_side;
@@ -62,6 +74,29 @@ fn spawn_aspect_sockets(
             ))
             .id();
 
+        let sub_text = commands
+            .spawn((Text2dBundle {
+                text: Text::from_section(aspect.to_string(), sub_text_style.clone())
+                    .with_justify(JustifyText::Center),
+                transform: Transform::from_translation(Vec3::new(16.0, -16.0, -1.0)),
+                ..default()
+            },))
+            .id();
+        let text = commands
+            .spawn((
+                AspectNameText,
+                Text2dBundle {
+                    text: Text::from_section(aspect.to_string(), text_style.clone())
+                        .with_justify(JustifyText::Center),
+                    transform: Transform::from_translation(Vec3::new(0.0, -24.0, 900.0))
+                        .with_scale(Vec3::splat(0.1)),
+                    visibility: Visibility::Hidden,
+                    ..default()
+                },
+            ))
+            .add_child(sub_text)
+            .id();
+
         let texture = if on_left_side {
             assets.aspect_socket_texture_left.clone()
         } else {
@@ -85,7 +120,7 @@ fn spawn_aspect_sockets(
                     ..default()
                 },
             ))
-            .push_children(&[collider, icon]);
+            .push_children(&[collider, icon, text]);
     }
 }
 

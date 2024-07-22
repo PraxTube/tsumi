@@ -1,5 +1,6 @@
 mod combiner;
 mod icon;
+mod name_text;
 mod socket;
 
 pub use combiner::Combiner;
@@ -18,6 +19,7 @@ impl Plugin for AspectPlugin {
             socket::AspectSocketPlugin,
             combiner::AspectCombinerPlugin,
             icon::AspectIconPlugin,
+            name_text::AspectNameTextPlugin,
         ))
         .register_ldtk_entity::<AspectBundle>("AspectSocket")
         .register_ldtk_entity::<CombinerBundle>("CombinerSocket");

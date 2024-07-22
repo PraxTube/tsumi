@@ -356,8 +356,9 @@
 	], "enums": [{ "identifier": "Aspect", "uid": 5, "values": [
 		{ "id": "NotImplemented", "tileRect": null, "color": 12470831 },
 		{ "id": "Joy", "tileRect": null, "color": 14120515 },
+		{ "id": "Sadness", "tileRect": null, "color": 14984818 },
 		{ "id": "Anger", "tileRect": null, "color": 15389866 },
-		{ "id": "Nostalgia", "tileRect": null, "color": 14984818 }
+		{ "id": "Fear", "tileRect": null, "color": 7552569 }
 	], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] }], "externalEnums": [], "levelFields": [] },
 	"levels": [
 		{
@@ -418,9 +419,9 @@
 							"defUid": 3,
 							"px": [64,256],
 							"fieldInstances": [
-								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Sadness", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Joy"]
+									"params": ["Sadness"]
 								}] },
 								{ "__identifier": "on_left_side", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
 									"id": "V_Bool",
@@ -468,9 +469,9 @@
 							"defUid": 3,
 							"px": [64,192],
 							"fieldInstances": [
-								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Nostalgia", "__tile": null, "defUid": 6, "realEditorValues": [{
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Nostalgia"]
+									"params": ["Joy"]
 								}] },
 								{ "__identifier": "on_left_side", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
 									"id": "V_Bool",
@@ -493,9 +494,9 @@
 							"defUid": 3,
 							"px": [416,256],
 							"fieldInstances": [
-								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Sadness", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Joy"]
+									"params": ["Sadness"]
 								}] },
 								{ "__identifier": "on_left_side", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [null] }
 							],
@@ -537,9 +538,9 @@
 							"defUid": 3,
 							"px": [416,192],
 							"fieldInstances": [
-								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Nostalgia", "__tile": null, "defUid": 6, "realEditorValues": [{
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Nostalgia"]
+									"params": ["Joy"]
 								}] },
 								{ "__identifier": "on_left_side", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
 							],
@@ -641,6 +642,53 @@
 							"fieldInstances": [],
 							"__worldX": 224,
 							"__worldY": 96
+						},
+						{
+							"__identifier": "AspectSocket",
+							"__grid": [2,12],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#BE4A2F",
+							"iid": "04db5fc0-25d0-11ef-8eaf-fb1236ab8449",
+							"width": 32,
+							"height": 32,
+							"defUid": 3,
+							"px": [64,384],
+							"fieldInstances": [
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Fear", "__tile": null, "defUid": 6, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["Fear"]
+								}] },
+								{ "__identifier": "on_left_side", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
+							],
+							"__worldX": 64,
+							"__worldY": 384
+						},
+						{
+							"__identifier": "AspectSocket",
+							"__grid": [13,12],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#BE4A2F",
+							"iid": "238c6e00-25d0-11ef-8eaf-33c105aaa6b3",
+							"width": 32,
+							"height": 32,
+							"defUid": 3,
+							"px": [416,384],
+							"fieldInstances": [
+								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Fear", "__tile": null, "defUid": 6, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["Fear"]
+								}] },
+								{ "__identifier": "on_left_side", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [null] }
+							],
+							"__worldX": 416,
+							"__worldY": 384
 						}
 					]
 				},

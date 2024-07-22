@@ -31,9 +31,15 @@ pub enum Aspect {
     #[default]
     NotImplemented,
     Joy,
+    Sadness,
     Anger,
+    Fear,
     Nostalgia,
-    Test,
+    Motivation,
+    Melanchony,
+    Hatred,
+    Vengfulness,
+    Elation,
     Blocking,
 }
 

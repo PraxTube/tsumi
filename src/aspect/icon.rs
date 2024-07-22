@@ -1,10 +1,10 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, render::texture::TRANSPARENT_IMAGE_HANDLE};
 
 use crate::GameAssets;
 
 use super::{
     combiner::Combiner,
-    socket::{AspectIcon, Socket},
+    socket::{AspectIcon, CombinerIcon, Socket},
     Aspect,
 };
 
@@ -15,11 +15,17 @@ const DEHIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 0.0);
 pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> {
     match aspect {
         Aspect::Joy => assets.joy_icon.clone(),
+        Aspect::Sadness => assets.sadness_icon.clone(),
         Aspect::Anger => assets.anger_icon.clone(),
+        Aspect::Fear => assets.fear_icon.clone(),
         Aspect::Nostalgia => assets.nostalgia_icon.clone(),
-        Aspect::Test => assets.test_icon.clone(),
+        Aspect::Motivation => assets.motivation_icon.clone(),
+        Aspect::Melanchony => assets.melanchony_icon.clone(),
+        Aspect::Hatred => assets.hatred_icon.clone(),
+        Aspect::Vengfulness => assets.vengfulness_icon.clone(),
+        Aspect::Elation => assets.elation_icon.clone(),
         Aspect::Blocking => assets.placeholder_icon.clone(),
-        Aspect::NotImplemented => assets.placeholder_icon.clone(),
+        Aspect::NotImplemented => TRANSPARENT_IMAGE_HANDLE,
     }
 }
 
@@ -85,10 +91,36 @@ fn default_icons(
     }
 }
 
+fn highlight_combined_icon(
+    combiner: Res<Combiner>,
+    mut q_combiner_icon: Query<&mut Transform, With<CombinerIcon>>,
+) {
+    let mut transform = match q_combiner_icon.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    if combiner.is_blocking() {
+        transform.translation.x = HIGHLIGHTED_ICON_POSITION.x;
+        transform.translation.y = HIGHLIGHTED_ICON_POSITION.y;
+    } else {
+        transform.translation.x = DEFAULT_ICON_POSITION.x;
+        transform.translation.y = DEFAULT_ICON_POSITION.y;
+    }
+}
+
 pub struct AspectIconPlugin;
 
 impl Plugin for AspectIconPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (highlight_icons, dehighlight_icons, default_icons));
+        app.add_systems(
+            Update,
+            (
+                highlight_icons,
+                dehighlight_icons,
+                default_icons,
+                highlight_combined_icon,
+            ),
+        );
     }
 }

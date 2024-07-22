@@ -25,14 +25,26 @@ pub struct GameAssets {
     // --- ASPECTS ---
     #[asset(path = "aspects/placeholder_icon.png")]
     pub placeholder_icon: Handle<Image>,
-    #[asset(path = "aspects/test_icon.png")]
-    pub test_icon: Handle<Image>,
     #[asset(path = "aspects/joy_icon.png")]
     pub joy_icon: Handle<Image>,
+    #[asset(path = "aspects/sadness_icon.png")]
+    pub sadness_icon: Handle<Image>,
     #[asset(path = "aspects/anger_icon.png")]
     pub anger_icon: Handle<Image>,
+    #[asset(path = "aspects/fear_icon.png")]
+    pub fear_icon: Handle<Image>,
     #[asset(path = "aspects/nostalgia_icon.png")]
     pub nostalgia_icon: Handle<Image>,
+    #[asset(path = "aspects/motivation_icon.png")]
+    pub motivation_icon: Handle<Image>,
+    #[asset(path = "aspects/melanchony_icon.png")]
+    pub melanchony_icon: Handle<Image>,
+    #[asset(path = "aspects/hatred_icon.png")]
+    pub hatred_icon: Handle<Image>,
+    #[asset(path = "aspects/vengfulness_icon.png")]
+    pub vengfulness_icon: Handle<Image>,
+    #[asset(path = "aspects/elation_icon.png")]
+    pub elation_icon: Handle<Image>,
 
     // --- MAP ---
     #[asset(path = "map/level.ldtk")]
@@ -79,8 +91,4 @@ pub struct GameAssets {
     pub pixel_font: Handle<Font>,
     #[asset(path = "fonts/Silver.ttf")]
     pub silver_font: Handle<Font>,
-
-    // --- MISC ---
-    #[asset(path = "dummy_background.png")]
-    pub dummy_background: Handle<Image>,
 }

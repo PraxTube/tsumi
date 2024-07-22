@@ -12,12 +12,17 @@ use super::{
 pub struct Combiner {
     pub left_aspect: Option<Aspect>,
     pub right_aspect: Option<Aspect>,
+    pub current_combination: Option<Aspect>,
     pub last_combined_aspect: Aspect,
 }
 
 impl Combiner {
     pub fn is_full(&self) -> bool {
         self.left_aspect.is_some() && self.right_aspect.is_some()
+    }
+
+    pub fn is_blocking(&self) -> bool {
+        self.left_aspect == Some(Aspect::Blocking) && self.right_aspect == Some(Aspect::Blocking)
     }
 }
 
@@ -39,7 +44,12 @@ pub fn is_socket_combination_possible(combiner: &Res<Combiner>, socket: &Socket)
 fn aspect_combinations(left_aspect: &Aspect, right_aspect: &Aspect) -> Aspect {
     fn match_aspects(left_aspect: &Aspect, right_aspect: &Aspect) -> Aspect {
         match (left_aspect, right_aspect) {
-            (Aspect::Nostalgia, Aspect::Anger) => Aspect::Test,
+            (Aspect::Joy, Aspect::Sadness) => Aspect::Nostalgia,
+            (Aspect::Joy, Aspect::Nostalgia) => Aspect::Motivation,
+            (Aspect::Sadness, Aspect::Nostalgia) => Aspect::Melanchony,
+            (Aspect::Anger, Aspect::Fear) => Aspect::Hatred,
+            (Aspect::Anger, Aspect::Hatred) => Aspect::Vengfulness,
+            (Aspect::Joy, Aspect::Motivation) => Aspect::Elation,
             _ => Aspect::NotImplemented,
         }
     }
@@ -89,7 +99,7 @@ fn select_aspects(
 
 fn show_combiner_icon(
     assets: Res<GameAssets>,
-    combiner: Res<Combiner>,
+    mut combiner: ResMut<Combiner>,
     mut q_combiner_icon: Query<(&mut Handle<Image>, &mut Visibility), With<CombinerIcon>>,
 ) {
     let (mut texture, mut visibility) = match q_combiner_icon.get_single_mut() {
@@ -111,11 +121,12 @@ fn show_combiner_icon(
     }
 
     let combined_aspect = aspect_combinations(&left_aspect, &right_aspect);
+    combiner.current_combination = Some(combined_aspect);
     *texture = icon_texture(&assets, &combined_aspect);
 }
 
 fn hide_combiner_icon(
-    combiner: Res<Combiner>,
+    mut combiner: ResMut<Combiner>,
     mut q_combiner_icon: Query<&mut Visibility, With<CombinerIcon>>,
 ) {
     let mut visibility = match q_combiner_icon.get_single_mut() {
@@ -125,6 +136,7 @@ fn hide_combiner_icon(
 
     if combiner.left_aspect.is_none() || combiner.right_aspect.is_none() {
         *visibility = Visibility::Hidden;
+        combiner.current_combination = None;
     }
 }
 

@@ -1,48 +1,68 @@
 title: Main
 ---
-a
-Ami: Talking her ass of.
-I am the narrator, hello there.
-Ima: I am Ima, nice to meet you.
-Ami: Hey, what about me?
 
-===
-title: Second
----
-
-This is the second test
-Ami: Cool
+placeholder text for main
 
 ===
 title: Joy
 ---
 
-this is joy.
-Rejoice!
+joy
 
 ===
+title: Sadness
+---
+
+sadness
+
+===
+
 title: Anger
 ---
 
-this is anger.
+anger
+
+===
+title: Fear
+---
+
+fear
 
 ===
 title: Nostalgia
 ---
 
-this is nostalgia.
+nostalgia
 
 ===
-title: Test
+title: Motivation
 ---
 
-Hello there, this is the Test Aspect speaking.
-Ami: a
-not ami
-Ima: b
-not ima
-You must have combined anger and nostalgia to get here.
-Everybody aboard!
+motivation
+
+===
+title: Melanchony
+---
+
+melanchony
+
+===
+title: Hatred
+---
+
+hatred
+
+===
+title: Vengfulness
+---
+
+vengfulness
+
+===
+title: Elation
+---
+
+elation
 
 ===
 title: Blocking

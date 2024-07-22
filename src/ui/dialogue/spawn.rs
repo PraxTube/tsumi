@@ -11,6 +11,8 @@ pub struct DialogueContent;
 #[derive(Component)]
 pub struct DialogueNameNode;
 #[derive(Component)]
+pub struct DialogueCharacterIcon;
+#[derive(Component)]
 pub struct DialogueContinueNode;
 
 const DIALOG_WIDTH: f32 = 800.0 * 0.8;
@@ -90,13 +92,28 @@ fn spawn_dialogue_top(commands: &mut Commands, assets: &Res<GameAssets>) -> Enti
         .id()
 }
 
-fn spawn_dialogue_content(commands: &mut Commands, _assets: &Res<GameAssets>) -> Entity {
+fn spawn_dialogue_content(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
     let text = commands
         .spawn((
             DialogueContent,
             Label,
-            TextBundle::from_section(String::new(), text_style_standard(_assets))
-                .with_style(style_standard(_assets)),
+            TextBundle::from_section(String::new(), text_style_standard(assets))
+                .with_style(style_standard(assets)),
+        ))
+        .id();
+
+    let icon = commands
+        .spawn((
+            DialogueCharacterIcon,
+            ImageBundle {
+                style: Style {
+                    width: Val::Px(128.0),
+                    left: Val::Px(-128.0 - 16.0),
+                    position_type: PositionType::Absolute,
+                    ..default()
+                },
+                ..default()
+            },
         ))
         .id();
 
@@ -114,7 +131,7 @@ fn spawn_dialogue_content(commands: &mut Commands, _assets: &Res<GameAssets>) ->
             background_color: Color::BLACK.with_alpha(0.8).into(),
             ..default()
         },))
-        .push_children(&[text])
+        .push_children(&[text, icon])
         .id()
 }
 

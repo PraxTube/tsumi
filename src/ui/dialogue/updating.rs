@@ -1,11 +1,16 @@
+use std::str::FromStr;
+
 use bevy::prelude::*;
+use bevy::render::texture::TRANSPARENT_IMAGE_HANDLE;
 use bevy_yarnspinner::{events::*, prelude::*};
 
+use crate::npc::{npc_character_icon, NpcDialogue};
 use crate::player::input::PlayerInput;
+use crate::{GameAssets, GameState};
 
 use super::runner::RunnerFlags;
-use super::spawn::{DialogueContinueNode, DialogueNameNode};
-use super::typewriter::{Typewriter, WriteDialogueText};
+use super::spawn::{DialogueCharacterIcon, DialogueContinueNode, DialogueNameNode};
+use super::typewriter::Typewriter;
 use super::DialogueViewSystemSet;
 
 fn convert_name(name: &str) -> String {
@@ -26,13 +31,13 @@ fn present_line(
         Err(_) => return,
     };
 
-    for event in ev_present_line.read() {
-        let name = convert_name(event.line.character_name().unwrap_or_default());
+    for ev in ev_present_line.read() {
+        let name = convert_name(ev.line.character_name().unwrap_or_default());
         name_text.sections[0].value = name;
-        typewriter.set_line(&event.line);
+        typewriter.set_line(&ev.line);
 
         for mut flags in &mut q_runner_flags {
-            flags.line = Some(event.line.clone());
+            flags.line = Some(ev.line.clone());
         }
     }
 }
@@ -59,21 +64,27 @@ fn continue_dialogue(
     }
 }
 
-fn update_dialogue_name(
-    typewriter: Res<Typewriter>,
-    mut q_name_text: Query<&mut Text, With<DialogueNameNode>>,
-    mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
+fn update_dialogue_character_icon(
+    assets: Res<GameAssets>,
+    mut q_character_icon: Query<&mut UiImage, With<DialogueCharacterIcon>>,
+    mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
-    if ev_write_dialogue_text.is_empty() {
-        return;
-    }
-    ev_write_dialogue_text.clear();
-
-    let mut text = match q_name_text.get_single_mut() {
+    let mut image = match q_character_icon.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
-    text.sections[0].value = convert_name(&typewriter.character_name.clone().unwrap_or_default());
+
+    for ev in ev_present_line.read() {
+        let texture = match ev.line.character_name() {
+            Some(name) => npc_character_icon(
+                &assets,
+                &NpcDialogue::from_str(name.trim_start_matches('_')).unwrap_or_default(),
+            ),
+            None => TRANSPARENT_IMAGE_HANDLE,
+        };
+
+        image.texture = texture;
+    }
 }
 
 pub struct DialogueUpdatingPlugin;
@@ -85,7 +96,7 @@ impl Plugin for DialogueUpdatingPlugin {
             (
                 present_line.run_if(on_event::<PresentLineEvent>()),
                 continue_dialogue,
-                update_dialogue_name,
+                update_dialogue_character_icon.run_if(in_state(GameState::Gaming)),
             )
                 .chain()
                 .after(YarnSpinnerSystemSet)

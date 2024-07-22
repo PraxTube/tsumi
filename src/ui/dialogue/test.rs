@@ -2,11 +2,12 @@ use std::{
     collections::HashSet,
     fs::{self, DirEntry},
     io::Error,
+    str::FromStr,
 };
 
 use strum::IntoEnumIterator;
 
-use crate::aspect::Aspect;
+use crate::{aspect::Aspect, npc::NpcDialogue};
 
 const PATH_TO_DIR: &str = "assets/dialogue";
 
@@ -63,6 +64,24 @@ fn validate_node_title_uniqueness() {
                 titles.insert(title.to_string()),
                 "Title already exists! title: {title}, in file: {npc_file_name}",
             );
+        }
+    });
+}
+
+#[test]
+fn validate_npc_names() {
+    validate_lines(|line, _| {
+        if let Some((possible_name, possible_message)) = line.split_once(' ') {
+            if let Some(name) = possible_name.strip_suffix(':') {
+                if name == "title" {
+                    return;
+                }
+                NpcDialogue::from_str(name).expect(&format!("Not a valid npc name, {}", name));
+            } else {
+                if possible_message.contains(':') {
+                    panic!("The line, '{line}', contains a ':' in the message but has no character title. This is really bad.");
+                }
+            }
         }
     });
 }

@@ -22,8 +22,6 @@ const AVERAGE_SPEED: f32 = 20.0;
 
 #[derive(Event)]
 pub struct TypewriterFinished;
-#[derive(Event)]
-pub struct WriteDialogueText;
 
 #[derive(Resource)]
 pub struct Typewriter {
@@ -109,19 +107,12 @@ fn write_text(
     assets: Res<GameAssets>,
     mut typewriter: ResMut<Typewriter>,
     mut q_text: Query<&mut Text, With<DialogueContent>>,
-    mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
     mut ev_play_blip: EventWriter<PlayBlipEvent>,
 ) {
     let mut text = match q_text.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
-
-    if !ev_write_dialogue_text.is_empty() {
-        ev_write_dialogue_text.clear();
-        *text = create_dialogue_text(&typewriter.current_text, "", &assets);
-        return;
-    }
 
     if typewriter.is_finished() {
         return;
@@ -142,13 +133,11 @@ fn write_text(
 fn show_continue(
     mut q_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
     mut ev_typewriter_finished: EventReader<TypewriterFinished>,
-    mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
 ) {
-    if ev_typewriter_finished.is_empty() && ev_write_dialogue_text.is_empty() {
+    if ev_typewriter_finished.is_empty() {
         return;
     }
     ev_typewriter_finished.clear();
-    ev_write_dialogue_text.clear();
 
     let mut visibility = match q_visibility.get_single_mut() {
         Ok(r) => r,
@@ -218,7 +207,6 @@ impl Plugin for DialogueTypewriterPlugin {
                 .run_if(in_state(GameState::Gaming)),
         )
         .init_resource::<Typewriter>()
-        .add_event::<TypewriterFinished>()
-        .add_event::<WriteDialogueText>();
+        .add_event::<TypewriterFinished>();
     }
 }

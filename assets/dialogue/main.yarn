@@ -37,6 +37,10 @@ title: Test
 ---
 
 Hello there, this is the Test Aspect speaking.
+Ami: a
+not ami
+Ima: b
+not ima
 You must have combined anger and nostalgia to get here.
 Everybody aboard!
 
@@ -47,7 +51,7 @@ title: Blocking
 Woopsie Dasies!
 You should never see this.
 This is a bug, feel free to file an issue, sorry!
-Debug Note: Blocking
+Debug Note Blocking
 
 ===
 title: NotImplemented
@@ -56,6 +60,6 @@ title: NotImplemented
 Woopsie Dasies!
 You should never see this.
 This is a bug, feel free to file an issue, sorry!
-Debug Note: NotImplemented
+Debug Note NotImplemented
 
 ===

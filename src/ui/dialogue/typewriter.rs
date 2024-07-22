@@ -11,7 +11,6 @@ use crate::utils::DebugActive;
 use crate::{GameAssets, GameState};
 
 use super::audio::PlayBlipEvent;
-use super::option_selection::OptionSelection;
 use super::spawn::{create_dialogue_text, DialogueContent, DialogueContinueNode};
 use super::DialogueViewSystemSet;
 
@@ -31,7 +30,6 @@ pub struct Typewriter {
     pub character_name: Option<String>,
     pub current_text: String,
     pub graphemes_left: Vec<String>,
-    pub last_before_options: bool,
     elapsed: f32,
     start: Instant,
     last_finished: bool,
@@ -44,7 +42,6 @@ impl Default for Typewriter {
             character_name: default(),
             current_text: default(),
             graphemes_left: default(),
-            last_before_options: default(),
             elapsed: default(),
             start: Instant::now(),
             last_finished: default(),
@@ -65,7 +62,6 @@ impl Typewriter {
                 .graphemes(true)
                 .map(|s| s.to_string())
                 .collect(),
-            last_before_options: line.is_last_line_before_options(),
             // This fn can get called AFTER setting writer speed
             current_speed: self.current_speed,
             ..default()
@@ -112,7 +108,6 @@ impl Typewriter {
 fn write_text(
     assets: Res<GameAssets>,
     mut typewriter: ResMut<Typewriter>,
-    option_selection: Option<Res<OptionSelection>>,
     mut q_text: Query<&mut Text, With<DialogueContent>>,
     mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
     mut ev_play_blip: EventWriter<PlayBlipEvent>,
@@ -128,9 +123,6 @@ fn write_text(
         return;
     }
 
-    if typewriter.last_before_options && option_selection.is_none() {
-        return;
-    }
     if typewriter.is_finished() {
         return;
     }
@@ -148,7 +140,6 @@ fn write_text(
 }
 
 fn show_continue(
-    typewriter: Res<Typewriter>,
     mut q_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
     mut ev_typewriter_finished: EventReader<TypewriterFinished>,
     mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
@@ -164,12 +155,7 @@ fn show_continue(
         Err(_) => return,
     };
 
-    let vis = if typewriter.last_before_options {
-        Visibility::Hidden
-    } else {
-        Visibility::Inherited
-    };
-    *visibility = vis;
+    *visibility = Visibility::Inherited;
 }
 
 fn send_finished_event(

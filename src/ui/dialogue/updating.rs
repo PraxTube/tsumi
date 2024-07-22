@@ -3,7 +3,6 @@ use bevy_yarnspinner::{events::*, prelude::*};
 
 use crate::player::input::PlayerInput;
 
-use super::option_selection::OptionSelection;
 use super::runner::RunnerFlags;
 use super::spawn::{DialogueContinueNode, DialogueNameNode};
 use super::typewriter::{Typewriter, WriteDialogueText};
@@ -38,25 +37,9 @@ fn present_line(
     }
 }
 
-fn present_options(
-    mut commands: Commands,
-    mut q_runner_flags: Query<&mut RunnerFlags>,
-    mut events: EventReader<PresentOptionsEvent>,
-) {
-    for event in events.read() {
-        let option_selection = OptionSelection::from_option_set(&event.options);
-        commands.insert_resource(option_selection.clone());
-
-        for mut flags in &mut q_runner_flags {
-            flags.options = Some(option_selection.clone());
-        }
-    }
-}
-
 fn continue_dialogue(
     input: Res<PlayerInput>,
     typewriter: Res<Typewriter>,
-    option_selection: Option<Res<OptionSelection>>,
     mut q_dialogue_runners: Query<(&mut DialogueRunner, &RunnerFlags)>,
     mut q_continue_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
 ) {
@@ -64,10 +47,7 @@ fn continue_dialogue(
         return;
     }
 
-    if option_selection.is_some() {
-        return;
-    }
-    if !input.dialogue_continue && !typewriter.last_before_options {
+    if !input.dialogue_continue {
         return;
     }
 
@@ -104,7 +84,6 @@ impl Plugin for DialogueUpdatingPlugin {
             Update,
             (
                 present_line.run_if(on_event::<PresentLineEvent>()),
-                present_options.run_if(on_event::<PresentOptionsEvent>()),
                 continue_dialogue,
                 update_dialogue_name,
             )

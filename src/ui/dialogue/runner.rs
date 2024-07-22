@@ -3,12 +3,11 @@ use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 
 use crate::GameState;
 
-use super::option_selection::OptionSelection;
+use super::spawn::DialogueRoot;
 
 #[derive(Component, Default)]
 pub struct RunnerFlags {
     pub line: Option<LocalizedLine>,
-    pub options: Option<OptionSelection>,
 }
 
 fn spawn_dialogue_runner(mut commands: Commands, project: Res<YarnProject>) {
@@ -19,9 +18,13 @@ fn spawn_dialogue_runner(mut commands: Commands, project: Res<YarnProject>) {
 
 fn despawn_dialogue_runner(
     mut commands: Commands,
+    q_dialogue_root: Query<Entity, With<DialogueRoot>>,
     mut ev_dialogue_completed: EventReader<DialogueCompleteEvent>,
 ) {
     for ev in ev_dialogue_completed.read() {
+        for entity in &q_dialogue_root {
+            commands.entity(entity).despawn_recursive();
+        }
         if let Some(r) = commands.get_entity(ev.source) {
             r.despawn_recursive();
         }

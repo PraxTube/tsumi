@@ -1,7 +1,6 @@
 pub mod runner;
 
 mod audio;
-mod option_selection;
 mod spawn;
 mod typewriter;
 mod updating;
@@ -16,7 +15,6 @@ impl Plugin for DialoguePlugin {
         app.add_plugins((
             spawn::DialogueSpawnPlugin,
             updating::DialogueUpdatingPlugin,
-            option_selection::DialogueSelectionPlugin,
             typewriter::DialogueTypewriterPlugin,
             runner::DialogueRunnerPlugin,
             audio::DialogueAudioPlugin,

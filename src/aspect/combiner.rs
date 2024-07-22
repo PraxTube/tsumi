@@ -12,6 +12,7 @@ use super::{
 pub struct Combiner {
     pub left_aspect: Option<Aspect>,
     pub right_aspect: Option<Aspect>,
+    pub last_combined_aspect: Aspect,
 }
 
 impl Combiner {
@@ -152,11 +153,8 @@ fn select_combined_aspect(
         };
 
     let combined_aspect = aspect_combinations(&left_aspect, &right_aspect);
-    info!(
-        "COMIBNED! {}\nFire your event(s) from here.",
-        combined_aspect
-    );
 
+    combiner.last_combined_aspect = combined_aspect;
     combiner.left_aspect = Some(Aspect::Blocking);
     combiner.right_aspect = Some(Aspect::Blocking);
 }

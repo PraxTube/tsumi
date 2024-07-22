@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 
-use crate::GameState;
+use crate::{aspect::Combiner, world::PlayerWentToBed, GameState};
 
 use super::spawn::DialogueRoot;
 
@@ -10,9 +10,13 @@ pub struct RunnerFlags {
     pub line: Option<LocalizedLine>,
 }
 
-fn spawn_dialogue_runner(mut commands: Commands, project: Res<YarnProject>) {
+fn spawn_dialogue_runner(
+    mut commands: Commands,
+    project: Res<YarnProject>,
+    combiner: Res<Combiner>,
+) {
     let mut dialogue_runner = project.create_dialogue_runner();
-    dialogue_runner.start_node("Main");
+    dialogue_runner.start_node(&combiner.last_combined_aspect.to_string());
     commands.spawn((dialogue_runner, RunnerFlags::default()));
 }
 
@@ -35,10 +39,14 @@ pub struct DialogueRunnerPlugin;
 
 impl Plugin for DialogueRunnerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::Gaming), spawn_dialogue_runner)
-            .add_systems(
-                Update,
-                (despawn_dialogue_runner,).run_if(in_state(GameState::Gaming)),
-            );
+        app.add_systems(
+            Update,
+            spawn_dialogue_runner
+                .run_if(in_state(GameState::Gaming).and_then(on_event::<PlayerWentToBed>())),
+        )
+        .add_systems(
+            Update,
+            (despawn_dialogue_runner,).run_if(in_state(GameState::Gaming)),
+        );
     }
 }

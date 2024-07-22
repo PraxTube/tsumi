@@ -1,6 +1,8 @@
 mod bed;
 mod collisions;
 
+pub use bed::PlayerWentToBed;
+
 use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 

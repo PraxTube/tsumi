@@ -14,6 +14,9 @@ const PLAYER_HIGHLIGHT_DISTANCE: f32 = 48.0;
 #[derive(Component, Default)]
 pub struct Bed;
 
+#[derive(Event)]
+pub struct PlayerWentToBed;
+
 impl Bed {
     fn from_field(_entity_instance: &EntityInstance) -> Self {
         Self
@@ -94,6 +97,7 @@ fn select_bed(
     mut combiner: ResMut<Combiner>,
     player_input: Res<PlayerInput>,
     q_bed: Query<&TextureAtlas, With<Bed>>,
+    mut ev_player_went_to_bed: EventWriter<PlayerWentToBed>,
 ) {
     if !player_input.select_socket {
         return;
@@ -109,15 +113,18 @@ fn select_bed(
 
     combiner.left_aspect = None;
     combiner.right_aspect = None;
+    ev_player_went_to_bed.send(PlayerWentToBed);
 }
 
 pub struct MapBedPlugin;
 
 impl Plugin for MapBedPlugin {
     fn build(&self, app: &mut App) {
-        app.register_ldtk_entity::<BedBundle>("Bed").add_systems(
-            Update,
-            (spawn_bed, highlight_bed, select_bed).run_if(in_state(GameState::Gaming)),
-        );
+        app.register_ldtk_entity::<BedBundle>("Bed")
+            .add_event::<PlayerWentToBed>()
+            .add_systems(
+                Update,
+                (spawn_bed, highlight_bed, select_bed).run_if(in_state(GameState::Gaming)),
+            );
     }
 }

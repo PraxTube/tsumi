@@ -2,6 +2,8 @@ pub mod runner;
 
 mod audio;
 mod spawn;
+#[cfg(test)]
+mod test;
 mod typewriter;
 mod updating;
 

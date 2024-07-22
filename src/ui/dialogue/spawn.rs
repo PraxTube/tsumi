@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_tweening::{lens::*, *};
 
-use crate::{GameAssets, GameState};
+use crate::{world::PlayerWentToBed, GameAssets, GameState};
 
 // The master root of the dialogue
 #[derive(Component)]
@@ -250,6 +250,10 @@ pub struct DialogueSpawnPlugin;
 
 impl Plugin for DialogueSpawnPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), spawn_dialogue);
+        app.add_systems(
+            Update,
+            spawn_dialogue
+                .run_if(in_state(GameState::Gaming).and_then(on_event::<PlayerWentToBed>())),
+        );
     }
 }

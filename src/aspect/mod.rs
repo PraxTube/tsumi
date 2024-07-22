@@ -8,7 +8,7 @@ use std::str::FromStr;
 
 use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
-use strum_macros::{Display, EnumString};
+use strum_macros::{Display, EnumIter, EnumString};
 
 pub struct AspectPlugin;
 
@@ -24,7 +24,7 @@ impl Plugin for AspectPlugin {
     }
 }
 
-#[derive(Default, Reflect, Clone, PartialEq, EnumString, Display, Debug, Copy)]
+#[derive(Default, Reflect, Clone, PartialEq, EnumString, Display, Debug, Copy, EnumIter)]
 pub enum Aspect {
     #[default]
     NotImplemented,

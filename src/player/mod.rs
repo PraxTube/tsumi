@@ -4,6 +4,8 @@ mod ima;
 mod movement;
 mod spawn;
 
+pub use spawn::PlayerSpawnPos;
+
 use bevy::prelude::*;
 
 pub const PLAYER_PIVOT: Vec2 = Vec2::new(0.0, -32.0);

@@ -9,7 +9,7 @@ use crate::{GameAssets, GameState};
 use super::{Player, PLAYER_PIVOT};
 
 #[derive(Component, Default)]
-struct PlayerSpawnPos;
+pub struct PlayerSpawnPos;
 
 impl PlayerSpawnPos {
     fn from_field(_entity_instance: &EntityInstance) -> Self {

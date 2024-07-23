@@ -80,6 +80,36 @@ pub struct GameAssets {
     #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 2, rows = 1))]
     pub aspect_combiner_layout: Handle<TextureAtlasLayout>,
 
+    #[asset(path = "ui/keys/down_key.png")]
+    pub ui_down_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]
+    pub ui_down_key_layout: Handle<TextureAtlasLayout>,
+    #[asset(path = "ui/keys/up_key.png")]
+    pub ui_up_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]
+    pub ui_up_key_layout: Handle<TextureAtlasLayout>,
+    #[asset(path = "ui/keys/left_key.png")]
+    pub ui_left_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]
+    pub ui_left_key_layout: Handle<TextureAtlasLayout>,
+    #[asset(path = "ui/keys/right_key.png")]
+    pub ui_right_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]
+    pub ui_right_key_layout: Handle<TextureAtlasLayout>,
+    #[asset(path = "ui/keys/shift_key.png")]
+    pub ui_shift_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 66, tile_size_y = 34, columns = 2, rows = 1))]
+    pub ui_shift_key_layout: Handle<TextureAtlasLayout>,
+    #[asset(
+        paths(
+            "ui/keys/keys.trickfilm#key",
+            "ui/keys/keys.trickfilm#arrow",
+            "ui/keys/keys.trickfilm#shift"
+        ),
+        collection(typed)
+    )]
+    pub ui_keys_animations: Vec<Handle<AnimationClip2D>>,
+
     // --- UI ---
     #[asset(path = "ui/white_pixel.png")]
     pub white_pixel: Handle<Image>,

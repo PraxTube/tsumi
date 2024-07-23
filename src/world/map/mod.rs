@@ -1,5 +1,6 @@
 mod bed;
 mod collisions;
+mod keyboard_hint;
 mod tutorial;
 
 pub use bed::PlayerWentToBed;
@@ -20,6 +21,7 @@ impl Plugin for MapPlugin {
                 collisions::CollisionsPlugin,
                 bed::MapBedPlugin,
                 tutorial::TutorialPlugin,
+                keyboard_hint::KeyboardHintPlugin,
             ))
             .insert_resource(LevelSelection::index(0))
             .add_systems(OnEnter(GameState::Gaming), spawn_ldtk_world);

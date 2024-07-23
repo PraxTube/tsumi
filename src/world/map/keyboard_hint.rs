@@ -5,7 +5,10 @@ use bevy_trickfilm::prelude::*;
 
 use crate::{player::PlayerSpawnPos, world::camera::YSort, GameAssets, GameState};
 
+use super::tutorial::TutorialSwitchIntiater;
+
 const SPAWN_OFFSET: Vec3 = Vec3::new(-160.0, 0.0, 0.0);
+const SELECTION_KEY_SPAWN_OFFSET: Vec3 = Vec3::new(16.0, 128.0, 0.0);
 const BUTTON_DIS: f32 = 40.0;
 const ARROW_DIS: f32 = 80.0;
 const SHIFT_DIS: f32 = 60.0;
@@ -224,13 +227,47 @@ fn spawn_keyboard_ui(
     );
 }
 
+fn spawn_selection_key_ui(
+    mut commands: Commands,
+    assets: Res<GameAssets>,
+    q_tutorial_switch: Query<&GridCoords, Added<TutorialSwitchIntiater>>,
+) {
+    let grid_coords = match q_tutorial_switch.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    let pos = Vec3::new(
+        grid_coords.x as f32 * 32.0,
+        grid_coords.y as f32 * 32.0,
+        0.0,
+    );
+
+    let mut animator = AnimationPlayer2D::default();
+    animator.play(assets.ui_keys_animations[0].clone()).repeat();
+
+    let transform = Transform::from_translation(pos + SELECTION_KEY_SPAWN_OFFSET);
+    commands.spawn((
+        animator,
+        SpriteBundle {
+            texture: assets.ui_interact_key_texture.clone(),
+            transform,
+            ..default()
+        },
+        TextureAtlas {
+            layout: assets.ui_interact_key_layout.clone(),
+            ..default()
+        },
+    ));
+}
+
 pub struct KeyboardHintPlugin;
 
 impl Plugin for KeyboardHintPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            spawn_keyboard_ui.run_if(in_state(GameState::Gaming)),
+            (spawn_keyboard_ui, spawn_selection_key_ui).run_if(in_state(GameState::Gaming)),
         );
     }
 }

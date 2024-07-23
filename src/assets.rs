@@ -80,6 +80,11 @@ pub struct GameAssets {
     #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 2, rows = 1))]
     pub aspect_combiner_layout: Handle<TextureAtlasLayout>,
 
+    #[asset(path = "ui/keys/interact_key.png")]
+    pub ui_interact_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 32, tile_size_y = 32, columns = 2, rows = 1))]
+    pub ui_interact_key_layout: Handle<TextureAtlasLayout>,
+
     #[asset(path = "ui/keys/down_key.png")]
     pub ui_down_key_texture: Handle<Image>,
     #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]

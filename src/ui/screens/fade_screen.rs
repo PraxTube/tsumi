@@ -3,7 +3,7 @@ use bevy_tweening::{lens::*, *};
 
 use crate::{ui::dialogue::EndingTriggered, GameState};
 
-const FADE_OUT_DURATION: f32 = 2.0;
+const FADE_OUT_DURATION: f32 = 3.0;
 const FADE_IN_DURATION: f32 = 2.0;
 const BLACK_VISIBLE: Color = Color::srgba(0.0, 0.0, 0.0, 1.0);
 const BLACK_TRANSPARENT: Color = Color::srgba(0.0, 0.0, 0.0, 0.0);

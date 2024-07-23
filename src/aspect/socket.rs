@@ -19,7 +19,8 @@ use super::{
 };
 
 const PLAYER_HIGHLIGHT_DISTANCE: f32 = 32.0;
-const ASPECT_TEXT_OFFSET: Vec3 = Vec3::new(0.0, -24.0, 900.0);
+const ASPECT_TEXT_OFFSET_TOP: Vec3 = Vec3::new(0.0, 48.0, 900.0);
+const ASPECT_TEXT_OFFSET_BOTTOM: Vec3 = Vec3::new(0.0, -24.0, 900.0);
 const COMBINED_ASPECT_TEXT_OFFSET: Vec3 = Vec3::new(0.0, 48.0, 900.0);
 const TEXT_SCALE: Vec3 = Vec3::splat(0.1);
 
@@ -123,8 +124,13 @@ fn spawn_aspect_sockets(
         };
 
         let aspect_string = aspect.to_string();
-        let fg_text = spawn_fg_text(&mut commands, &assets, &aspect_string, ASPECT_TEXT_OFFSET);
-        let bg_text = spawn_bg_text(&mut commands, &assets, &aspect_string, ASPECT_TEXT_OFFSET);
+        let offset = if on_top {
+            ASPECT_TEXT_OFFSET_TOP
+        } else {
+            ASPECT_TEXT_OFFSET_BOTTOM
+        };
+        let fg_text = spawn_fg_text(&mut commands, &assets, &aspect_string, offset);
+        let bg_text = spawn_bg_text(&mut commands, &assets, &aspect_string, offset);
         commands.entity(bg_text).insert(AspectNameText);
         commands.entity(fg_text).insert(AspectNameText);
 

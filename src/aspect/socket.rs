@@ -12,7 +12,7 @@ use crate::{
 };
 
 use super::{
-    combiner::{is_socket_combination_possible, Combiner},
+    combiner::{aspect_combinations, is_socket_combination_possible, Combiner},
     icon::{icon_texture, DEFAULT_ICON_POSITION},
     name_text::AspectNameText,
     Aspect, AspectCombiner, AspectCombinerInitiater, AspectSocketInitiater,
@@ -250,6 +250,7 @@ fn highlight_combiner(
     combiner: Res<Combiner>,
     q_player: Query<&Transform, With<Player>>,
     mut q_combiner: Query<(&Transform, &mut TextureAtlas), (With<AspectCombiner>, Without<Player>)>,
+    q_sockets: Query<&Socket>,
 ) {
     if !combiner.is_full() {
         return;
@@ -263,7 +264,26 @@ fn highlight_combiner(
         Err(_) => return,
     };
 
-    let index = if !combiner.is_blocking()
+    let (left_aspect, right_aspect) =
+        if let (Some(l_aspect), Some(r_aspect)) = (combiner.left_aspect, combiner.right_aspect) {
+            (l_aspect, r_aspect)
+        } else {
+            return;
+        };
+
+    let combined_aspect = aspect_combinations(&left_aspect, &right_aspect);
+    let mut aspect_already_exists = false;
+    for socket in &q_sockets {
+        // The combined aspect was already combined and exists on of of the sockets
+        // Prevent a second combination
+        if socket.aspect == combined_aspect {
+            aspect_already_exists = true;
+            break;
+        }
+    }
+
+    let index = if !aspect_already_exists
+        && !combiner.is_blocking()
         && transform
             .translation
             .truncate()

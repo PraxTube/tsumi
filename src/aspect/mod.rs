@@ -39,7 +39,7 @@ pub enum Aspect {
     Motivation,
     Melanchony,
     Hatred,
-    Vengfulness,
+    Vengefulness,
     Elation,
 }
 

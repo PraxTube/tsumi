@@ -4,6 +4,7 @@ mod name_text;
 mod socket;
 
 pub use combiner::Combiner;
+pub use socket::Socket;
 
 use std::str::FromStr;
 

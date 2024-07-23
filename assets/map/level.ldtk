@@ -443,7 +443,7 @@
 					"entityInstances": [
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [4,7],
+							"__grid": [5,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -452,7 +452,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [128,224],
+							"px": [160,224],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Sadness", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
@@ -463,12 +463,12 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 128,
+							"__worldX": 160,
 							"__worldY": 224
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [6,7],
+							"__grid": [7,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -477,7 +477,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [192,224],
+							"px": [224,224],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Anger", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
@@ -488,12 +488,12 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 192,
+							"__worldX": 224,
 							"__worldY": 224
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [2,7],
+							"__grid": [3,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -502,7 +502,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [64,224],
+							"px": [96,224],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
@@ -513,12 +513,12 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 64,
+							"__worldX": 96,
 							"__worldY": 224
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [4,13],
+							"__grid": [5,13],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -527,7 +527,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [128,416],
+							"px": [160,416],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Sadness", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
@@ -535,12 +535,12 @@
 								}] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [null] }
 							],
-							"__worldX": 128,
+							"__worldX": 160,
 							"__worldY": 416
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [6,13],
+							"__grid": [7,13],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -549,7 +549,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [192,416],
+							"px": [224,416],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Anger", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
@@ -557,12 +557,12 @@
 								}] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
 							],
-							"__worldX": 192,
+							"__worldX": 224,
 							"__worldY": 416
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [2,13],
+							"__grid": [3,13],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -571,7 +571,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [64,416],
+							"px": [96,416],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Joy", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
@@ -579,7 +579,7 @@
 								}] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
 							],
-							"__worldX": 64,
+							"__worldX": 96,
 							"__worldY": 416
 						},
 						{
@@ -664,7 +664,7 @@
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [8,7],
+							"__grid": [9,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -673,7 +673,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [256,224],
+							"px": [288,224],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Fear", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
@@ -684,12 +684,12 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 256,
+							"__worldX": 288,
 							"__worldY": 224
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [8,13],
+							"__grid": [9,13],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -698,7 +698,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [256,416],
+							"px": [288,416],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "Fear", "__tile": null, "defUid": 6, "realEditorValues": [{
 									"id": "V_String",
@@ -706,7 +706,7 @@
 								}] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [null] }
 							],
-							"__worldX": 256,
+							"__worldX": 288,
 							"__worldY": 416
 						},
 						{
@@ -727,7 +727,7 @@
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [10,7],
+							"__grid": [11,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -736,7 +736,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [320,224],
+							"px": [352,224],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
@@ -744,12 +744,12 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 320,
+							"__worldX": 352,
 							"__worldY": 224
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [12,7],
+							"__grid": [13,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -758,7 +758,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [384,224],
+							"px": [416,224],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
@@ -766,12 +766,12 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 384,
+							"__worldX": 416,
 							"__worldY": 224
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [14,7],
+							"__grid": [15,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -780,7 +780,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [448,224],
+							"px": [480,224],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
@@ -788,12 +788,12 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 448,
+							"__worldX": 480,
 							"__worldY": 224
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [16,7],
+							"__grid": [17,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -802,7 +802,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [512,224],
+							"px": [544,224],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
@@ -810,12 +810,12 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 512,
+							"__worldX": 544,
 							"__worldY": 224
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [18,7],
+							"__grid": [19,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -824,7 +824,7 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [576,224],
+							"px": [608,224],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
@@ -832,34 +832,12 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 576,
+							"__worldX": 608,
 							"__worldY": 224
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [20,7],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#BE4A2F",
-							"iid": "5656e1a0-25d0-11ef-af4b-7143ee8abcf0",
-							"width": 32,
-							"height": 32,
-							"defUid": 3,
-							"px": [640,224],
-							"fieldInstances": [
-								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
-								{ "__identifier": "on_top", "__type": "Bool", "__value": true, "__tile": null, "defUid": 12, "realEditorValues": [{
-									"id": "V_Bool",
-									"params": [ true ]
-								}] }
-							],
-							"__worldX": 640,
-							"__worldY": 224
-						},
-						{
-							"__identifier": "AspectSocket",
-							"__grid": [10,13],
+							"__grid": [11,13],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -868,17 +846,17 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [320,416],
+							"px": [352,416],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
 							],
-							"__worldX": 320,
+							"__worldX": 352,
 							"__worldY": 416
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [12,13],
+							"__grid": [13,13],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -887,17 +865,17 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [384,416],
+							"px": [416,416],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
 							],
-							"__worldX": 384,
+							"__worldX": 416,
 							"__worldY": 416
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [14,13],
+							"__grid": [15,13],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -906,17 +884,17 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [448,416],
+							"px": [480,416],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
 							],
-							"__worldX": 448,
+							"__worldX": 480,
 							"__worldY": 416
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [16,13],
+							"__grid": [17,13],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -925,17 +903,17 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [512,416],
+							"px": [544,416],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
 							],
-							"__worldX": 512,
+							"__worldX": 544,
 							"__worldY": 416
 						},
 						{
 							"__identifier": "AspectSocket",
-							"__grid": [18,13],
+							"__grid": [19,13],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -944,31 +922,12 @@
 							"width": 32,
 							"height": 32,
 							"defUid": 3,
-							"px": [576,416],
+							"px": [608,416],
 							"fieldInstances": [
 								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
 								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
 							],
-							"__worldX": 576,
-							"__worldY": 416
-						},
-						{
-							"__identifier": "AspectSocket",
-							"__grid": [20,13],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#BE4A2F",
-							"iid": "5bceb900-25d0-11ef-af4b-aba81530909f",
-							"width": 32,
-							"height": 32,
-							"defUid": 3,
-							"px": [640,416],
-							"fieldInstances": [
-								{ "__identifier": "aspect", "__type": "LocalEnum.Aspect", "__value": "NotImplemented", "__tile": null, "defUid": 6, "realEditorValues": [] },
-								{ "__identifier": "on_top", "__type": "Bool", "__value": false, "__tile": null, "defUid": 12, "realEditorValues": [] }
-							],
-							"__worldX": 640,
+							"__worldX": 608,
 							"__worldY": 416
 						},
 						{

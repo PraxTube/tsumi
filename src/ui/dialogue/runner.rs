@@ -1,9 +1,20 @@
 use bevy::prelude::*;
 use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
+use strum_macros::{Display, EnumIter, EnumString};
 
-use crate::{aspect::Combiner, world::PlayerWentToBed, GameState};
+use crate::{
+    aspect::{Aspect, Combiner, Socket},
+    world::PlayerWentToBed,
+    GameState,
+};
 
-use super::spawn::DialogueRoot;
+use super::{command::trigger_ending_command, spawn::DialogueRoot};
+
+#[derive(Reflect, Clone, PartialEq, EnumString, Display, Debug, Copy, EnumIter)]
+pub enum Ending {
+    GoodEnding,
+    BadEnding,
+}
 
 #[derive(Component, Default)]
 pub struct RunnerFlags {
@@ -14,9 +25,27 @@ fn spawn_dialogue_runner(
     mut commands: Commands,
     project: Res<YarnProject>,
     combiner: Res<Combiner>,
+    q_sockets: Query<&Socket>,
 ) {
+    let mut is_final_ending = true;
+    for socket in &q_sockets {
+        if socket.aspect == Aspect::NotImplemented {
+            is_final_ending = false;
+            break;
+        }
+    }
+
+    let node = if is_final_ending {
+        Ending::GoodEnding.to_string()
+    } else {
+        combiner.last_combined_aspect.to_string()
+    };
+
     let mut dialogue_runner = project.create_dialogue_runner();
-    dialogue_runner.start_node(&combiner.last_combined_aspect.to_string());
+    dialogue_runner
+        .commands_mut()
+        .add_command("trigger_ending", trigger_ending_command);
+    dialogue_runner.start_node(node);
     commands.spawn((dialogue_runner, RunnerFlags::default()));
 }
 

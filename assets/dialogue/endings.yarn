@@ -1,0 +1,36 @@
+title: GoodEnding
+---
+
+Wow!
+You got the good ending.
+<<trigger_ending>>
+Congrats.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+===
+title: BadEnding
+---
+
+You got the bad ending.
+<<trigger_ending>>
+Better luck next time.
+.
+.
+.
+.
+.
+.
+.
+.
+
+===

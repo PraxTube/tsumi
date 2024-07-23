@@ -7,7 +7,7 @@ use std::{
 
 use strum::IntoEnumIterator;
 
-use crate::{aspect::Aspect, npc::NpcDialogue};
+use crate::{aspect::Aspect, npc::NpcDialogue, ui::dialogue::runner::Ending};
 
 const PATH_TO_DIR: &str = "assets/dialogue";
 
@@ -87,6 +87,18 @@ fn validate_npc_names() {
 }
 
 #[test]
+fn validate_trigger_ending_commands() {
+    validate_lines(|line, _| {
+        if line.starts_with("<<") {
+            assert!(
+                line == "<<trigger_ending>>",
+                "Only supported command is '<<trigger_ending>>', but got '{line}'"
+            );
+        }
+    });
+}
+
+#[test]
 fn validate_node_title_aspect_matching() {
     let mut aspect_titles = Vec::new();
     for aspect in Aspect::iter() {
@@ -101,7 +113,25 @@ fn validate_node_title_aspect_matching() {
             }
         }
     });
-    assert!(aspect_titles.len() == aspect_hashset.len(), "Length mismatch, not all aspect have their own title in yarn files, total of {} aspects exist, but only {} of those have a title in yarn", aspect_titles.len(), aspect_hashset.len());
+    assert!(aspect_titles.len() == aspect_hashset.len(), "Length mismatch, not all aspects have their own title in yarn files, total of {} aspects exist, but only {} of those have a title in yarn", aspect_titles.len(), aspect_hashset.len());
+}
+
+#[test]
+fn validate_node_title_ending_matching() {
+    let mut ending_titles = Vec::new();
+    for aspect in Ending::iter() {
+        ending_titles.push(aspect.to_string());
+    }
+    let mut ending_hashset = HashSet::new();
+
+    validate_lines(|line, _| {
+        if let Some(title) = line.strip_prefix("title: ") {
+            if ending_titles.contains(&title.to_string()) {
+                ending_hashset.insert(title.to_string());
+            }
+        }
+    });
+    assert!(ending_titles.len() == ending_hashset.len(), "Length mismatch, not all endings have their own title in yarn files, total of {} endings exist, but only {} of those have a title in yarn", ending_titles.len(), ending_hashset.len());
 }
 
 /// This test ensures that all yarn files only jump to nodes that are within that file.
@@ -109,7 +139,7 @@ fn validate_node_title_aspect_matching() {
 /// I don't see any reason to make use of this feature in this game.
 /// It seems like it will just lead to bugs.
 #[test]
-fn validate_node_exists() {
+fn validate_jump_node_exists() {
     fn format_title_with_file(title: &str, file: &str) -> String {
         format!("{title}-{file}")
     }

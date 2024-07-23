@@ -62,8 +62,11 @@ fn main() {
             ParticleSystemPlugin,
             Animation2DPlugin,
             TweeningPlugin,
-            YarnSpinnerPlugin::with_yarn_sources([YarnFileSource::file("dialogue/main.yarn")])
-                .with_development_file_generation(DevelopmentFileGeneration::None),
+            YarnSpinnerPlugin::with_yarn_sources([
+                YarnFileSource::file("dialogue/aspects.yarn"),
+                YarnFileSource::file("dialogue/endings.yarn"),
+            ])
+            .with_development_file_generation(DevelopmentFileGeneration::None),
         ))
         .insert_resource(Msaa::Off)
         .init_state::<GameState>()

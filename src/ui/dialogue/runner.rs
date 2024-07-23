@@ -20,7 +20,7 @@ fn spawn_dialogue_runner(
     commands.spawn((dialogue_runner, RunnerFlags::default()));
 }
 
-fn despawn_dialogue_runner(
+fn despawn_dialogue(
     mut commands: Commands,
     q_dialogue_root: Query<Entity, With<DialogueRoot>>,
     mut ev_dialogue_completed: EventReader<DialogueCompleteEvent>,
@@ -46,7 +46,7 @@ impl Plugin for DialogueRunnerPlugin {
         )
         .add_systems(
             Update,
-            (despawn_dialogue_runner,).run_if(in_state(GameState::Gaming)),
+            (despawn_dialogue,).run_if(in_state(GameState::Gaming)),
         );
     }
 }

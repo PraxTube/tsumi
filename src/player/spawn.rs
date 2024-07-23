@@ -24,7 +24,7 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
 
     commands
         .spawn((
-            Player,
+            Player { can_move: true },
             RigidBody::Dynamic,
             LockedAxes::ROTATION_LOCKED,
             Velocity::zero(),

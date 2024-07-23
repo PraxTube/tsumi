@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::prelude::*;
 
@@ -7,9 +8,35 @@ use crate::{GameAssets, GameState};
 
 use super::{Player, PLAYER_PIVOT};
 
-const SPAWN_POSITION: Vec3 = Vec3::new(128.0, 128.0, 0.0);
+#[derive(Component, Default)]
+struct PlayerSpawnPos;
 
-fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
+impl PlayerSpawnPos {
+    fn from_field(_entity_instance: &EntityInstance) -> Self {
+        Self
+    }
+}
+
+#[derive(Default, Bundle, LdtkEntity)]
+struct PlayerSpawnPosBundle {
+    #[with(PlayerSpawnPos::from_field)]
+    player_spawn_pos: PlayerSpawnPos,
+    #[grid_coords]
+    grid_coords: GridCoords,
+    #[worldly]
+    worldly: Worldly,
+}
+
+fn spawn_player(
+    mut commands: Commands,
+    assets: Res<GameAssets>,
+    q_player_spawn_pos: Query<&GridCoords, Added<PlayerSpawnPos>>,
+) {
+    let grid_coords = match q_player_spawn_pos.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
     let collider = commands
         .spawn((
             Collider::ball(12.0),
@@ -24,6 +51,11 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
         .play(assets.character_animations[0].clone())
         .repeat();
 
+    let pos = Vec3::new(
+        grid_coords.x as f32 * 32.0,
+        grid_coords.y as f32 * 32.0,
+        0.0,
+    );
     commands
         .spawn((
             Player { can_move: true },
@@ -35,7 +67,7 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
             animator,
             SpriteBundle {
                 texture: assets.ami_texture.clone(),
-                transform: Transform::from_translation(SPAWN_POSITION),
+                transform: Transform::from_translation(pos),
                 ..default()
             },
             TextureAtlas {
@@ -50,6 +82,7 @@ pub struct PlayerSpawnPlugin;
 
 impl Plugin for PlayerSpawnPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::Gaming), spawn_player);
+        app.register_ldtk_entity::<PlayerSpawnPosBundle>("PlayerSpawnPos")
+            .add_systems(Update, spawn_player.run_if(in_state(GameState::Gaming)));
     }
 }

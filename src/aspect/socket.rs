@@ -28,7 +28,7 @@ pub struct AspectIcon;
 #[derive(Component)]
 pub struct Socket {
     pub aspect: Aspect,
-    pub on_left_side: bool,
+    pub on_top: bool,
 }
 #[derive(Component)]
 pub struct CombinerIcon;
@@ -87,7 +87,7 @@ fn spawn_aspect_sockets(
 ) {
     for (aspect_initiater, grid_coords) in &q_items {
         let aspect = aspect_initiater.aspect;
-        let on_left_side = aspect_initiater.on_left_side;
+        let on_top = aspect_initiater.on_top;
 
         let pos = Vec3::new(
             grid_coords.x as f32 * 32.0,
@@ -107,7 +107,7 @@ fn spawn_aspect_sockets(
         let icon = commands
             .spawn((
                 AspectIcon,
-                YSortChild(100.0),
+                YSortChild(24.0),
                 SpriteBundle {
                     texture: icon_texture(&assets, &aspect),
                     transform: Transform::from_translation(DEFAULT_ICON_POSITION.extend(0.0)),
@@ -116,7 +116,7 @@ fn spawn_aspect_sockets(
             ))
             .id();
 
-        let texture = if on_left_side {
+        let texture = if on_top {
             assets.aspect_socket_texture_left.clone()
         } else {
             assets.aspect_socket_texture_right.clone()
@@ -131,10 +131,7 @@ fn spawn_aspect_sockets(
         commands
             .spawn((
                 YSort(0.0),
-                Socket {
-                    aspect,
-                    on_left_side,
-                },
+                Socket { aspect, on_top },
                 SpriteBundle {
                     texture,
                     transform: Transform::from_translation(pos),
@@ -303,18 +300,16 @@ fn set_visuals_for_socket(
     q_sockets: &mut Query<(&Children, &Transform, &mut Socket), Without<Player>>,
     q_icons: &mut Query<&mut Handle<Image>, With<AspectIcon>>,
     q_texts: &mut Query<&mut Text, With<AspectNameText>>,
-    on_left_side: bool,
+    on_top: bool,
 ) {
     if let Some((children, _, mut socket)) = q_sockets
         .iter_mut()
-        .filter(|(_, _, socket)| {
-            socket.aspect == Aspect::NotImplemented && socket.on_left_side == on_left_side
-        })
-        .max_by(|(_, x_transform, _), (_, y_transform, _)| {
+        .filter(|(_, _, socket)| socket.aspect == Aspect::NotImplemented && socket.on_top == on_top)
+        .min_by(|(_, x_transform, _), (_, y_transform, _)| {
             x_transform
                 .translation
-                .y
-                .total_cmp(&y_transform.translation.y)
+                .x
+                .total_cmp(&y_transform.translation.x)
         })
     {
         socket.aspect = combiner.last_combined_aspect;

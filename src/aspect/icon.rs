@@ -51,8 +51,8 @@ fn highlight_icons(
     mut q_icons: Query<&mut Transform, With<AspectIcon>>,
 ) {
     for (children, socket) in &q_sockets {
-        if socket.on_left_side && combiner.left_aspect == Some(socket.aspect)
-            || !socket.on_left_side && combiner.right_aspect == Some(socket.aspect)
+        if socket.on_top && combiner.left_aspect == Some(socket.aspect)
+            || !socket.on_top && combiner.right_aspect == Some(socket.aspect)
         {
             set_icon_pos(&mut q_icons, children, HIGHLIGHTED_ICON_POSITION);
         }
@@ -65,10 +65,10 @@ fn dehighlight_icons(
     mut q_icons: Query<&mut Transform, With<AspectIcon>>,
 ) {
     for (children, socket) in &q_sockets {
-        if socket.on_left_side
+        if socket.on_top
             && combiner.left_aspect.is_some()
             && combiner.left_aspect != Some(socket.aspect)
-            || !socket.on_left_side
+            || !socket.on_top
                 && combiner.right_aspect.is_some()
                 && combiner.right_aspect != Some(socket.aspect)
         {
@@ -83,8 +83,8 @@ fn default_icons(
     mut q_icons: Query<&mut Transform, With<AspectIcon>>,
 ) {
     for (children, socket) in &q_sockets {
-        if socket.on_left_side && combiner.left_aspect.is_none()
-            || !socket.on_left_side && combiner.right_aspect.is_none()
+        if socket.on_top && combiner.left_aspect.is_none()
+            || !socket.on_top && combiner.right_aspect.is_none()
         {
             set_icon_pos(&mut q_icons, children, DEFAULT_ICON_POSITION);
         }

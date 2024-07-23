@@ -46,7 +46,7 @@ pub enum Aspect {
 #[derive(Default, Component)]
 pub struct AspectSocketInitiater {
     aspect: Aspect,
-    on_left_side: bool,
+    on_top: bool,
 }
 
 impl AspectSocketInitiater {
@@ -55,17 +55,14 @@ impl AspectSocketInitiater {
             Ok(r) => Aspect::from_str(r).unwrap_or_default(),
             Err(_) => Aspect::default(),
         };
-        let on_left_side = match entity_instance.get_bool_field("on_left_side") {
+        let on_top = match entity_instance.get_bool_field("on_top") {
             Ok(r) => r.to_owned(),
             Err(err) => {
                 error!("counld not find field, {}", err);
                 false
             }
         };
-        Self {
-            aspect,
-            on_left_side,
-        }
+        Self { aspect, on_top }
     }
 }
 

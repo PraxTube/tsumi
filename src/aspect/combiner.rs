@@ -27,7 +27,7 @@ impl Combiner {
 }
 
 pub fn is_socket_combination_possible(combiner: &Res<Combiner>, socket: &Socket) -> bool {
-    let combiner_aspect = if socket.on_left_side {
+    let combiner_aspect = if socket.on_top {
         match combiner.right_aspect {
             Some(r) => r,
             None => return true,
@@ -78,7 +78,7 @@ fn select_aspects(
             continue;
         }
 
-        if socket.on_left_side {
+        if socket.on_top {
             left_aspect = if combiner.left_aspect != Some(socket.aspect) {
                 Some(socket.aspect)
             } else {

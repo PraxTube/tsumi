@@ -57,6 +57,13 @@ pub struct GameAssets {
     #[asset(path = "map/level.ldtk")]
     pub level: Handle<LdtkProject>,
 
+    #[asset(path = "map/tutorial_switch.png")]
+    pub tutorial_switch_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 32, tile_size_y = 32, columns = 3, rows = 1))]
+    pub tutorial_switch_layout: Handle<TextureAtlasLayout>,
+    #[asset(path = "map/tutorial_wall.png")]
+    pub tutorial_wall: Handle<Image>,
+
     #[asset(path = "map/bed.png")]
     pub bed_texture: Handle<Image>,
     #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 2, rows = 1))]

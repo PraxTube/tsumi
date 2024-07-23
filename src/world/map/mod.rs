@@ -1,5 +1,6 @@
 mod bed;
 mod collisions;
+mod tutorial;
 
 pub use bed::PlayerWentToBed;
 
@@ -15,7 +16,11 @@ pub struct MapPlugin;
 impl Plugin for MapPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(LdtkPlugin)
-            .add_plugins((collisions::CollisionsPlugin, bed::MapBedPlugin))
+            .add_plugins((
+                collisions::CollisionsPlugin,
+                bed::MapBedPlugin,
+                tutorial::TutorialPlugin,
+            ))
             .insert_resource(LevelSelection::index(0))
             .add_systems(OnEnter(GameState::Gaming), spawn_ldtk_world);
     }

@@ -6,21 +6,26 @@ use bevy_trickfilm::prelude::*;
 
 #[derive(AssetCollection, Resource)]
 pub struct GameAssets {
-    // --- PLAYER ---
-    #[asset(path = "player.png")]
-    pub player_texture: Handle<Image>,
+    // --- CHARACTERS ---
+    #[asset(path = "characters/ami.png")]
+    pub ami_texture: Handle<Image>,
     #[asset(texture_atlas(tile_size_x = 128, tile_size_y = 128, columns = 8, rows = 3))]
-    pub player_layout: Handle<TextureAtlasLayout>,
+    pub ami_layout: Handle<TextureAtlasLayout>,
+
+    #[asset(path = "characters/ima.png")]
+    pub ima_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 128, tile_size_y = 128, columns = 8, rows = 1))]
+    pub ima_layout: Handle<TextureAtlasLayout>,
 
     #[asset(
         paths(
-            "player.trickfilm#idle",
-            "player.trickfilm#walk",
-            "player.trickfilm#run",
+            "characters/character.trickfilm#idle",
+            "characters/character.trickfilm#walk",
+            "characters/character.trickfilm#run",
         ),
         collection(typed)
     )]
-    pub player_animations: Vec<Handle<AnimationClip2D>>,
+    pub character_animations: Vec<Handle<AnimationClip2D>>,
 
     // --- ASPECTS ---
     #[asset(path = "aspects/transparent_icon.png")]

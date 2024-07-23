@@ -20,7 +20,9 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
         .id();
 
     let mut animator = AnimationPlayer2D::default();
-    animator.play(assets.player_animations[0].clone()).repeat();
+    animator
+        .play(assets.character_animations[0].clone())
+        .repeat();
 
     commands
         .spawn((
@@ -32,12 +34,12 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
             YSort(32.0),
             animator,
             SpriteBundle {
-                texture: assets.player_texture.clone(),
+                texture: assets.ami_texture.clone(),
                 transform: Transform::from_translation(SPAWN_POSITION),
                 ..default()
             },
             TextureAtlas {
-                layout: assets.player_layout.clone(),
+                layout: assets.ami_layout.clone(),
                 ..default()
             },
         ))

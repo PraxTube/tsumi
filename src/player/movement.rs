@@ -48,12 +48,18 @@ fn update_animation(
         Err(_) => return,
     };
 
-    let clip = if player_input.move_direction == Vec2::ZERO || !player.can_move {
-        assets.player_animations[0].clone()
+    if !player.can_move {
+        animator.pause();
+        return;
+    }
+
+    let clip = if player_input.move_direction == Vec2::ZERO {
+        assets.character_animations[0].clone()
     } else {
-        assets.player_animations[1].clone()
+        assets.character_animations[1].clone()
     };
 
+    animator.resume();
     animator.play(clip).repeat();
 }
 

@@ -1,5 +1,6 @@
 pub mod input;
 
+mod ima;
 mod movement;
 mod spawn;
 
@@ -15,6 +16,7 @@ impl Plugin for PlayerPlugin {
             input::InputPlugin,
             spawn::PlayerSpawnPlugin,
             movement::PlayerMovementPlugin,
+            ima::ImaPlugin,
         ));
     }
 }

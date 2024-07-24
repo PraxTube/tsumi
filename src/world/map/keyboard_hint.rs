@@ -249,6 +249,7 @@ fn spawn_selection_key_ui(
     let transform = Transform::from_translation(pos + SELECTION_KEY_SPAWN_OFFSET);
     commands.spawn((
         animator,
+        YSort(-200.0),
         SpriteBundle {
             texture: assets.ui_interact_key_texture.clone(),
             transform,

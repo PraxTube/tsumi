@@ -109,7 +109,7 @@ fn spawn_tutorial_wall(
     let pos = Vec3::new(
         grid_coords.x as f32 * 32.0 + 16.0,
         grid_coords.y as f32 * 32.0 + 16.0,
-        0.0,
+        -100.0,
     );
 
     let collider = commands
@@ -122,7 +122,6 @@ fn spawn_tutorial_wall(
     commands
         .spawn((
             TutorialWall,
-            YSort(100.0),
             SpriteBundle {
                 texture: assets.tutorial_wall.clone(),
                 transform: Transform::from_translation(pos),

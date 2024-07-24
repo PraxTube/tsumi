@@ -1028,6 +1028,38 @@
 							"fieldInstances": [],
 							"__worldX": -768,
 							"__worldY": 256
+						},
+						{
+							"__identifier": "CollisionBox",
+							"__grid": [24,1],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#A6A6A6",
+							"iid": "1b5e3a00-25d0-11ef-a915-2bd49a1e520e",
+							"width": 32,
+							"height": 160,
+							"defUid": 11,
+							"px": [768,32],
+							"fieldInstances": [],
+							"__worldX": 0,
+							"__worldY": 96
+						},
+						{
+							"__identifier": "CollisionBox",
+							"__grid": [46,1],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#A6A6A6",
+							"iid": "1e2437d0-25d0-11ef-a915-65f7eb7138f0",
+							"width": 32,
+							"height": 480,
+							"defUid": 11,
+							"px": [1472,32],
+							"fieldInstances": [],
+							"__worldX": 704,
+							"__worldY": 96
 						}
 					]
 				},

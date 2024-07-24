@@ -58,7 +58,10 @@ fn spawn_player(
     );
     commands
         .spawn((
-            Player { can_move: true },
+            Player {
+                can_move: true,
+                x_value_tutorial_dialogue: f32::MAX,
+            },
             RigidBody::Dynamic,
             LockedAxes::ROTATION_LOCKED,
             Velocity::zero(),

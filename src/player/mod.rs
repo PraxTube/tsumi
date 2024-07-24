@@ -26,4 +26,5 @@ impl Plugin for PlayerPlugin {
 #[derive(Component)]
 pub struct Player {
     pub can_move: bool,
+    pub x_value_tutorial_dialogue: f32,
 }

@@ -4,6 +4,7 @@ use strum_macros::{Display, EnumIter, EnumString};
 
 use crate::{
     aspect::{Aspect, CombinedAspect, Combiner, Socket},
+    world::TriggerFirstDialogue,
     GameState,
 };
 
@@ -18,6 +19,15 @@ pub enum Ending {
 #[derive(Component, Default)]
 pub struct RunnerFlags {
     pub line: Option<LocalizedLine>,
+}
+
+fn spawn_runner(commands: &mut Commands, project: &Res<YarnProject>, node: &str) {
+    let mut dialogue_runner = project.create_dialogue_runner();
+    dialogue_runner
+        .commands_mut()
+        .add_command("trigger_ending", trigger_ending_command);
+    dialogue_runner.start_node(node);
+    commands.spawn((dialogue_runner, RunnerFlags::default()));
 }
 
 fn spawn_dialogue_runner(
@@ -39,13 +49,11 @@ fn spawn_dialogue_runner(
     } else {
         combiner.last_combined_aspect.to_string()
     };
+    spawn_runner(&mut commands, &project, &node);
+}
 
-    let mut dialogue_runner = project.create_dialogue_runner();
-    dialogue_runner
-        .commands_mut()
-        .add_command("trigger_ending", trigger_ending_command);
-    dialogue_runner.start_node(node);
-    commands.spawn((dialogue_runner, RunnerFlags::default()));
+fn spawn_first_dialogue(mut commands: Commands, project: Res<YarnProject>) {
+    spawn_runner(&mut commands, &project, "Intro");
 }
 
 fn despawn_dialogue(
@@ -69,8 +77,11 @@ impl Plugin for DialogueRunnerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            spawn_dialogue_runner
-                .run_if(in_state(GameState::Gaming).and_then(on_event::<CombinedAspect>())),
+            (
+                spawn_dialogue_runner.run_if(on_event::<CombinedAspect>()),
+                spawn_first_dialogue.run_if(on_event::<TriggerFirstDialogue>()),
+            )
+                .run_if(in_state(GameState::Gaming)),
         )
         .add_systems(
             Update,

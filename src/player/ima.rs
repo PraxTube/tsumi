@@ -2,7 +2,11 @@ use bevy::prelude::*;
 use bevy_trickfilm::prelude::*;
 use bevy_yarnspinner::events::DialogueCompleteEvent;
 
-use crate::{aspect::CombinedAspect, world::camera::YSort, GameAssets, GameState};
+use crate::{
+    aspect::CombinedAspect,
+    world::{camera::YSort, TriggerFirstDialogue},
+    GameAssets, GameState,
+};
 
 use super::Player;
 
@@ -62,7 +66,9 @@ impl Plugin for ImaPlugin {
         app.add_systems(
             Update,
             (
-                spawn_ima.run_if(on_event::<CombinedAspect>()),
+                spawn_ima.run_if(
+                    on_event::<CombinedAspect>().or_else(on_event::<TriggerFirstDialogue>()),
+                ),
                 despawn_ima.run_if(on_event::<DialogueCompleteEvent>()),
             )
                 .run_if(in_state(GameState::Gaming)),

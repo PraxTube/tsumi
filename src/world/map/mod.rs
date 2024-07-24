@@ -2,6 +2,8 @@ mod collisions;
 mod keyboard_hint;
 mod tutorial;
 
+pub use tutorial::TriggerFirstDialogue;
+
 use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 

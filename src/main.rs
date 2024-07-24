@@ -30,6 +30,7 @@ pub enum GameState {
     #[default]
     AssetLoading,
     Gaming,
+    // TODO: Use this
     Ending,
 }
 

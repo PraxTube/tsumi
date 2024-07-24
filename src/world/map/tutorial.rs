@@ -10,6 +10,9 @@ use crate::{
 
 const PLAYER_HIGHLIGHT_DISTANCE: f32 = 32.0;
 
+#[derive(Event)]
+pub struct TriggerFirstDialogue;
+
 #[derive(Default, Component)]
 pub struct TutorialSwitchIntiater;
 
@@ -186,6 +189,36 @@ fn trigger_tutorial_switch(
     }
 }
 
+fn set_player_x_value_trigger(
+    mut q_player: Query<&mut Player>,
+    q_tutorial_wall: Query<&Transform, With<TutorialWall>>,
+) {
+    let mut player = match q_player.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+    let transform = match q_tutorial_wall.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+    player.x_value_tutorial_dialogue = transform.translation.x;
+}
+
+fn trigger_first_dialogue(
+    mut q_player: Query<(&Transform, &mut Player)>,
+    mut ev_trigger_first_dialogue: EventWriter<TriggerFirstDialogue>,
+) {
+    let (transform, mut player) = match q_player.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    if transform.translation.x >= player.x_value_tutorial_dialogue {
+        player.x_value_tutorial_dialogue = f32::MAX;
+        ev_trigger_first_dialogue.send(TriggerFirstDialogue);
+    }
+}
+
 pub struct TutorialPlugin;
 
 impl Plugin for TutorialPlugin {
@@ -199,8 +232,11 @@ impl Plugin for TutorialPlugin {
                     spawn_tutorial_wall,
                     highlight_tutorial_switch,
                     trigger_tutorial_switch,
+                    set_player_x_value_trigger,
+                    trigger_first_dialogue,
                 )
                     .run_if(in_state(GameState::Gaming)),
-            );
+            )
+            .add_event::<TriggerFirstDialogue>();
     }
 }

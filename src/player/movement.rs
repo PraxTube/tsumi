@@ -4,6 +4,7 @@ use bevy_trickfilm::prelude::*;
 use bevy_yarnspinner::events::DialogueCompleteEvent;
 
 use crate::aspect::CombinedAspect;
+use crate::world::TriggerFirstDialogue;
 use crate::{GameAssets, GameState};
 
 use super::input::PlayerInput;
@@ -90,7 +91,9 @@ impl Plugin for PlayerMovementPlugin {
                 flip_sprite,
                 update_animation,
                 enable_player_movement.run_if(on_event::<DialogueCompleteEvent>()),
-                disable_player_movement.run_if(on_event::<CombinedAspect>()),
+                disable_player_movement.run_if(
+                    on_event::<CombinedAspect>().or_else(on_event::<TriggerFirstDialogue>()),
+                ),
             )
                 .run_if(in_state(GameState::Gaming)),
         );

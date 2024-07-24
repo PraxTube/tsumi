@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::GameAssets;
+use crate::{world::camera::YSortChild, GameAssets};
 
 use super::{
     combiner::Combiner,
@@ -9,8 +9,8 @@ use super::{
 };
 
 pub const DEFAULT_ICON_POSITION: Vec2 = Vec2::new(0.0, 16.0);
-const HIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 32.0);
-const DEHIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 0.0);
+const HIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 24.0);
+const DEHIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 8.0);
 
 pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> {
     match aspect {
@@ -29,25 +29,26 @@ pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> 
 }
 
 fn set_icon_pos(
-    q_icons: &mut Query<&mut Transform, With<AspectIcon>>,
+    q_icons: &mut Query<(&mut Transform, &mut YSortChild), With<AspectIcon>>,
     children: &Children,
     pos: Vec2,
 ) {
     for child in children.iter() {
-        let mut transform = match q_icons.get_mut(*child) {
+        let (mut transform, mut ysort) = match q_icons.get_mut(*child) {
             Ok(r) => r,
             Err(_) => continue,
         };
 
         transform.translation.x = pos.x;
         transform.translation.y = pos.y;
+        *ysort = YSortChild(pos.y + 1.0);
     }
 }
 
 fn highlight_icons(
     combiner: Res<Combiner>,
     q_sockets: Query<(&Children, &Socket)>,
-    mut q_icons: Query<&mut Transform, With<AspectIcon>>,
+    mut q_icons: Query<(&mut Transform, &mut YSortChild), With<AspectIcon>>,
 ) {
     for (children, socket) in &q_sockets {
         if socket.on_top && combiner.left_aspect == Some(socket.aspect)
@@ -61,7 +62,7 @@ fn highlight_icons(
 fn dehighlight_icons(
     combiner: Res<Combiner>,
     q_sockets: Query<(&Children, &Socket)>,
-    mut q_icons: Query<&mut Transform, With<AspectIcon>>,
+    mut q_icons: Query<(&mut Transform, &mut YSortChild), With<AspectIcon>>,
 ) {
     for (children, socket) in &q_sockets {
         if socket.on_top
@@ -79,7 +80,7 @@ fn dehighlight_icons(
 fn default_icons(
     combiner: Res<Combiner>,
     q_sockets: Query<(&Children, &Socket)>,
-    mut q_icons: Query<&mut Transform, With<AspectIcon>>,
+    mut q_icons: Query<(&mut Transform, &mut YSortChild), With<AspectIcon>>,
 ) {
     for (children, socket) in &q_sockets {
         if socket.on_top && combiner.left_aspect.is_none()

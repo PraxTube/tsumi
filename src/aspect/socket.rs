@@ -105,7 +105,7 @@ fn spawn_aspect_sockets(
         let icon = commands
             .spawn((
                 AspectIcon,
-                YSortChild(24.0),
+                YSortChild(17.0),
                 SpriteBundle {
                     texture: icon_texture(&assets, &aspect),
                     transform: Transform::from_translation(DEFAULT_ICON_POSITION.extend(0.0)),
@@ -173,7 +173,7 @@ fn spawn_combiner_socket(
         let icon = commands
             .spawn((
                 CombinerIcon,
-                YSortChild(100.0),
+                YSortChild(17.0),
                 SpriteBundle {
                     texture: icon_texture(&assets, &Aspect::NotImplemented),
                     transform: Transform::from_translation(DEFAULT_ICON_POSITION.extend(0.0)),

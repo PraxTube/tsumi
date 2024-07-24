@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_tweening::{lens::*, *};
 
-use crate::{world::PlayerWentToBed, GameAssets, GameState};
+use crate::{aspect::CombinedAspect, GameAssets, GameState};
 
 // The master root of the dialogue
 #[derive(Component)]
@@ -270,7 +270,7 @@ impl Plugin for DialogueSpawnPlugin {
         app.add_systems(
             Update,
             spawn_dialogue
-                .run_if(in_state(GameState::Gaming).and_then(on_event::<PlayerWentToBed>())),
+                .run_if(in_state(GameState::Gaming).and_then(on_event::<CombinedAspect>())),
         );
     }
 }

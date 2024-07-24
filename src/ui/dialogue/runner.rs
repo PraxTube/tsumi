@@ -3,8 +3,7 @@ use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 use strum_macros::{Display, EnumIter, EnumString};
 
 use crate::{
-    aspect::{Aspect, Combiner, Socket},
-    world::PlayerWentToBed,
+    aspect::{Aspect, CombinedAspect, Combiner, Socket},
     GameState,
 };
 
@@ -71,7 +70,7 @@ impl Plugin for DialogueRunnerPlugin {
         app.add_systems(
             Update,
             spawn_dialogue_runner
-                .run_if(in_state(GameState::Gaming).and_then(on_event::<PlayerWentToBed>())),
+                .run_if(in_state(GameState::Gaming).and_then(on_event::<CombinedAspect>())),
         )
         .add_systems(
             Update,

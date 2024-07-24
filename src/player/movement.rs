@@ -3,7 +3,7 @@ use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::prelude::*;
 use bevy_yarnspinner::events::DialogueCompleteEvent;
 
-use crate::world::PlayerWentToBed;
+use crate::aspect::CombinedAspect;
 use crate::{GameAssets, GameState};
 
 use super::input::PlayerInput;
@@ -90,7 +90,7 @@ impl Plugin for PlayerMovementPlugin {
                 flip_sprite,
                 update_animation,
                 enable_player_movement.run_if(on_event::<DialogueCompleteEvent>()),
-                disable_player_movement.run_if(on_event::<PlayerWentToBed>()),
+                disable_player_movement.run_if(on_event::<CombinedAspect>()),
             )
                 .run_if(in_state(GameState::Gaming)),
         );

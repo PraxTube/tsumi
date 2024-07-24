@@ -3,7 +3,7 @@ mod icon;
 mod name_text;
 mod socket;
 
-pub use combiner::Combiner;
+pub use combiner::{CombinedAspect, Combiner};
 pub use socket::Socket;
 
 use std::str::FromStr;
@@ -41,7 +41,6 @@ pub enum Aspect {
     Hatred,
     Vengfulness,
     Elation,
-    Blocking,
 }
 
 #[derive(Default, Component)]

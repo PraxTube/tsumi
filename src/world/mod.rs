@@ -2,8 +2,6 @@ pub mod camera;
 
 mod map;
 
-pub use map::PlayerWentToBed;
-
 use bevy::prelude::*;
 use bevy_rapier2d::plugin::RapierConfiguration;
 use camera::GameCameraPlugin;

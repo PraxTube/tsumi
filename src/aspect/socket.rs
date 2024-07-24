@@ -4,15 +4,12 @@ use bevy_rapier2d::prelude::*;
 
 use crate::{
     player::{Player, PLAYER_PIVOT},
-    world::{
-        camera::{YSort, YSortChild},
-        PlayerWentToBed,
-    },
+    world::camera::{YSort, YSortChild},
     GameAssets, GameState,
 };
 
 use super::{
-    combiner::{aspect_combinations, is_socket_combination_possible, Combiner},
+    combiner::{aspect_combinations, is_socket_combination_possible, CombinedAspect, Combiner},
     icon::{icon_texture, DEFAULT_ICON_POSITION},
     name_text::AspectNameText,
     Aspect, AspectCombiner, AspectCombinerInitiater, AspectSocketInitiater,
@@ -255,9 +252,6 @@ fn highlight_combiner(
     mut q_combiner: Query<(&Transform, &mut TextureAtlas), (With<AspectCombiner>, Without<Player>)>,
     q_sockets: Query<&Socket>,
 ) {
-    if !combiner.is_full() {
-        return;
-    }
     let player_transform = match q_player.get_single() {
         Ok(r) => r,
         Err(_) => return,
@@ -271,6 +265,7 @@ fn highlight_combiner(
         if let (Some(l_aspect), Some(r_aspect)) = (combiner.left_aspect, combiner.right_aspect) {
             (l_aspect, r_aspect)
         } else {
+            atlas.index = 0;
             return;
         };
 
@@ -286,7 +281,6 @@ fn highlight_combiner(
     }
 
     let index = if !aspect_already_exists
-        && !combiner.is_blocking()
         && transform
             .translation
             .truncate()
@@ -365,7 +359,7 @@ impl Plugin for AspectSocketPlugin {
                 spawn_combiner_socket,
                 highlight_sockets,
                 highlight_combiner,
-                push_combined_aspect.run_if(on_event::<PlayerWentToBed>()),
+                push_combined_aspect.run_if(on_event::<CombinedAspect>()),
             )
                 .run_if(in_state(GameState::Gaming)),
         );

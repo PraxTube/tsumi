@@ -1,9 +1,6 @@
-mod bed;
 mod collisions;
 mod keyboard_hint;
 mod tutorial;
-
-pub use bed::PlayerWentToBed;
 
 use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
@@ -19,7 +16,6 @@ impl Plugin for MapPlugin {
         app.add_plugins(LdtkPlugin)
             .add_plugins((
                 collisions::CollisionsPlugin,
-                bed::MapBedPlugin,
                 tutorial::TutorialPlugin,
                 keyboard_hint::KeyboardHintPlugin,
             ))

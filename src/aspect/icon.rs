@@ -4,7 +4,7 @@ use crate::GameAssets;
 
 use super::{
     combiner::Combiner,
-    socket::{AspectIcon, CombinerIcon, Socket},
+    socket::{AspectIcon, Socket},
     Aspect,
 };
 
@@ -24,7 +24,6 @@ pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> 
         Aspect::Hatred => assets.hatred_icon.clone(),
         Aspect::Vengfulness => assets.vengfulness_icon.clone(),
         Aspect::Elation => assets.elation_icon.clone(),
-        Aspect::Blocking => assets.placeholder_icon.clone(),
         Aspect::NotImplemented => assets.transparent_icon.clone(),
     }
 }
@@ -91,36 +90,10 @@ fn default_icons(
     }
 }
 
-fn highlight_combined_icon(
-    combiner: Res<Combiner>,
-    mut q_combiner_icon: Query<&mut Transform, With<CombinerIcon>>,
-) {
-    let mut transform = match q_combiner_icon.get_single_mut() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-
-    if combiner.is_blocking() {
-        transform.translation.x = HIGHLIGHTED_ICON_POSITION.x;
-        transform.translation.y = HIGHLIGHTED_ICON_POSITION.y;
-    } else {
-        transform.translation.x = DEFAULT_ICON_POSITION.x;
-        transform.translation.y = DEFAULT_ICON_POSITION.y;
-    }
-}
-
 pub struct AspectIconPlugin;
 
 impl Plugin for AspectIconPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            (
-                highlight_icons,
-                dehighlight_icons,
-                default_icons,
-                highlight_combined_icon,
-            ),
-        );
+        app.add_systems(Update, (highlight_icons, dehighlight_icons, default_icons));
     }
 }

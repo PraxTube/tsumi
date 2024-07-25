@@ -64,7 +64,7 @@ fn main() {
             TweeningPlugin,
             YarnSpinnerPlugin::with_yarn_sources([
                 YarnFileSource::file("dialogue/aspects.yarn"),
-                YarnFileSource::file("dialogue/endings.yarn"),
+                YarnFileSource::file("dialogue/others.yarn"),
             ])
             .with_development_file_generation(DevelopmentFileGeneration::None),
         ))

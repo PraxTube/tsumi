@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use bevy::prelude::*;
 use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 use strum_macros::{Display, EnumIter, EnumString};
@@ -9,6 +11,20 @@ use crate::{
 };
 
 use super::{command::trigger_ending_command, spawn::DialogueRoot};
+
+const SHORT_INTRO_TIMEOUT: f32 = 5.0;
+
+#[derive(Resource)]
+struct TimeSinceGaming(Timer);
+
+impl Default for TimeSinceGaming {
+    fn default() -> Self {
+        Self(Timer::new(
+            Duration::from_secs_f32(SHORT_INTRO_TIMEOUT),
+            TimerMode::Once,
+        ))
+    }
+}
 
 #[derive(Reflect, Clone, PartialEq, EnumString, Display, Debug, Copy, EnumIter)]
 pub enum Ending {
@@ -52,8 +68,17 @@ fn spawn_dialogue_runner(
     spawn_runner(&mut commands, &project, &node);
 }
 
-fn spawn_first_dialogue(mut commands: Commands, project: Res<YarnProject>) {
-    spawn_runner(&mut commands, &project, "Intro");
+fn spawn_first_dialogue(
+    mut commands: Commands,
+    time_since_gaming: Res<TimeSinceGaming>,
+    project: Res<YarnProject>,
+) {
+    let node = if time_since_gaming.0.finished() {
+        "Intro"
+    } else {
+        "ShortIntro"
+    };
+    spawn_runner(&mut commands, &project, node);
 }
 
 fn despawn_dialogue(
@@ -71,6 +96,10 @@ fn despawn_dialogue(
     }
 }
 
+fn tick_time_since_gaming(time: Res<Time>, mut time_since_gaming: ResMut<TimeSinceGaming>) {
+    time_since_gaming.0.tick(time.delta());
+}
+
 pub struct DialogueRunnerPlugin;
 
 impl Plugin for DialogueRunnerPlugin {
@@ -80,12 +109,11 @@ impl Plugin for DialogueRunnerPlugin {
             (
                 spawn_dialogue_runner.run_if(on_event::<CombinedAspect>()),
                 spawn_first_dialogue.run_if(on_event::<TriggerFirstDialogue>()),
+                despawn_dialogue,
+                tick_time_since_gaming,
             )
                 .run_if(in_state(GameState::Gaming)),
         )
-        .add_systems(
-            Update,
-            (despawn_dialogue,).run_if(in_state(GameState::Gaming)),
-        );
+        .init_resource::<TimeSinceGaming>();
     }
 }

@@ -39,7 +39,7 @@ pub fn aspect_combinations(left_aspect: &Aspect, right_aspect: &Aspect) -> Aspec
         match (left_aspect, right_aspect) {
             (Aspect::Joy, Aspect::Sadness) => Aspect::Nostalgia,
             (Aspect::Joy, Aspect::Nostalgia) => Aspect::Motivation,
-            (Aspect::Sadness, Aspect::Nostalgia) => Aspect::Melanchony,
+            (Aspect::Sadness, Aspect::Nostalgia) => Aspect::Melancholy,
             (Aspect::Anger, Aspect::Fear) => Aspect::Hatred,
             (Aspect::Anger, Aspect::Hatred) => Aspect::Vengefulness,
             (Aspect::Joy, Aspect::Motivation) => Aspect::Elation,

@@ -44,12 +44,12 @@ pub struct GameAssets {
     pub nostalgia_icon: Handle<Image>,
     #[asset(path = "aspects/motivation_icon.png")]
     pub motivation_icon: Handle<Image>,
-    #[asset(path = "aspects/melanchony_icon.png")]
-    pub melanchony_icon: Handle<Image>,
+    #[asset(path = "aspects/melancholy_icon.png")]
+    pub melancholy_icon: Handle<Image>,
     #[asset(path = "aspects/hatred_icon.png")]
     pub hatred_icon: Handle<Image>,
-    #[asset(path = "aspects/vengfulness_icon.png")]
-    pub vengfulness_icon: Handle<Image>,
+    #[asset(path = "aspects/vengefulness_icon.png")]
+    pub vengefulness_icon: Handle<Image>,
     #[asset(path = "aspects/elation_icon.png")]
     pub elation_icon: Handle<Image>,
 

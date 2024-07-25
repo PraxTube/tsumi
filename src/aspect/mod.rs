@@ -37,7 +37,7 @@ pub enum Aspect {
     Fear,
     Nostalgia,
     Motivation,
-    Melanchony,
+    Melancholy,
     Hatred,
     Vengefulness,
     Elation,

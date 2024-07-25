@@ -73,6 +73,7 @@ fn validate_npc_names() {
     validate_lines(|line, _| {
         if let Some((possible_name, possible_message)) = line.split_once(' ') {
             if let Some(name) = possible_name.strip_suffix(':') {
+                let name = name.trim_start_matches('_');
                 if name == "title" {
                     return;
                 }

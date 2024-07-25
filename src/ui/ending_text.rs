@@ -4,8 +4,6 @@ use bevy::prelude::*;
 
 use crate::{GameAssets, GameState};
 
-use super::dialogue::EndingTriggered;
-
 #[derive(Component)]
 struct WriteableText {
     written_text: String,

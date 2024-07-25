@@ -1,7 +1,14 @@
 title: Intro
 ---
 
-YAY
+*Press SPACE or LEFT MOUSE*
+_Ima: Oh hey there.
+Ami: Huh? Who are you? And were are we?
+Ima: I am Ima. And we are in a place were only you and I exist.
+Ima: A quite place.
+Ima: Somewhere you can sort out your emotions in peace.
+Ami: Hu-? What does that even mean?
+Ima: Oh I am sure you will figure it out~
 
 ===
 title: GoodEnding
@@ -9,10 +16,15 @@ title: GoodEnding
 
 Ending
 Good
-Some
-Old
-Fox
+Ima: Remember, I will always be here for you.
+Ima: Until we meet again.
 <<trigger_ending>>
 ...
+
+===
+title: BadEnding
+---
+
+Placeholder
 
 ===

@@ -1,9 +1,11 @@
 use std::time::Duration;
 
 use bevy::prelude::*;
-use bevy_tweening::{lens::TransformScaleLens, Animator, EaseFunction, Tween};
+use bevy_tweening::{lens::TransformScaleLens, Animator, EaseFunction, Tween, TweenCompleted};
 
 use crate::GameState;
+
+const SPASH_SCREEN_TWEEN_ID: u64 = 100;
 
 #[derive(Component)]
 struct SplashScreen;
@@ -50,8 +52,20 @@ fn fade_out_splash_screen(
                 start: Vec3::ONE,
                 end: Vec3::ZERO,
             },
-        );
+        )
+        .with_completed_event(SPASH_SCREEN_TWEEN_ID);
         commands.entity(entity).insert(Animator::new(tween));
+    }
+}
+
+fn despawn_splash_screen(
+    mut commands: Commands,
+    mut ev_tween_completed: EventReader<TweenCompleted>,
+) {
+    for ev in ev_tween_completed.read() {
+        if ev.user_data == SPASH_SCREEN_TWEEN_ID {
+            commands.entity(ev.entity).despawn_recursive();
+        }
     }
 }
 
@@ -60,6 +74,7 @@ pub struct SplashScreenPlugin;
 impl Plugin for SplashScreenPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(GameState::AssetLoading), spawn_splash_screen)
-            .add_systems(OnExit(GameState::AssetLoading), fade_out_splash_screen);
+            .add_systems(OnExit(GameState::AssetLoading), fade_out_splash_screen)
+            .add_systems(Update, (despawn_splash_screen,));
     }
 }

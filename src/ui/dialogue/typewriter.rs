@@ -180,10 +180,7 @@ fn set_writer_speed(
                 NpcDialogue::Ima => 18.0,
             }
         } else {
-            match name {
-                "You" => 20.0,
-                _ => 15.0,
-            }
+            30.0
         };
         typewriter.current_speed = speed;
     }

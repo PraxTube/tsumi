@@ -1,41 +1,32 @@
-title: Joy
----
-
-joy
-
-===
-title: Sadness
----
-
-sadness
-
-===
-
-title: Anger
----
-
-anger
-
-===
-title: Fear
----
-
-fear
-
-===
 title: Nostalgia
 ---
 
-Ima: What do you feel now?
-Ami: I feel nostalgic. 
-Ima: Good. It's my gift to you. 
-Ima: Try manifesting more once you wake up.
+Ima: An oh so familiar feeling.
+Ima: One that can come so easily.
+Ima: Yet differ so greatly.
+Ami: I like it.
+Ima: Hm, yes. There is no emotion inherently bad.
+Ima: Every single one has its own purpose.
+Ima: However, be vary of each of them.
+Ima: They all share two sides.
+Ima: Reminicing about the past once in a while,
+Ima: or letting it confine you and being a slave to it.
+Ima: Those are two very different things.
 
 ===
 title: Motivation
 ---
 
-motivation
+Ima: An important aspect of life.
+Ima: It can make even the hardest of challenges easier.
+Ima: However, you can also rely on it too much.
+Ima: There will come the time when your motivation will run out.
+Ima: It's a great way to start things off, but will result in misery of not addresses properly.
+Ami: So you even have something to complain about motivation?
+Ima: You seem to see emotions very black and white.
+Ami: ...Really now?
+Ima: Every emotion can be good but also bad.
+Ima: It's in how you make use of them that determines their value.
 
 ===
 title: Melanchony
@@ -47,45 +38,23 @@ melanchony
 title: Hatred
 ---
 
-Ima: You've mastered your temper.
-Ami: But what do I do now?
-Ima: Now offer it all to me.
-Ima: Your emotions hold tremendous power.
-Ima: One I’ll make you great with.
-Ami: ...
-Ima: What’s wrong?
-Ima: Is it not what you wish for?
-Ami: ...
-Ima: The enemies of the Utsumi Clan must be punished.
-Ima: ‘Tis only the Utsumi Clan who has been granted the Emperor’s permission for divination practice.
-Ima: ‘Tis time we show the Niimi Clan their true place.
-Ami: You’re right…
-Ima: You've made the right choice.
-Ima: Now just wait. 
+Ima: A powerful emotion.
+Ima: One that I would not advice to embrace.
+Ima: But also not to ignore.
+Ami: What do you mean with that?
+Ima: You may not be able to control the emotions you are feeling,
+Ima: however you can chooce which emotions to lean into.
+Ami: But then wouldn't that mean ignoring the ones I don't choose?
+Ima: If you feel an emotion, you can still try to understand why you feel it.
+Ima: You don't have to act on it, just accept its presence.
 
 ===
 title: Vengefulness
 ---
 
-Ima: Excellent.
-Ima: But there’s another choice you’re free to make.
-Ami: What do you mean?
-Ima: Try it yourself.
-
 ===
 title: Elation
 ---
-
-Ima: The time is now...
-Ima: ...for you to choose.
-Ami: You don’t mean…
-Ima: I do.
-Ima: You’re free to either deal the final blow to the Niimi Clan, to avenge your household’s honor…
-Ima: ...or to show them mercy and preserve their own arcane tradition.
-Ima: The young Prince Niimi can become your apprentice, and you can spread the influence of the Utsumi Clan if you… keep watch over him as he shall grow up.
-Ima: Or you can still do that by crushing them once and for many centuries ahead.
-Ima: Either way…
-Ima: ...the time is now.
 
 ===
 title: NotImplemented
@@ -96,4 +65,20 @@ You should never see this.
 This is a bug, feel free to file an issue, sorry!
 Debug Note NotImplemented
 
+===
+title: Joy
+---
+SHOULD NEVER HAPPEN, Joy
+===
+title: Sadness
+---
+SHOULD NEVER HAPPEN, Sadness
+===
+title: Anger
+---
+SHOULD NEVER HAPPEN, Anger
+===
+title: Fear
+---
+SHOULD NEVER HAPPEN, Fear
 ===

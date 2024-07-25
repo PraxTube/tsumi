@@ -44,6 +44,8 @@ fn spawn_dialogue_runner(
         }
     }
 
+    let is_final_ending = true;
+
     let node = if is_final_ending {
         Ending::GoodEnding.to_string()
     } else {

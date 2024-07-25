@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_tweening::{lens::*, *};
 
-use crate::{ui::dialogue::EndingTriggered, GameState};
+use crate::GameState;
 
 const FADE_OUT_DURATION: f32 = 3.0;
 const FADE_IN_DURATION: f32 = 2.0;
@@ -60,10 +60,6 @@ pub struct ScreenFadePlugin;
 impl Plugin for ScreenFadePlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnExit(GameState::AssetLoading), (fade_out_black_screen,))
-            .add_systems(
-                Update,
-                (fade_in_black_screen.run_if(on_event::<EndingTriggered>()),)
-                    .run_if(in_state(GameState::Gaming)),
-            );
+            .add_systems(OnEnter(GameState::Ending), (fade_in_black_screen,));
     }
 }

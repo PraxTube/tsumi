@@ -1,42 +1,18 @@
 title: Intro
 ---
+
 YAY
-Ami: It worked.
 
 ===
 title: GoodEnding
 ---
 
-Wow!
-You got the good ending.
+Ending
+Good
+Some
+Old
+Fox
 <<trigger_ending>>
-Congrats.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-
-===
-title: BadEnding
----
-
-You got the bad ending.
-<<trigger_ending>>
-Better luck next time.
-.
-.
-.
-.
-.
-.
-.
-.
+...
 
 ===

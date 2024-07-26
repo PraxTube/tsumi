@@ -5,7 +5,7 @@ use bevy::prelude::*;
 
 use crate::GameState;
 
-const START_DELAY: f32 = 1.5;
+const START_DELAY: f32 = 1.0;
 const ENDING_DELAY: f32 = 2.0;
 
 #[derive(Reflect, Clone, PartialEq, EnumString, Display, Debug, Copy, EnumIter)]

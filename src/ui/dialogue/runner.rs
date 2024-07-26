@@ -15,7 +15,7 @@ use super::{
     spawn::DialogueRoot,
 };
 
-const SHORT_INTRO_TIMEOUT: f32 = 8.0;
+const SHORT_INTRO_TIMEOUT: f32 = 5.0;
 pub const IMA_FINAL_DIALOGUE: &str = "ImaFinalDialogue";
 pub const IMA_FIRST_ENCOUNTER: &str = "ImaFirstEncounter";
 pub const IMA_FIRST_ENCOUNTER_SHORT: &str = "ImaFirstEncounterShort";
@@ -122,9 +122,12 @@ impl Plugin for DialogueRunnerPlugin {
                 spawn_narrator_dialogue,
                 spawn_first_ima_encounter.run_if(on_event::<TriggerFirstImaDialogue>()),
                 despawn_dialogue,
-                tick_time_since_gaming,
             )
                 .run_if(not(in_state(GameState::AssetLoading))),
+        )
+        .add_systems(
+            Update,
+            tick_time_since_gaming.run_if(in_state(GameState::Gaming)),
         )
         .init_resource::<TimeSinceGaming>();
     }

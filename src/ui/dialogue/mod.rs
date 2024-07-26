@@ -8,8 +8,6 @@ mod test;
 mod typewriter;
 mod updating;
 
-pub use command::EndingTriggered;
-
 use bevy::prelude::*;
 
 #[derive(Debug, Default)]
@@ -23,7 +21,6 @@ impl Plugin for DialoguePlugin {
             typewriter::DialogueTypewriterPlugin,
             runner::DialogueRunnerPlugin,
             audio::DialogueAudioPlugin,
-            command::DialogueCommandPlugin,
         ));
     }
 }

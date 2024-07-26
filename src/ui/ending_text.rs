@@ -39,7 +39,7 @@ fn spawn_fin_text(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
                 z_index: ZIndex::Local(1),
                 ..default()
             },
-            WriteableText::new("- FIN -", 0.3, 2.0),
+            WriteableText::new("- FIN -", 0.25, 1.5),
         ))
         .id()
 }
@@ -110,6 +110,6 @@ impl Plugin for EndingTextPlugin {
             Update,
             write_texts.run_if(not(in_state(GameState::AssetLoading))),
         )
-        .add_systems(OnEnter(GameState::Ending), spawn_final_texts);
+        .add_systems(OnEnter(GameState::GameOver), spawn_final_texts);
     }
 }

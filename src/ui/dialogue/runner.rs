@@ -5,14 +5,20 @@ use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 
 use crate::{
     aspect::{Aspect, CombinedAspect, Combiner, Socket},
-    npc::narrator::{NarratorDialogue, TriggeredNarratorDialogue},
-    world::TriggerFirstDialogue,
+    npc::narrator::TriggeredNarratorDialogue,
+    world::TriggerFirstImaDialogue,
     GameState,
 };
 
-use super::{command::trigger_ending_command, spawn::DialogueRoot};
+use super::{
+    command::{trigger_ending_command, trigger_game_over_command},
+    spawn::DialogueRoot,
+};
 
-const SHORT_INTRO_TIMEOUT: f32 = 5.0;
+const SHORT_INTRO_TIMEOUT: f32 = 8.0;
+pub const IMA_FINAL_DIALOGUE: &str = "ImaFinalDialogue";
+pub const IMA_FIRST_ENCOUNTER: &str = "ImaFirstEncounter";
+pub const IMA_FIRST_ENCOUNTER_SHORT: &str = "ImaFirstEncounterShort";
 
 #[derive(Resource)]
 struct TimeSinceGaming(Timer);
@@ -35,7 +41,8 @@ fn spawn_runner(commands: &mut Commands, project: &Res<YarnProject>, node: &str)
     let mut dialogue_runner = project.create_dialogue_runner();
     dialogue_runner
         .commands_mut()
-        .add_command("trigger_ending", trigger_ending_command);
+        .add_command("trigger_ending", trigger_ending_command)
+        .add_command("game_over", trigger_game_over_command);
     dialogue_runner.start_node(node);
     commands.spawn((dialogue_runner, RunnerFlags::default()));
 }
@@ -55,19 +62,21 @@ fn spawn_dialogue_runner(
     }
 
     let node = if is_final_ending {
-        NarratorDialogue::GoodEnding.to_string()
+        IMA_FINAL_DIALOGUE
     } else {
-        combiner.last_combined_aspect.to_string()
+        &combiner.last_combined_aspect.to_string()
     };
-    spawn_runner(&mut commands, &project, &node);
+    spawn_runner(&mut commands, &project, node);
 }
 
-fn spawn_intro_dialogue(mut commands: Commands, project: Res<YarnProject>) {
-    spawn_runner(
-        &mut commands,
-        &project,
-        &NarratorDialogue::Intro.to_string(),
-    );
+fn spawn_narrator_dialogue(
+    mut commands: Commands,
+    project: Res<YarnProject>,
+    mut ev_triggered_narrator_dialogue: EventReader<TriggeredNarratorDialogue>,
+) {
+    for ev in ev_triggered_narrator_dialogue.read() {
+        spawn_runner(&mut commands, &project, &ev.0.to_string());
+    }
 }
 
 fn spawn_first_ima_encounter(
@@ -76,9 +85,9 @@ fn spawn_first_ima_encounter(
     project: Res<YarnProject>,
 ) {
     let node = if time_since_gaming.0.finished() {
-        "FirstImaEncounter"
+        IMA_FIRST_ENCOUNTER
     } else {
-        "FirstImaEncounterShort"
+        IMA_FIRST_ENCOUNTER_SHORT
     };
     spawn_runner(&mut commands, &project, node);
 }
@@ -110,8 +119,8 @@ impl Plugin for DialogueRunnerPlugin {
             Update,
             (
                 spawn_dialogue_runner.run_if(on_event::<CombinedAspect>()),
-                spawn_intro_dialogue.run_if(on_event::<TriggeredNarratorDialogue>()),
-                spawn_first_ima_encounter.run_if(on_event::<TriggerFirstDialogue>()),
+                spawn_narrator_dialogue,
+                spawn_first_ima_encounter.run_if(on_event::<TriggerFirstImaDialogue>()),
                 despawn_dialogue,
                 tick_time_since_gaming,
             )

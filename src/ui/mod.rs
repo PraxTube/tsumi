@@ -4,8 +4,6 @@ mod screens;
 
 use bevy::prelude::*;
 
-pub use dialogue::EndingTriggered;
-
 pub struct UiPlugin;
 
 impl Plugin for UiPlugin {

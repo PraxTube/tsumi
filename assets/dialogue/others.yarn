@@ -5,7 +5,7 @@ She was the heiress to a dominant clan of diviners.
 Her name, was Utsumi Ami.
 
 ===
-title: FirstImaEncounter
+title: ImaFirstEncounter
 ---
 _Ima: Oh hey there.
 Ami: Huh? Who are you? And were are we?
@@ -16,7 +16,7 @@ Ami: Hu-? What does that even mean?
 Ima: Oh I am sure you will figure it out~
 
 ===
-title: FirstImaEncounterShort
+title: ImaFirstEncounterShort
 ---
 
 Ami: Sup Ima.
@@ -25,20 +25,32 @@ Ami: Yep, not my first time. You can skip the explanation.
 Ima: Interesting. Well you know why you are here.
 
 ===
-title: GoodEnding
+title: ImaFinalDialogue
 ---
 
-Ending
-Good
 Ima: Remember, I will always be here for you.
 Ima: Until we meet again.
 <<trigger_ending>>
-...
 
 ===
-title: BadEnding
+title: GoodEnding
 ---
 
-Placeholder
+Good Ending
+<<game_over>>
+
+===
+title: BadEndingTooPositive
+---
+
+Bad Ending Too Positive
+<<game_over>>
+
+===
+title: BadEndingTooNegative
+---
+
+Bad Ending Too Negative
+<<game_over>>
 
 ===

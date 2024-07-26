@@ -4,7 +4,7 @@ use bevy_yarnspinner::events::DialogueCompleteEvent;
 
 use crate::{
     aspect::CombinedAspect,
-    world::{camera::YSort, TriggerFirstDialogue},
+    world::{camera::YSort, TriggerFirstImaDialogue},
     GameAssets, GameState,
 };
 
@@ -67,7 +67,7 @@ impl Plugin for ImaPlugin {
             Update,
             (
                 spawn_ima.run_if(
-                    on_event::<CombinedAspect>().or_else(on_event::<TriggerFirstDialogue>()),
+                    on_event::<CombinedAspect>().or_else(on_event::<TriggerFirstImaDialogue>()),
                 ),
                 despawn_ima.run_if(on_event::<DialogueCompleteEvent>()),
             )

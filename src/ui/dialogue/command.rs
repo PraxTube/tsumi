@@ -1,19 +1,11 @@
 use bevy::prelude::*;
 
-#[derive(Event)]
-pub struct EndingTriggered;
+use crate::GameState;
 
-pub fn trigger_ending_command(
-    In(()): In<()>,
-    mut ev_ending_triggered: EventWriter<EndingTriggered>,
-) {
-    ev_ending_triggered.send(EndingTriggered);
+pub fn trigger_ending_command(In(()): In<()>, mut next_state: ResMut<NextState<GameState>>) {
+    next_state.set(GameState::Ending);
 }
 
-pub struct DialogueCommandPlugin;
-
-impl Plugin for DialogueCommandPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_event::<EndingTriggered>();
-    }
+pub fn trigger_game_over_command(In(()): In<()>, mut next_state: ResMut<NextState<GameState>>) {
+    next_state.set(GameState::GameOver);
 }

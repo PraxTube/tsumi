@@ -11,7 +11,7 @@ use crate::{
 const PLAYER_HIGHLIGHT_DISTANCE: f32 = 32.0;
 
 #[derive(Event)]
-pub struct TriggerFirstDialogue;
+pub struct TriggerFirstImaDialogue;
 
 #[derive(Default, Component)]
 pub struct TutorialSwitchIntiater;
@@ -206,7 +206,7 @@ fn set_player_x_value_trigger(
 
 fn trigger_first_dialogue(
     mut q_player: Query<(&Transform, &mut Player)>,
-    mut ev_trigger_first_dialogue: EventWriter<TriggerFirstDialogue>,
+    mut ev_trigger_first_dialogue: EventWriter<TriggerFirstImaDialogue>,
 ) {
     let (transform, mut player) = match q_player.get_single_mut() {
         Ok(r) => r,
@@ -215,7 +215,7 @@ fn trigger_first_dialogue(
 
     if transform.translation.x >= player.x_value_tutorial_dialogue {
         player.x_value_tutorial_dialogue = f32::MAX;
-        ev_trigger_first_dialogue.send(TriggerFirstDialogue);
+        ev_trigger_first_dialogue.send(TriggerFirstImaDialogue);
     }
 }
 
@@ -237,6 +237,6 @@ impl Plugin for TutorialPlugin {
                 )
                     .run_if(in_state(GameState::Gaming)),
             )
-            .add_event::<TriggerFirstDialogue>();
+            .add_event::<TriggerFirstImaDialogue>();
     }
 }

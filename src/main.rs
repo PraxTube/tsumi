@@ -32,6 +32,7 @@ pub enum GameState {
     Intro,
     Gaming,
     Ending,
+    GameOver,
 }
 
 fn main() {

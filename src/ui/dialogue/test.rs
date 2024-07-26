@@ -10,9 +10,11 @@ use strum::IntoEnumIterator;
 use crate::{
     aspect::Aspect,
     npc::{narrator::NarratorDialogue, NpcDialogue},
+    ui::dialogue::runner::{IMA_FINAL_DIALOGUE, IMA_FIRST_ENCOUNTER, IMA_FIRST_ENCOUNTER_SHORT},
 };
 
 const PATH_TO_DIR: &str = "assets/dialogue";
+const VALID_COMMANDS: [&str; 2] = ["<<trigger_ending>>", "<<game_over>>"];
 
 fn try_read_yarn_contents(entry: Result<DirEntry, Error>) -> Option<(String, String)> {
     let entry = entry.expect("Can't get entry in current dir");
@@ -91,12 +93,13 @@ fn validate_npc_names() {
 }
 
 #[test]
-fn validate_trigger_ending_commands() {
+fn validate_commands() {
     validate_lines(|line, _| {
         if line.starts_with("<<") {
             assert!(
-                line == "<<trigger_ending>>",
-                "Only supported command is '<<trigger_ending>>', but got '{line}'"
+                VALID_COMMANDS.contains(&line),
+                "Only supported commands are {:?}, but got '{line}'",
+                VALID_COMMANDS
             );
         }
     });
@@ -105,37 +108,56 @@ fn validate_trigger_ending_commands() {
 #[test]
 fn validate_node_title_aspect_matching() {
     let mut titles = Vec::new();
-    for aspect in Aspect::iter() {
-        titles.push(aspect.to_string());
+    for title in Aspect::iter() {
+        titles.push(title.to_string());
     }
-    let mut aspect_hashset = HashSet::new();
+    let mut titles_hashset = HashSet::new();
 
     validate_lines(|line, _| {
         if let Some(title) = line.strip_prefix("title: ") {
             if titles.contains(&title.to_string()) {
-                aspect_hashset.insert(title.to_string());
+                titles_hashset.insert(title.to_string());
             }
         }
     });
-    assert!(titles.len() == aspect_hashset.len(), "Length mismatch, not all aspects have their own title in yarn files, total of {} aspects exist, but only {} of those have a title in yarn", titles.len(), aspect_hashset.len());
+    assert!(titles.len() == titles_hashset.len(), "Length mismatch, not all aspects have their own title in yarn files, total of {} aspects exist, but only {} of those have a title in yarn", titles.len(), titles_hashset.len());
 }
 
 #[test]
 fn validate_node_title_narrator_matching() {
     let mut titles = Vec::new();
-    for dialogue in NarratorDialogue::iter() {
-        titles.push(dialogue.to_string());
+    for title in NarratorDialogue::iter() {
+        titles.push(title.to_string());
     }
-    let mut ending_hashset = HashSet::new();
+    let mut titles_hashset = HashSet::new();
 
     validate_lines(|line, _| {
         if let Some(title) = line.strip_prefix("title: ") {
             if titles.contains(&title.to_string()) {
-                ending_hashset.insert(title.to_string());
+                titles_hashset.insert(title.to_string());
             }
         }
     });
-    assert!(titles.len() == ending_hashset.len(), "Length mismatch, not all endings have their own title in yarn files, total of {} endings exist, but only {} of those have a title in yarn", titles.len(), ending_hashset.len());
+    assert!(titles.len() == titles_hashset.len(), "Length mismatch, not all endings have their own title in yarn files, total of {} endings exist, but only {} of those have a title in yarn", titles.len(), titles_hashset.len());
+}
+
+#[test]
+fn validate_ima_titles_exist() {
+    let titles = vec![
+        IMA_FINAL_DIALOGUE,
+        IMA_FIRST_ENCOUNTER,
+        IMA_FIRST_ENCOUNTER_SHORT,
+    ];
+    let mut titles_hashset = HashSet::new();
+
+    validate_lines(|line, _| {
+        if let Some(title) = line.strip_prefix("title: ") {
+            if titles.contains(&title.to_string().as_str()) {
+                titles_hashset.insert(title.to_string());
+            }
+        }
+    });
+    assert!(titles.len() == titles_hashset.len(), "Length mismatch, not all endings have their own title in yarn files, total of {} endings exist, but only {} of those have a title in yarn", titles.len(), titles_hashset.len());
 }
 
 /// This test ensures that all yarn files only jump to nodes that are within that file.

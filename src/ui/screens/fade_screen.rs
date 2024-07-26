@@ -49,7 +49,6 @@ fn fade_in_black_screen(mut commands: Commands) {
                 height: Val::Vh(110.0),
                 ..default()
             },
-            z_index: ZIndex::Global(1000),
             ..default()
         },
     ));

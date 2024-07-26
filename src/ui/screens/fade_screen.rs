@@ -59,7 +59,7 @@ pub struct ScreenFadePlugin;
 
 impl Plugin for ScreenFadePlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), (fade_out_black_screen,))
+        app.add_systems(OnExit(GameState::Intro), (fade_out_black_screen,))
             .add_systems(OnEnter(GameState::Ending), (fade_in_black_screen,));
     }
 }

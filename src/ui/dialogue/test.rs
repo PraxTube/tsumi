@@ -7,7 +7,10 @@ use std::{
 
 use strum::IntoEnumIterator;
 
-use crate::{aspect::Aspect, npc::NpcDialogue, ui::dialogue::runner::Ending};
+use crate::{
+    aspect::Aspect,
+    npc::{narrator::NarratorDialogue, NpcDialogue},
+};
 
 const PATH_TO_DIR: &str = "assets/dialogue";
 
@@ -101,38 +104,38 @@ fn validate_trigger_ending_commands() {
 
 #[test]
 fn validate_node_title_aspect_matching() {
-    let mut aspect_titles = Vec::new();
+    let mut titles = Vec::new();
     for aspect in Aspect::iter() {
-        aspect_titles.push(aspect.to_string());
+        titles.push(aspect.to_string());
     }
     let mut aspect_hashset = HashSet::new();
 
     validate_lines(|line, _| {
         if let Some(title) = line.strip_prefix("title: ") {
-            if aspect_titles.contains(&title.to_string()) {
+            if titles.contains(&title.to_string()) {
                 aspect_hashset.insert(title.to_string());
             }
         }
     });
-    assert!(aspect_titles.len() == aspect_hashset.len(), "Length mismatch, not all aspects have their own title in yarn files, total of {} aspects exist, but only {} of those have a title in yarn", aspect_titles.len(), aspect_hashset.len());
+    assert!(titles.len() == aspect_hashset.len(), "Length mismatch, not all aspects have their own title in yarn files, total of {} aspects exist, but only {} of those have a title in yarn", titles.len(), aspect_hashset.len());
 }
 
 #[test]
-fn validate_node_title_ending_matching() {
-    let mut ending_titles = Vec::new();
-    for aspect in Ending::iter() {
-        ending_titles.push(aspect.to_string());
+fn validate_node_title_narrator_matching() {
+    let mut titles = Vec::new();
+    for dialogue in NarratorDialogue::iter() {
+        titles.push(dialogue.to_string());
     }
     let mut ending_hashset = HashSet::new();
 
     validate_lines(|line, _| {
         if let Some(title) = line.strip_prefix("title: ") {
-            if ending_titles.contains(&title.to_string()) {
+            if titles.contains(&title.to_string()) {
                 ending_hashset.insert(title.to_string());
             }
         }
     });
-    assert!(ending_titles.len() == ending_hashset.len(), "Length mismatch, not all endings have their own title in yarn files, total of {} endings exist, but only {} of those have a title in yarn", ending_titles.len(), ending_hashset.len());
+    assert!(titles.len() == ending_hashset.len(), "Length mismatch, not all endings have their own title in yarn files, total of {} endings exist, but only {} of those have a title in yarn", titles.len(), ending_hashset.len());
 }
 
 /// This test ensures that all yarn files only jump to nodes that are within that file.

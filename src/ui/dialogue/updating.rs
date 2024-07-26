@@ -96,8 +96,9 @@ impl Plugin for DialogueUpdatingPlugin {
             (
                 present_line.run_if(on_event::<PresentLineEvent>()),
                 continue_dialogue,
-                update_dialogue_character_icon.run_if(in_state(GameState::Gaming)),
+                update_dialogue_character_icon,
             )
+                .run_if(not(in_state(GameState::AssetLoading)))
                 .chain()
                 .after(YarnSpinnerSystemSet)
                 .in_set(DialogueViewSystemSet),

@@ -19,6 +19,7 @@ fn spawn_splash_screen(mut commands: Commands, asset_server: Res<AssetServer>) {
                 width: Val::Px(200.0),
                 ..default()
             },
+            z_index: ZIndex::Global(1000),
             ..default()
         })
         .id();

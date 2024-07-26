@@ -1,7 +1,10 @@
 use bevy::prelude::*;
 use bevy_tweening::{lens::*, *};
 
-use crate::{aspect::CombinedAspect, world::TriggerFirstDialogue, GameAssets, GameState};
+use crate::{
+    aspect::CombinedAspect, npc::narrator::TriggeredNarratorDialogue, world::TriggerFirstDialogue,
+    GameAssets, GameState,
+};
 
 // The master root of the dialogue
 #[derive(Component)]
@@ -206,20 +209,24 @@ fn spawn_dialogue_bottom(commands: &mut Commands, assets: &Res<GameAssets>) -> E
         .id()
 }
 
-fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
-    let dialogue_top = spawn_dialogue_top(&mut commands, &assets);
-    let dialogue_content = spawn_dialogue_content(&mut commands, &assets);
-    let dialogue_bottom = spawn_dialogue_bottom(&mut commands, &assets);
+fn spawn_dialogue(
+    commands: &mut Commands,
+    assets: &Res<GameAssets>,
+    justify_content: JustifyContent,
+) {
+    let dialogue_top = spawn_dialogue_top(commands, assets);
+    let dialogue_content = spawn_dialogue_content(commands, assets);
+    let dialogue_bottom = spawn_dialogue_bottom(commands, assets);
 
     let dialogue_root = commands
         .spawn((NodeBundle {
             style: Style {
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
-                justify_content: JustifyContent::FlexEnd,
                 align_items: AlignItems::Center,
                 padding: UiRect::bottom(Val::Px(30.0)),
                 flex_direction: FlexDirection::Column,
+                justify_content,
                 ..default()
             },
             ..default()
@@ -241,6 +248,14 @@ fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
             },
         ))
         .push_children(&[dialogue_root]);
+}
+
+fn spawn_npc_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
+    spawn_dialogue(&mut commands, &assets, JustifyContent::FlexEnd);
+}
+
+fn spawn_narrator_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
+    spawn_dialogue(&mut commands, &assets, JustifyContent::Center);
 }
 
 pub fn create_dialogue_text(
@@ -269,9 +284,13 @@ impl Plugin for DialogueSpawnPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (spawn_dialogue
-                .run_if(on_event::<CombinedAspect>().or_else(on_event::<TriggerFirstDialogue>())))
-            .run_if(in_state(GameState::Gaming)),
+            (
+                spawn_npc_dialogue.run_if(
+                    on_event::<CombinedAspect>().or_else(on_event::<TriggerFirstDialogue>()),
+                ),
+                spawn_narrator_dialogue.run_if(on_event::<TriggeredNarratorDialogue>()),
+            )
+                .run_if(not(in_state(GameState::AssetLoading))),
         );
     }
 }

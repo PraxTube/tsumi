@@ -180,7 +180,7 @@ fn set_writer_speed(
                 NpcDialogue::Ima => 18.0,
             }
         } else {
-            30.0
+            20.0
         };
         typewriter.current_speed = speed;
     }
@@ -201,7 +201,7 @@ impl Plugin for DialogueTypewriterPlugin {
                 .chain()
                 .after(YarnSpinnerSystemSet)
                 .in_set(DialogueViewSystemSet)
-                .run_if(in_state(GameState::Gaming)),
+                .run_if(not(in_state(GameState::AssetLoading))),
         )
         .init_resource::<Typewriter>()
         .add_event::<TypewriterFinished>();

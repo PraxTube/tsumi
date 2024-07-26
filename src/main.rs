@@ -29,6 +29,7 @@ const BACKGROUND_COLOR: Color = Color::srgb(0.0, 0.0, 0.0);
 pub enum GameState {
     #[default]
     AssetLoading,
+    Intro,
     Gaming,
     Ending,
 }
@@ -72,7 +73,7 @@ fn main() {
         .init_state::<GameState>()
         .add_loading_state(
             LoadingState::new(GameState::AssetLoading)
-                .continue_to_state(GameState::Gaming)
+                .continue_to_state(GameState::Intro)
                 .load_collection::<GameAssets>(),
         )
         .insert_resource(ClearColor(BACKGROUND_COLOR))
@@ -83,6 +84,7 @@ fn main() {
             utils::UtilsPlugin,
             aspect::AspectPlugin,
             ui::UiPlugin,
+            npc::NpcPlugin,
         ))
         .run();
 }

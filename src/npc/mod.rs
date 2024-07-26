@@ -1,8 +1,18 @@
+pub mod narrator;
+
 use strum_macros::{Display, EnumString};
 
 use bevy::prelude::*;
 
 use crate::GameAssets;
+
+pub struct NpcPlugin;
+
+impl Plugin for NpcPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_plugins(narrator::NarratorPlugin);
+    }
+}
 
 #[derive(Clone, Copy, Display, PartialEq, EnumString, Default)]
 pub enum NpcDialogue {

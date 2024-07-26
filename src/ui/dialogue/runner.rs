@@ -2,10 +2,10 @@ use std::time::Duration;
 
 use bevy::prelude::*;
 use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
-use strum_macros::{Display, EnumIter, EnumString};
 
 use crate::{
     aspect::{Aspect, CombinedAspect, Combiner, Socket},
+    npc::narrator::{NarratorDialogue, TriggeredNarratorDialogue},
     world::TriggerFirstDialogue,
     GameState,
 };
@@ -24,12 +24,6 @@ impl Default for TimeSinceGaming {
             TimerMode::Once,
         ))
     }
-}
-
-#[derive(Reflect, Clone, PartialEq, EnumString, Display, Debug, Copy, EnumIter)]
-pub enum Ending {
-    GoodEnding,
-    BadEnding,
 }
 
 #[derive(Component, Default)]
@@ -61,22 +55,30 @@ fn spawn_dialogue_runner(
     }
 
     let node = if is_final_ending {
-        Ending::GoodEnding.to_string()
+        NarratorDialogue::GoodEnding.to_string()
     } else {
         combiner.last_combined_aspect.to_string()
     };
     spawn_runner(&mut commands, &project, &node);
 }
 
-fn spawn_first_dialogue(
+fn spawn_intro_dialogue(mut commands: Commands, project: Res<YarnProject>) {
+    spawn_runner(
+        &mut commands,
+        &project,
+        &NarratorDialogue::Intro.to_string(),
+    );
+}
+
+fn spawn_first_ima_encounter(
     mut commands: Commands,
     time_since_gaming: Res<TimeSinceGaming>,
     project: Res<YarnProject>,
 ) {
     let node = if time_since_gaming.0.finished() {
-        "Intro"
+        "FirstImaEncounter"
     } else {
-        "ShortIntro"
+        "FirstImaEncounterShort"
     };
     spawn_runner(&mut commands, &project, node);
 }
@@ -108,11 +110,12 @@ impl Plugin for DialogueRunnerPlugin {
             Update,
             (
                 spawn_dialogue_runner.run_if(on_event::<CombinedAspect>()),
-                spawn_first_dialogue.run_if(on_event::<TriggerFirstDialogue>()),
+                spawn_intro_dialogue.run_if(on_event::<TriggeredNarratorDialogue>()),
+                spawn_first_ima_encounter.run_if(on_event::<TriggerFirstDialogue>()),
                 despawn_dialogue,
                 tick_time_since_gaming,
             )
-                .run_if(in_state(GameState::Gaming)),
+                .run_if(not(in_state(GameState::AssetLoading))),
         )
         .init_resource::<TimeSinceGaming>();
     }

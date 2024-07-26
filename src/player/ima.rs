@@ -4,6 +4,7 @@ use bevy_yarnspinner::events::DialogueCompleteEvent;
 
 use crate::{
     aspect::CombinedAspect,
+    audio::PlaySound,
     world::{camera::YSort, TriggerFirstImaDialogue},
     GameAssets, GameState,
 };
@@ -19,11 +20,18 @@ fn spawn_ima(
     mut commands: Commands,
     assets: Res<GameAssets>,
     q_player: Query<(&Transform, &Sprite), With<Player>>,
+    mut ev_play_sound: EventWriter<PlaySound>,
 ) {
     let (player_transform, sprite) = match q_player.get_single() {
         Ok(r) => r,
         Err(_) => return,
     };
+
+    ev_play_sound.send(PlaySound {
+        clip: assets.koto_hit_sound.clone(),
+        volume: 0.2,
+        ..default()
+    });
 
     let sign = if sprite.flip_x { -1.0 } else { 1.0 };
     let pos = player_transform.translation + sign * OFFSET;

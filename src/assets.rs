@@ -143,6 +143,9 @@ pub struct GameAssets {
     #[asset(path = "audio/ima_blip.ogg")]
     pub ima_blip_sound: Handle<AudioSource>,
 
+    #[asset(path = "audio/koto.ogg")]
+    pub koto_hit_sound: Handle<AudioSource>,
+
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]
     pub pixel_font: Handle<Font>,

@@ -91,8 +91,6 @@ impl Typewriter {
         let multiplier = AVERAGE_SPEED / self.current_speed;
         if graphemes_to_take.contains('?') {
             self.elapsed -= 0.35 * multiplier;
-        } else if graphemes_to_take.contains('-') {
-            self.elapsed -= 0.25 * multiplier;
         } else if graphemes_to_take.contains('.') {
             self.elapsed -= 0.2 * multiplier;
         } else if graphemes_to_take.contains(',') {

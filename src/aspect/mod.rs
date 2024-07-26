@@ -4,7 +4,7 @@ mod name_text;
 mod socket;
 
 pub use combiner::{CombinedAspect, Combiner};
-pub use socket::Socket;
+pub use socket::{push_combined_aspect, Socket};
 
 use std::str::FromStr;
 

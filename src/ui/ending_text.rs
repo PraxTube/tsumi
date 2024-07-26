@@ -39,7 +39,7 @@ fn spawn_fin_text(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
                 z_index: ZIndex::Local(1),
                 ..default()
             },
-            WriteableText::new("- FIN -", 0.25, 1.5),
+            WriteableText::new("FIN", 0.25, 1.5),
         ))
         .id()
 }

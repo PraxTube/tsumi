@@ -323,13 +323,14 @@ fn set_visuals_for_socket(
     }
 }
 
-fn push_combined_aspect(
+pub fn push_combined_aspect(
     assets: Res<GameAssets>,
     combiner: Res<Combiner>,
     mut q_sockets: Query<(&Children, &Transform, &mut Socket), Without<Player>>,
     mut q_icons: Query<&mut Handle<Image>, With<AspectIcon>>,
     mut q_texts: Query<&mut Text, With<AspectNameText>>,
 ) {
+    info!("Setting sockets: {}", combiner.last_combined_aspect);
     set_visuals_for_socket(
         &assets,
         &combiner,

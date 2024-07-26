@@ -4,7 +4,7 @@ use bevy::prelude::*;
 use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 
 use crate::{
-    aspect::{Aspect, CombinedAspect, Combiner, Socket},
+    aspect::{push_combined_aspect, Aspect, CombinedAspect, Combiner, Socket},
     npc::narrator::TriggeredNarratorDialogue,
     world::TriggerFirstImaDialogue,
     GameState,
@@ -60,6 +60,8 @@ fn spawn_dialogue_runner(
             break;
         }
     }
+
+    info!("Spawning dialogue, final: {is_final_ending}");
 
     let node = if is_final_ending {
         IMA_FINAL_DIALOGUE
@@ -118,7 +120,11 @@ impl Plugin for DialogueRunnerPlugin {
         app.add_systems(
             Update,
             (
-                spawn_dialogue_runner.run_if(on_event::<CombinedAspect>()),
+                spawn_dialogue_runner
+                    // We want to fill out all aspect slots,
+                    // so run before pushing new aspect into sockets
+                    .before(push_combined_aspect)
+                    .run_if(on_event::<CombinedAspect>()),
                 spawn_narrator_dialogue,
                 spawn_first_ima_encounter.run_if(on_event::<TriggerFirstImaDialogue>()),
                 despawn_dialogue,

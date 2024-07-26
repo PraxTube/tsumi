@@ -1,56 +1,95 @@
 title: Intro
 ---
-Long ago, in Awarea, the Land of Tranquil Beauty, lived a powerful kitsune woman.
-She was the heiress to a dominant clan of diviners.
-Her name, was Utsumi Ami.
+Long ago, in Awarea, the Land of Tranquil Beauty, lived a powerful kitsune woman skilled in arcane arts.
+She was an heiress to a dominant clan of diviners.
+Her name was Utsumi Ami.
 
 ===
 title: ImaFirstEncounter
 ---
-_Ima: Oh hey there.
-Ami: Huh? Who are you? And were are we?
-Ima: I am Ima. And we are in a place were only you and I exist.
-Ima: A quite place.
-Ima: Somewhere you can sort out your emotions in peace.
-Ami: Hu-? What does that even mean?
-Ima: Oh I am sure you will figure it out~
+Ima: Welcome, my dear. I know what you feel. 
+Ami: Huh? Who are you? And what is this place?
+Ima: I am you. And this is a place where only we exist.
+Ima: A quiet plane where you can sort out your emotions in peace.
+Ami: Huh? What does that even mean?
+Ima: That's why you are here. To unveil it~
 
 ===
 title: ImaFirstEncounterShort
 ---
 
-Ami: Sup Ima.
-Ima: Oh? You know me?
-Ami: Yep, not my first time. You can skip the explanation.
-Ima: Interesting. Well you know why you are here.
+Ami: You've finally shown up.
+Ima: Hmm?
+Ami: I've seen you in my prior dreams. No need for the formalities, my dear.
+Ima: Excellent. You know what to do then. 
 
 ===
 title: ImaFinalDialogue
 ---
 
-Ima: Remember, I will always be here for you.
-Ima: Until we meet again.
+Ima: You've done great, my dear. Until we meet again.
+Ami: Know beauty, my dear. 
+Ima: Know beauty. And remember: I'm with you.
+Ima: Always.
 <<trigger_ending>>
 
 ===
 title: GoodEnding
 ---
 
-Good Ending
+Ima: You've come to a great balance.
+Ima: A quality most needed for a Supreme Diviner. 
+Ima: Leave it all to me now. Your foes shall not be crushed, but neither given mercy.
+Ima: The young Prince Niimi will be yours. 
+Ima: And eventually, their entire clan. 
+Ami: Good. Long live the Utsumi Clan.
+Ima: Long live the Utsumi Clan...
 <<game_over>>
 
 ===
 title: BadEndingTooPositive
 ---
 
-Bad Ending Too Positive
+Ima: Hmm...
+Ima: My dear...
+Ima: Are you certain you will not regret it?
+Ami: ...
+Ami: I am. 
+Ami: 'Tis my final decision. 
+Ima: As you wish...
+...
+She gave them mercy...
+...they repaid with treachery, slowly withering her clan without her even knowing.
+So died the Utsumi Clan, like a leaf dries up on a poisoned tree...
+...and so she crossed the Bridge of Dreams...
+...with her shadow.
+Ami: ...
+Ami: What do the Namayatta say at times like this...
+Ami: "Life is like a dream..."
+Ima: "...and death is waking up."
 <<game_over>>
 
 ===
 title: BadEndingTooNegative
 ---
 
-Bad Ending Too Negative
+Ima: Hmm...
+Ima: My dear...
+Ima: Are you certain you will not regret it?
+Ami: ...
+Ami: I am. 
+Ami: 'Tis my final decision.
+Ima: As you wish...
+...
+She chose to indulge in hatred and pride.
+Both returned to her, and withered her slowly, without her even knowing...
+...until one day, came her downfall, like an avalanche in gloomy mountains...
+...and so she crossed the Bridge of Dreams...
+...with her shadow. 
+Ami: ...
+Ami: What do the Namayatta say at times like this...
+Ami: "Life is like a dream..."
+Ima: "...and death is waking up."
 <<game_over>>
 
 ===

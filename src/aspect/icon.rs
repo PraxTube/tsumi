@@ -24,6 +24,10 @@ pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> 
         Aspect::Hatred => assets.hatred_icon.clone(),
         Aspect::Vengefulness => assets.vengefulness_icon.clone(),
         Aspect::Elation => assets.elation_icon.clone(),
+        Aspect::Anticipation => assets.anticipation_icon.clone(),
+        Aspect::Envy => assets.envy_icon.clone(),
+        Aspect::Pride => assets.pride_icon.clone(),
+        Aspect::Forgiveness => assets.forgiveness_icon.clone(),
         Aspect::NotImplemented => assets.transparent_icon.clone(),
     }
 }

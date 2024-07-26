@@ -43,6 +43,10 @@ pub fn aspect_combinations(left_aspect: &Aspect, right_aspect: &Aspect) -> Aspec
             (Aspect::Anger, Aspect::Fear) => Aspect::Hatred,
             (Aspect::Anger, Aspect::Hatred) => Aspect::Vengefulness,
             (Aspect::Joy, Aspect::Motivation) => Aspect::Elation,
+            (Aspect::Hatred, Aspect::Motivation) => Aspect::Pride,
+            (Aspect::Nostalgia, Aspect::Motivation) => Aspect::Anticipation,
+            (Aspect::Anger, Aspect::Pride) => Aspect::Envy,
+            (Aspect::Anticipation, Aspect::Elation) => Aspect::Forgiveness,
             _ => Aspect::NotImplemented,
         }
     }

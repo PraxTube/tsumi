@@ -52,6 +52,14 @@ pub struct GameAssets {
     pub vengefulness_icon: Handle<Image>,
     #[asset(path = "aspects/elation_icon.png")]
     pub elation_icon: Handle<Image>,
+    #[asset(path = "aspects/anticipation_icon.png")]
+    pub anticipation_icon: Handle<Image>,
+    #[asset(path = "aspects/envy_icon.png")]
+    pub envy_icon: Handle<Image>,
+    #[asset(path = "aspects/pride_icon.png")]
+    pub pride_icon: Handle<Image>,
+    #[asset(path = "aspects/forgiveness_icon.png")]
+    pub forgiveness_icon: Handle<Image>,
 
     // --- MAP ---
     #[asset(path = "map/level.ldtk")]

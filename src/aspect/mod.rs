@@ -41,6 +41,10 @@ pub enum Aspect {
     Hatred,
     Vengefulness,
     Elation,
+    Anticipation,
+    Envy,
+    Pride,
+    Forgiveness,
 }
 
 #[derive(Default, Component)]

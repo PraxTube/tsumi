@@ -4,7 +4,6 @@ mod name_text;
 mod socket;
 
 pub use combiner::{CombinedAspect, Combiner};
-pub use socket::{push_combined_aspect, Socket};
 
 use std::str::FromStr;
 
@@ -100,4 +99,4 @@ struct CombinerBundle {
 }
 
 #[derive(Component, Default)]
-struct AspectCombiner;
+pub struct AspectCombiner;

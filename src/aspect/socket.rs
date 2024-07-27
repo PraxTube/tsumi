@@ -221,6 +221,9 @@ fn highlight_sockets(
     q_player: Query<&Transform, With<Player>>,
     mut q_sockets: Query<(&Transform, &mut TextureAtlas, &Socket), Without<Player>>,
 ) {
+    if combiner.all_sockets_full {
+        return;
+    }
     let player_transform = match q_player.get_single() {
         Ok(r) => r,
         Err(_) => return,
@@ -323,14 +326,13 @@ fn set_visuals_for_socket(
     }
 }
 
-pub fn push_combined_aspect(
+fn push_combined_aspect(
     assets: Res<GameAssets>,
     combiner: Res<Combiner>,
     mut q_sockets: Query<(&Children, &Transform, &mut Socket), Without<Player>>,
     mut q_icons: Query<&mut Handle<Image>, With<AspectIcon>>,
     mut q_texts: Query<&mut Text, With<AspectNameText>>,
 ) {
-    info!("Setting sockets: {}", combiner.last_combined_aspect);
     set_visuals_for_socket(
         &assets,
         &combiner,

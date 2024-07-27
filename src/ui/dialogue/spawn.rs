@@ -2,8 +2,10 @@ use bevy::prelude::*;
 use bevy_tweening::{lens::*, *};
 
 use crate::{
-    aspect::CombinedAspect, npc::narrator::TriggeredNarratorDialogue,
-    world::TriggerFirstImaDialogue, GameAssets, GameState,
+    aspect::CombinedAspect,
+    npc::narrator::TriggeredNarratorDialogue,
+    world::{PlayerWentToBed, TriggerFirstImaDialogue},
+    GameAssets, GameState,
 };
 
 // The master root of the dialogue
@@ -286,9 +288,9 @@ impl Plugin for DialogueSpawnPlugin {
         app.add_systems(
             Update,
             (
-                spawn_npc_dialogue.run_if(
-                    on_event::<CombinedAspect>().or_else(on_event::<TriggerFirstImaDialogue>()),
-                ),
+                spawn_npc_dialogue.run_if(on_event::<CombinedAspect>().or_else(
+                    on_event::<TriggerFirstImaDialogue>().or_else(on_event::<PlayerWentToBed>()),
+                )),
                 spawn_narrator_dialogue.run_if(on_event::<TriggeredNarratorDialogue>()),
             )
                 .run_if(not(in_state(GameState::AssetLoading))),

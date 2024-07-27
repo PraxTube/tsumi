@@ -17,6 +17,7 @@ pub struct Combiner {
     pub right_aspect: Option<Aspect>,
     pub current_combination: Option<Aspect>,
     pub last_combined_aspect: Aspect,
+    pub all_sockets_full: bool,
 }
 
 pub fn is_socket_combination_possible(combiner: &Res<Combiner>, socket: &Socket) -> bool {
@@ -152,13 +153,26 @@ fn select_combined_aspect(
     ev_combined_aspect.send(CombinedAspect);
 }
 
+fn check_all_aspects_full(mut combiner: ResMut<Combiner>, q_sockets: Query<&Socket>) {
+    combiner.all_sockets_full = q_sockets
+        .iter()
+        .filter(|s| s.aspect == Aspect::NotImplemented)
+        .count()
+        == 0;
+}
+
 pub struct AspectCombinerPlugin;
 
 impl Plugin for AspectCombinerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (select_aspects, show_combiner_icon, select_combined_aspect)
+            (
+                select_aspects,
+                show_combiner_icon,
+                select_combined_aspect,
+                check_all_aspects_full,
+            )
                 .run_if(in_state(GameState::Gaming)),
         )
         .init_resource::<Combiner>()

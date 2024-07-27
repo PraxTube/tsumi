@@ -1,7 +1,9 @@
+mod bed;
 mod collisions;
 mod keyboard_hint;
 mod tutorial;
 
+pub use bed::PlayerWentToBed;
 pub use tutorial::TriggerFirstImaDialogue;
 
 use bevy::prelude::*;
@@ -20,6 +22,7 @@ impl Plugin for MapPlugin {
                 collisions::CollisionsPlugin,
                 tutorial::TutorialPlugin,
                 keyboard_hint::KeyboardHintPlugin,
+                bed::MapBedPlugin,
             ))
             .insert_resource(LevelSelection::index(0))
             .add_systems(OnEnter(GameState::Gaming), spawn_ldtk_world);

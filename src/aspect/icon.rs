@@ -49,49 +49,29 @@ fn set_icon_pos(
     }
 }
 
-fn highlight_icons(
+fn set_icons_pos(
     combiner: Res<Combiner>,
     q_sockets: Query<(&Children, &Socket)>,
     mut q_icons: Query<(&mut Transform, &mut YSortChild), With<AspectIcon>>,
 ) {
     for (children, socket) in &q_sockets {
-        if socket.on_top && combiner.left_aspect == Some(socket.aspect)
-            || !socket.on_top && combiner.right_aspect == Some(socket.aspect)
-        {
-            set_icon_pos(&mut q_icons, children, HIGHLIGHTED_ICON_POSITION);
-        }
-    }
-}
-
-fn dehighlight_icons(
-    combiner: Res<Combiner>,
-    q_sockets: Query<(&Children, &Socket)>,
-    mut q_icons: Query<(&mut Transform, &mut YSortChild), With<AspectIcon>>,
-) {
-    for (children, socket) in &q_sockets {
-        if socket.on_top
-            && combiner.left_aspect.is_some()
-            && combiner.left_aspect != Some(socket.aspect)
+        let pos = if combiner.all_sockets_full
+            || socket.on_top
+                && combiner.left_aspect.is_some()
+                && combiner.left_aspect != Some(socket.aspect)
             || !socket.on_top
                 && combiner.right_aspect.is_some()
                 && combiner.right_aspect != Some(socket.aspect)
         {
-            set_icon_pos(&mut q_icons, children, DEHIGHLIGHTED_ICON_POSITION);
-        }
-    }
-}
-
-fn default_icons(
-    combiner: Res<Combiner>,
-    q_sockets: Query<(&Children, &Socket)>,
-    mut q_icons: Query<(&mut Transform, &mut YSortChild), With<AspectIcon>>,
-) {
-    for (children, socket) in &q_sockets {
-        if socket.on_top && combiner.left_aspect.is_none()
-            || !socket.on_top && combiner.right_aspect.is_none()
+            DEHIGHLIGHTED_ICON_POSITION
+        } else if socket.on_top && combiner.left_aspect == Some(socket.aspect)
+            || !socket.on_top && combiner.right_aspect == Some(socket.aspect)
         {
-            set_icon_pos(&mut q_icons, children, DEFAULT_ICON_POSITION);
-        }
+            HIGHLIGHTED_ICON_POSITION
+        } else {
+            DEFAULT_ICON_POSITION
+        };
+        set_icon_pos(&mut q_icons, children, pos);
     }
 }
 
@@ -99,6 +79,6 @@ pub struct AspectIconPlugin;
 
 impl Plugin for AspectIconPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (highlight_icons, dehighlight_icons, default_icons));
+        app.add_systems(Update, (set_icons_pos,));
     }
 }

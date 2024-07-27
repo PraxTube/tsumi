@@ -4,7 +4,7 @@ use bevy_trickfilm::prelude::*;
 use bevy_yarnspinner::events::DialogueCompleteEvent;
 
 use crate::aspect::CombinedAspect;
-use crate::world::TriggerFirstImaDialogue;
+use crate::world::{PlayerWentToBed, TriggerFirstImaDialogue};
 use crate::{GameAssets, GameState};
 
 use super::input::PlayerInput;
@@ -49,12 +49,7 @@ fn update_animation(
         Err(_) => return,
     };
 
-    if !player.can_move {
-        animator.pause();
-        return;
-    }
-
-    let clip = if player_input.move_direction == Vec2::ZERO {
+    let clip = if !player.can_move || player_input.move_direction == Vec2::ZERO {
         assets.character_animations[0].clone()
     } else {
         assets.character_animations[1].clone()
@@ -92,7 +87,9 @@ impl Plugin for PlayerMovementPlugin {
                 update_animation,
                 enable_player_movement.run_if(on_event::<DialogueCompleteEvent>()),
                 disable_player_movement.run_if(
-                    on_event::<CombinedAspect>().or_else(on_event::<TriggerFirstImaDialogue>()),
+                    on_event::<CombinedAspect>()
+                        .or_else(on_event::<TriggerFirstImaDialogue>())
+                        .or_else(on_event::<PlayerWentToBed>()),
                 ),
             )
                 .run_if(in_state(GameState::Gaming)),

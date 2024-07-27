@@ -4,9 +4,9 @@ use bevy::prelude::*;
 use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 
 use crate::{
-    aspect::{push_combined_aspect, Aspect, CombinedAspect, Combiner, Socket},
+    aspect::{CombinedAspect, Combiner},
     npc::narrator::TriggeredNarratorDialogue,
-    world::TriggerFirstImaDialogue,
+    world::{PlayerWentToBed, TriggerFirstImaDialogue},
     GameState,
 };
 
@@ -51,24 +51,12 @@ fn spawn_dialogue_runner(
     mut commands: Commands,
     project: Res<YarnProject>,
     combiner: Res<Combiner>,
-    q_sockets: Query<&Socket>,
 ) {
-    let mut is_final_ending = true;
-    for socket in &q_sockets {
-        if socket.aspect == Aspect::NotImplemented {
-            is_final_ending = false;
-            break;
-        }
-    }
-
-    info!("Spawning dialogue, final: {is_final_ending}");
-
-    let node = if is_final_ending {
-        IMA_FINAL_DIALOGUE
-    } else {
-        &combiner.last_combined_aspect.to_string()
-    };
-    spawn_runner(&mut commands, &project, node);
+    spawn_runner(
+        &mut commands,
+        &project,
+        &combiner.last_combined_aspect.to_string(),
+    );
 }
 
 fn spawn_narrator_dialogue(
@@ -81,7 +69,7 @@ fn spawn_narrator_dialogue(
     }
 }
 
-fn spawn_first_ima_encounter(
+fn spawn_ima_first_encounter(
     mut commands: Commands,
     time_since_gaming: Res<TimeSinceGaming>,
     project: Res<YarnProject>,
@@ -92,6 +80,10 @@ fn spawn_first_ima_encounter(
         IMA_FIRST_ENCOUNTER_SHORT
     };
     spawn_runner(&mut commands, &project, node);
+}
+
+fn spawn_ima_final_dialogue(mut commands: Commands, project: Res<YarnProject>) {
+    spawn_runner(&mut commands, &project, IMA_FINAL_DIALOGUE);
 }
 
 fn despawn_dialogue(
@@ -120,13 +112,10 @@ impl Plugin for DialogueRunnerPlugin {
         app.add_systems(
             Update,
             (
-                spawn_dialogue_runner
-                    // We want to fill out all aspect slots,
-                    // so run before pushing new aspect into sockets
-                    .before(push_combined_aspect)
-                    .run_if(on_event::<CombinedAspect>()),
+                spawn_dialogue_runner.run_if(on_event::<CombinedAspect>()),
                 spawn_narrator_dialogue,
-                spawn_first_ima_encounter.run_if(on_event::<TriggerFirstImaDialogue>()),
+                spawn_ima_first_encounter.run_if(on_event::<TriggerFirstImaDialogue>()),
+                spawn_ima_final_dialogue.run_if(on_event::<PlayerWentToBed>()),
                 despawn_dialogue,
             )
                 .run_if(not(in_state(GameState::AssetLoading))),

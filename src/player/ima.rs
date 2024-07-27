@@ -5,7 +5,7 @@ use bevy_yarnspinner::events::DialogueCompleteEvent;
 use crate::{
     aspect::CombinedAspect,
     audio::PlaySound,
-    world::{camera::YSort, TriggerFirstImaDialogue},
+    world::{camera::YSort, PlayerWentToBed, TriggerFirstImaDialogue},
     GameAssets, GameState,
 };
 
@@ -19,10 +19,10 @@ const OFFSET: Vec3 = Vec3::new(64.0, 0.0, 0.0);
 fn spawn_ima(
     mut commands: Commands,
     assets: Res<GameAssets>,
-    q_player: Query<(&Transform, &Sprite), With<Player>>,
+    q_player: Query<(Entity, &Transform, &Sprite), With<Player>>,
     mut ev_play_sound: EventWriter<PlaySound>,
 ) {
-    let (player_transform, sprite) = match q_player.get_single() {
+    let (entity, player_transform, sprite) = match q_player.get_single() {
         Ok(r) => r,
         Err(_) => return,
     };
@@ -35,6 +35,12 @@ fn spawn_ima(
 
     let sign = if sprite.flip_x { -1.0 } else { 1.0 };
     let pos = player_transform.translation + sign * OFFSET;
+
+    let mut animator = AnimationPlayer2D::default();
+    animator
+        .play(assets.character_animations[0].clone())
+        .repeat();
+    commands.entity(entity).insert(animator);
 
     let mut animator = AnimationPlayer2D::default();
     animator
@@ -74,9 +80,9 @@ impl Plugin for ImaPlugin {
         app.add_systems(
             Update,
             (
-                spawn_ima.run_if(
-                    on_event::<CombinedAspect>().or_else(on_event::<TriggerFirstImaDialogue>()),
-                ),
+                spawn_ima.run_if(on_event::<CombinedAspect>().or_else(
+                    on_event::<TriggerFirstImaDialogue>().or_else(on_event::<PlayerWentToBed>()),
+                )),
                 despawn_ima.run_if(on_event::<DialogueCompleteEvent>()),
             )
                 .run_if(in_state(GameState::Gaming)),

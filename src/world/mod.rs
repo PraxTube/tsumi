@@ -2,7 +2,7 @@ pub mod camera;
 
 mod map;
 
-pub use map::TriggerFirstImaDialogue;
+pub use map::{PlayerWentToBed, TriggerFirstImaDialogue};
 
 use bevy::prelude::*;
 use bevy_rapier2d::plugin::RapierConfiguration;

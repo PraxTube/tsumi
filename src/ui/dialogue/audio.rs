@@ -31,14 +31,14 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
         Ok(r) => match r {
             NpcDialogue::Ami => PlaySound {
                 clip: assets.ami_blip_sound.clone(),
-                playback_rate: 2.5,
-                rand_speed_intensity: 0.1,
+                playback_rate: 1.1,
+                rand_speed_intensity: 0.01,
                 ..default()
             },
             NpcDialogue::Ima => PlaySound {
                 clip: assets.ima_blip_sound.clone(),
-                playback_rate: 2.3,
-                rand_speed_intensity: 0.05,
+                playback_rate: 0.9,
+                rand_speed_intensity: 0.01,
                 ..default()
             },
         },

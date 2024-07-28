@@ -1,5 +1,7 @@
 # Credits
 
+TODO: Did you choose to pick one of the blip sounds? They are most likely from the ui sounds pack if you did.
+
 Disclaimer: I do NOT own any of the following assets. If you want to use any of these assets yourself, follow the link to the corresponding asset and download it from there.
 
 Art that appears in the game but isn't listed here was most likely made by [@garimitsu](https://github.com/garimitsu).

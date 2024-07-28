@@ -159,6 +159,10 @@ pub struct GameAssets {
     pub koto_hit_sound: Handle<AudioSource>,
     #[asset(path = "audio/footstep.ogg")]
     pub footstep: Handle<AudioSource>,
+    #[asset(path = "audio/select_aspect.ogg")]
+    pub select_aspect: Handle<AudioSource>,
+    #[asset(path = "audio/deselect_aspect.ogg")]
+    pub deselect_aspect: Handle<AudioSource>,
 
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]

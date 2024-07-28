@@ -1,6 +1,6 @@
 # Credits
 
-Disclaimer: I do NOT own any of the following assets. All of them are licensed under a license similar to CC0 (as of writing this at least). If you want to use any of these assets yourself, follow the link to the corresponding asset and download it from there.
+Disclaimer: I do NOT own any of the following assets. If you want to use any of these assets yourself, follow the link to the corresponding asset and download it from there.
 
 Art that appears in the game but isn't listed here was most likely made by [@garimitsu](https://github.com/garimitsu).
 
@@ -26,7 +26,16 @@ https://github.com/YarnSpinnerTool/YarnSpinner-Rust
 
 ## Audio
 
-https://pixabay.com/sound-effects/koto-hit-106066/
+### Koto Sound (Ima appears)
+
+https://pixabay.com/sound-effects/koto-hit-106066/, via Pixabay
+
+### Aspect selection/deselection
+
+https://ellr.itch.io/universal-ui-soundpack,
+Created and distributed by Nathan Gibson (https://nathangibson.myportfolio.com)
+License: Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
 
 ## Font
 

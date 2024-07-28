@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{player::input::PlayerInput, GameAssets, GameState};
+use crate::{audio::PlaySound, player::input::PlayerInput, GameAssets, GameState};
 
 use super::{
     icon::icon_texture,
@@ -61,9 +61,11 @@ pub fn aspect_combinations(left_aspect: &Aspect, right_aspect: &Aspect) -> Aspec
 }
 
 fn select_aspects(
+    assets: Res<GameAssets>,
     player_input: Res<PlayerInput>,
     mut combiner: ResMut<Combiner>,
     q_sockets: Query<(&TextureAtlas, &Socket)>,
+    mut ev_play_sound: EventWriter<PlaySound>,
 ) {
     if !player_input.select_socket {
         return;
@@ -78,14 +80,30 @@ fn select_aspects(
 
         if socket.on_top {
             left_aspect = if combiner.left_aspect != Some(socket.aspect) {
+                ev_play_sound.send(PlaySound {
+                    clip: assets.select_aspect.clone(),
+                    ..default()
+                });
                 Some(socket.aspect)
             } else {
+                ev_play_sound.send(PlaySound {
+                    clip: assets.deselect_aspect.clone(),
+                    ..default()
+                });
                 None
             };
         } else {
             right_aspect = if combiner.right_aspect != Some(socket.aspect) {
+                ev_play_sound.send(PlaySound {
+                    clip: assets.select_aspect.clone(),
+                    ..default()
+                });
                 Some(socket.aspect)
             } else {
+                ev_play_sound.send(PlaySound {
+                    clip: assets.deselect_aspect.clone(),
+                    ..default()
+                });
                 None
             };
         }

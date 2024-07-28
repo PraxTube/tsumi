@@ -9,7 +9,10 @@ use strum::IntoEnumIterator;
 
 use crate::{
     aspect::Aspect,
-    npc::{narrator::NarratorDialogue, NpcDialogue},
+    npc::{
+        narrator::{evaluate_aspect, NarratorDialogue},
+        NpcDialogue,
+    },
     ui::dialogue::runner::{IMA_FINAL_DIALOGUE, IMA_FIRST_ENCOUNTER, IMA_FIRST_ENCOUNTER_SHORT},
 };
 
@@ -188,4 +191,17 @@ fn validate_jump_node_exists() {
             );
         }
     });
+}
+
+#[test]
+fn validate_ending_evaluation() {
+    let mut sum = 0;
+    for aspect in Aspect::iter() {
+        sum += evaluate_aspect(aspect);
+    }
+    assert!(
+        sum == 0,
+        "Sum of aspect points should be 0 so it's most likely balanced, but it's: {}",
+        sum
+    );
 }

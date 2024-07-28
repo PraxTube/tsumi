@@ -146,6 +146,9 @@ pub struct GameAssets {
     #[asset(path = "ui/ima_character_icon.png")]
     pub ima_character_icon: Handle<Image>,
 
+    #[asset(path = "ui/vignette.png")]
+    pub vignette: Handle<Image>,
+
     // --- AUDIO ---
     #[asset(path = "audio/ami_blip.ogg")]
     pub ami_blip_sound: Handle<AudioSource>,

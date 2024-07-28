@@ -1,6 +1,7 @@
 mod dialogue;
 mod ending_text;
 mod screens;
+mod vignette;
 
 use bevy::prelude::*;
 
@@ -12,6 +13,7 @@ impl Plugin for UiPlugin {
             dialogue::DialoguePlugin,
             screens::UiScreensPlugin,
             ending_text::EndingTextPlugin,
+            vignette::VignettePlugin,
         ));
     }
 }

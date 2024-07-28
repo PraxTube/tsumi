@@ -14,6 +14,10 @@ https://craftpix.net/freebies/free-yokai-pixel-art-character-sprites/
 
 https://gif-superretroworld.itch.io/interior-pack
 
+### Smoke Effect
+
+https://pimen.itch.io/smoke-vfx-1
+
 ## UI
 
 ### Dialogue

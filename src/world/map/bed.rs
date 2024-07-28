@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+use bevy_trickfilm::prelude::*;
 use bevy_yarnspinner::events::DialogueCompleteEvent;
 
 use crate::{
@@ -18,6 +19,25 @@ pub struct Bed;
 #[derive(Event)]
 pub struct PlayerWentToBed;
 
+fn spawn_smoke_effect(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
+    let mut animator = AnimationPlayer2D::default();
+    animator.play(assets.smoke_animations[0].clone());
+
+    commands.spawn((
+        YSort(100.0),
+        animator,
+        SpriteBundle {
+            texture: assets.smoke_texture.clone(),
+            transform: Transform::from_translation(pos).with_scale(Vec3::splat(2.0)),
+            ..default()
+        },
+        TextureAtlas {
+            layout: assets.smoke_layout.clone(),
+            ..default()
+        },
+    ));
+}
+
 fn spawn_bed(
     mut commands: Commands,
     assets: Res<GameAssets>,
@@ -33,6 +53,8 @@ fn spawn_bed(
         Err(_) => return,
     };
     let pos = combiner_transform.translation + COMBINER_OFFSET;
+
+    spawn_smoke_effect(&mut commands, &assets, pos);
 
     commands.spawn((
         Bed,

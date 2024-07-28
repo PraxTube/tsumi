@@ -61,6 +61,15 @@ pub struct GameAssets {
     #[asset(path = "aspects/forgiveness_icon.png")]
     pub forgiveness_icon: Handle<Image>,
 
+    // --- EFFECTS ---
+    #[asset(path = "effects/smoke.png")]
+    pub smoke_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 12, rows = 1))]
+    pub smoke_layout: Handle<TextureAtlasLayout>,
+
+    #[asset(paths("effects/smoke.trickfilm#main",), collection(typed))]
+    pub smoke_animations: Vec<Handle<AnimationClip2D>>,
+
     // --- MAP ---
     #[asset(path = "map/level.ldtk")]
     pub level: Handle<LdtkProject>,

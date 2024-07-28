@@ -3,6 +3,7 @@ use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 use crate::{
+    audio::PlaySound,
     player::{input::PlayerInput, Player, PLAYER_PIVOT},
     world::camera::YSort,
     GameAssets, GameState,
@@ -167,9 +168,11 @@ fn highlight_tutorial_switch(
 
 fn trigger_tutorial_switch(
     mut commands: Commands,
+    assets: Res<GameAssets>,
     player_input: Res<PlayerInput>,
     mut q_tutorial_switch: Query<(&mut TextureAtlas, &mut TutorialSwitch)>,
     q_tutorial_wall: Query<Entity, With<TutorialWall>>,
+    mut ev_play_sound: EventWriter<PlaySound>,
 ) {
     if !player_input.select_socket {
         return;
@@ -186,6 +189,11 @@ fn trigger_tutorial_switch(
         for entity in &q_tutorial_wall {
             commands.entity(entity).despawn_recursive();
         }
+
+        ev_play_sound.send(PlaySound {
+            clip: assets.select_aspect.clone(),
+            ..default()
+        });
     }
 }
 

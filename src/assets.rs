@@ -164,6 +164,9 @@ pub struct GameAssets {
     #[asset(path = "audio/deselect_aspect.ogg")]
     pub deselect_aspect: Handle<AudioSource>,
 
+    #[asset(path = "audio/main_bgm.ogg")]
+    pub main_bgm: Handle<AudioSource>,
+
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]
     pub pixel_font: Handle<Font>,

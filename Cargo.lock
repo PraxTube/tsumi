@@ -3641,28 +3641,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pirate-jam"
-version = "0.1.0"
-dependencies = [
- "bevy",
- "bevy_asset_loader",
- "bevy_ecs_ldtk",
- "bevy_kira_audio",
- "bevy_particle_systems",
- "bevy_rapier2d",
- "bevy_trickfilm",
- "bevy_tweening",
- "bevy_yarnspinner",
- "chrono",
- "noisy_bevy",
- "rand",
- "rand_xoshiro",
- "strum",
- "strum_macros",
- "unicode-segmentation",
-]
-
-[[package]]
 name = "pkg-config"
 version = "0.3.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4536,6 +4514,28 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "tsumi"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "bevy_asset_loader",
+ "bevy_ecs_ldtk",
+ "bevy_kira_audio",
+ "bevy_particle_systems",
+ "bevy_rapier2d",
+ "bevy_trickfilm",
+ "bevy_tweening",
+ "bevy_yarnspinner",
+ "chrono",
+ "noisy_bevy",
+ "rand",
+ "rand_xoshiro",
+ "strum",
+ "strum_macros",
+ "unicode-segmentation",
 ]
 
 [[package]]

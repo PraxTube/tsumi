@@ -28,6 +28,12 @@ https://github.com/YarnSpinnerTool/YarnSpinner-Rust
 
 ## Audio
 
+### Music
+
+#### Main BGM
+
+https://pixabay.com/music/world-the-garden-of-ajisai-japanese-koto-traditional-music-152010/
+
 ### Koto Sound (Ima appears)
 
 https://pixabay.com/sound-effects/koto-hit-106066/, via Pixabay

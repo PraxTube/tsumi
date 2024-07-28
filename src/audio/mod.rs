@@ -1,3 +1,4 @@
+mod bgm;
 mod sound;
 mod spacial;
 
@@ -20,7 +21,11 @@ pub struct GameAudioPlugin;
 impl Plugin for GameAudioPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(AudioPlugin)
-            .add_plugins((spacial::SpacialAudioPlugin, sound::GameSoundPlugin))
+            .add_plugins((
+                spacial::SpacialAudioPlugin,
+                sound::GameSoundPlugin,
+                bgm::BgmPlugin,
+            ))
             .init_resource::<GameAudio>()
             .add_systems(Update, (update_main_volume, fade_in_volume));
     }

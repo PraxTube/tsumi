@@ -6,7 +6,7 @@ on:
       - '*'
 
 env:
-  binary: pirate-jam
+  binary: tsumi
   add_binaries_to_github_release: false
   itch_target: PraxTube/tsumi
 

@@ -8,7 +8,7 @@ on:
 env:
   binary: pirate-jam
   add_binaries_to_github_release: false
-  itch_target: PraxTube/shadow-game
+  itch_target: PraxTube/tsumi
 
 jobs:
   release-wasm:

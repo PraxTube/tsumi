@@ -1,4 +1,7 @@
-use bevy::prelude::*;
+use bevy::{
+    color::palettes::css::{GRAY, WHITE},
+    prelude::*,
+};
 use bevy_tweening::{lens::TransformPositionLens, Animator, EaseFunction, Tween};
 
 use crate::{world::camera::YSortChild, GameAssets};
@@ -34,17 +37,20 @@ pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> 
     }
 }
 
-fn set_icon_pos(
+fn set_icon_properties(
     commands: &mut Commands,
-    q_icons: &Query<(Entity, &Transform), With<AspectIcon>>,
+    q_icons: &mut Query<(Entity, &Transform, &mut Sprite), With<AspectIcon>>,
     children: &Children,
     pos: Vec2,
+    tint: Color,
 ) {
     for child in children.iter() {
-        let (entity, transform) = match q_icons.get(*child) {
+        let (entity, transform, mut sprite) = match q_icons.get_mut(*child) {
             Ok(r) => r,
             Err(_) => continue,
         };
+
+        sprite.color = tint;
 
         let tween = Tween::new(
             EaseFunction::CubicOut,
@@ -58,14 +64,14 @@ fn set_icon_pos(
     }
 }
 
-fn set_icons_pos(
+fn set_icons_properties(
     mut commands: Commands,
     combiner: Res<Combiner>,
     q_sockets: Query<(&Children, &Socket)>,
-    q_icons: Query<(Entity, &Transform), With<AspectIcon>>,
+    mut q_icons: Query<(Entity, &Transform, &mut Sprite), With<AspectIcon>>,
 ) {
     for (children, socket) in &q_sockets {
-        let pos = if combiner.all_sockets_full
+        let (pos, tint) = if combiner.all_sockets_full
             || socket.on_top
                 && combiner.left_aspect.is_some()
                 && combiner.left_aspect != Some(socket.aspect)
@@ -73,15 +79,15 @@ fn set_icons_pos(
                 && combiner.right_aspect.is_some()
                 && combiner.right_aspect != Some(socket.aspect)
         {
-            DEHIGHLIGHTED_ICON_POSITION
+            (DEHIGHLIGHTED_ICON_POSITION, GRAY)
         } else if socket.on_top && combiner.left_aspect == Some(socket.aspect)
             || !socket.on_top && combiner.right_aspect == Some(socket.aspect)
         {
-            HIGHLIGHTED_ICON_POSITION
+            (HIGHLIGHTED_ICON_POSITION, WHITE)
         } else {
-            DEFAULT_ICON_POSITION
+            (DEFAULT_ICON_POSITION, WHITE)
         };
-        set_icon_pos(&mut commands, &q_icons, children, pos);
+        set_icon_properties(&mut commands, &mut q_icons, children, pos, tint.into());
     }
 }
 
@@ -95,6 +101,6 @@ pub struct AspectIconPlugin;
 
 impl Plugin for AspectIconPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (set_icons_pos, update_icon_ysorts));
+        app.add_systems(Update, (set_icons_properties, update_icon_ysorts));
     }
 }

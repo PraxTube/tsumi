@@ -34,7 +34,11 @@ https://cazwolf.itch.io/caz-pixel-free
 
 #### Main BGM
 
-https://pixabay.com/music/world-the-garden-of-ajisai-japanese-koto-traditional-music-152010/
+https://pixabay.com/music/world-the-garden-of-ajisai-japanese-koto-traditional-music-152010/, via Pixabay, the song was slightly modified to fit better in a loop
+
+#### Ending BGM
+
+https://pixabay.com/music/main-title-japanese-nostalgia-flute-and-stringed-instruments-166930/, via Pixabay, the song was shortened and faded out
 
 ### Koto Sound (Ima appears)
 

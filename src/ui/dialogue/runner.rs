@@ -15,7 +15,7 @@ use super::{
     spawn::DialogueRoot,
 };
 
-const SHORT_INTRO_TIMEOUT: f32 = 5.0;
+const SHORT_INTRO_TIMEOUT: f32 = 3.5;
 pub const IMA_FINAL_DIALOGUE: &str = "ImaFinalDialogue";
 pub const IMA_FIRST_ENCOUNTER: &str = "ImaFirstEncounter";
 pub const IMA_FIRST_ENCOUNTER_SHORT: &str = "ImaFirstEncounterShort";

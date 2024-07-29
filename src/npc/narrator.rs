@@ -10,7 +10,7 @@ use crate::{
 
 const START_DELAY: f32 = 1.0;
 const ENDING_DELAY: f32 = 2.0;
-const GOOD_ENDING_THRESHOLD: i32 = 5;
+const GOOD_ENDING_THRESHOLD: i32 = 7;
 
 #[derive(Reflect, Clone, PartialEq, EnumString, Display, Debug, Copy, EnumIter)]
 pub enum NarratorDialogue {

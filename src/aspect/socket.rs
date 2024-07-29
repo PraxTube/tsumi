@@ -10,7 +10,7 @@ use crate::{
 
 use super::{
     combiner::{aspect_combinations, is_socket_combination_possible, CombinedAspect, Combiner},
-    icon::{icon_texture, DEFAULT_ICON_POSITION},
+    icon::{icon_texture, DEFAULT_ICON_POSITION, HIGHLIGHTED_ICON_POSITION},
     name_text::AspectNameText,
     Aspect, AspectCombiner, AspectCombinerInitiater, AspectSocketInitiater,
 };
@@ -173,11 +173,11 @@ fn spawn_combiner_socket(
         let icon = commands
             .spawn((
                 CombinerIcon,
-                YSortChild(17.0),
+                YSortChild(HIGHLIGHTED_ICON_POSITION.y + 1.0),
                 SpriteBundle {
                     texture: icon_texture(&assets, &Aspect::NotImplemented),
-                    transform: Transform::from_translation(DEFAULT_ICON_POSITION.extend(0.0)),
-                    visibility: Visibility::Hidden,
+                    transform: Transform::from_translation(DEFAULT_ICON_POSITION.extend(0.0))
+                        .with_scale(Vec3::splat(0.0)),
                     ..default()
                 },
             ))

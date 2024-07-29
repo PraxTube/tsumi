@@ -1,6 +1,17 @@
-use bevy::prelude::*;
+use std::time::Duration;
 
-use crate::{audio::PlaySound, player::input::PlayerInput, GameAssets, GameState};
+use bevy::prelude::*;
+use bevy_tweening::{
+    lens::{TransformPositionLens, TransformScaleLens},
+    Animator, EaseFunction, Tracks, Tween,
+};
+
+use crate::{
+    aspect::icon::{DEFAULT_ICON_POSITION, HIGHLIGHTED_ICON_POSITION},
+    audio::PlaySound,
+    player::input::PlayerInput,
+    GameAssets, GameState,
+};
 
 use super::{
     icon::icon_texture,
@@ -114,28 +125,68 @@ fn select_aspects(
 }
 
 fn show_combiner_icon(
+    mut commands: Commands,
     assets: Res<GameAssets>,
     mut combiner: ResMut<Combiner>,
-    mut q_combiner_icon: Query<(&mut Handle<Image>, &mut Visibility), With<CombinerIcon>>,
+    mut q_combiner_icon: Query<(Entity, &mut Handle<Image>), With<CombinerIcon>>,
+    mut visible: Local<bool>,
 ) {
-    let (mut texture, mut visibility) = match q_combiner_icon.get_single_mut() {
+    let (entity, mut texture) = match q_combiner_icon.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
 
-    let (left_aspect, right_aspect) =
-        if let (Some(l_aspect), Some(r_aspect)) = (combiner.left_aspect, combiner.right_aspect) {
-            (l_aspect, r_aspect)
-        } else {
-            *visibility = Visibility::Hidden;
-            return;
-        };
+    if let (Some(left_aspect), Some(right_aspect)) = (combiner.left_aspect, combiner.right_aspect) {
+        let combined_aspect = aspect_combinations(&left_aspect, &right_aspect);
+        combiner.current_combination = Some(combined_aspect);
+        *texture = icon_texture(&assets, &combined_aspect);
 
-    *visibility = Visibility::Inherited;
+        if !*visible {
+            *visible = true;
 
-    let combined_aspect = aspect_combinations(&left_aspect, &right_aspect);
-    combiner.current_combination = Some(combined_aspect);
-    *texture = icon_texture(&assets, &combined_aspect);
+            let seq = Tracks::new([
+                Tween::new(
+                    EaseFunction::QuarticOut,
+                    Duration::from_secs_f32(0.2),
+                    TransformPositionLens {
+                        start: DEFAULT_ICON_POSITION.extend(0.0),
+                        end: HIGHLIGHTED_ICON_POSITION.extend(0.0),
+                    },
+                ),
+                Tween::new(
+                    EaseFunction::QuarticOut,
+                    Duration::from_secs_f32(0.2),
+                    TransformScaleLens {
+                        start: Vec3::splat(0.0),
+                        end: Vec3::splat(1.0),
+                    },
+                ),
+            ]);
+            commands.entity(entity).insert(Animator::new(seq));
+        }
+    } else if *visible {
+        *visible = false;
+
+        let seq = Tracks::new([
+            Tween::new(
+                EaseFunction::QuarticOut,
+                Duration::from_secs_f32(0.2),
+                TransformPositionLens {
+                    start: HIGHLIGHTED_ICON_POSITION.extend(0.0),
+                    end: DEFAULT_ICON_POSITION.extend(0.0),
+                },
+            ),
+            Tween::new(
+                EaseFunction::QuarticOut,
+                Duration::from_secs_f32(0.2),
+                TransformScaleLens {
+                    start: Vec3::splat(1.0),
+                    end: Vec3::splat(0.0),
+                },
+            ),
+        ]);
+        commands.entity(entity).insert(Animator::new(seq));
+    }
 }
 
 fn select_combined_aspect(

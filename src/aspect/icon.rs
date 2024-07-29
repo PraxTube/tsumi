@@ -10,7 +10,7 @@ use super::{
 };
 
 pub const DEFAULT_ICON_POSITION: Vec2 = Vec2::new(0.0, 16.0);
-const HIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 24.0);
+pub const HIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 24.0);
 const DEHIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 8.0);
 const REPOSITION_TIME: f32 = 0.2;
 

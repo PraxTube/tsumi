@@ -173,14 +173,19 @@ impl Plugin for GameCameraPlugin {
                     toggle_full_screen,
                     #[cfg(not(target_arch = "wasm32"))]
                     take_screenshot,
-                    apply_y_sort,
-                    apply_y_sort_child
-                        .after(apply_y_sort)
-                        .before(apply_y_sort_static),
-                    apply_y_sort_static.after(apply_y_sort),
-                    apply_y_sort_static_child.after(apply_y_sort_static),
                     zoom_camera,
                 ),
+            )
+            .add_systems(
+                PostUpdate,
+                (
+                    apply_y_sort,
+                    apply_y_sort_child,
+                    apply_y_sort_static,
+                    apply_y_sort_static_child,
+                )
+                    .chain()
+                    .before(TransformSystem::TransformPropagate),
             )
             .add_systems(
                 PostUpdate,

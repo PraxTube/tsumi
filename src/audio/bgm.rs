@@ -7,12 +7,14 @@ use crate::{npc::narrator::TriggeredNarratorDialogue, GameAssets, GameState};
 
 use super::GameAudio;
 
-const BGM_VOLUME: f64 = 0.08;
+const MAIN_BGM_VOLUME: f64 = 0.15;
+const ENDING_BGM_VOLUME: f64 = 0.6;
 const BGM_FADE_OUT: f32 = 4.0;
 
 #[derive(Component)]
 struct Bgm {
     handle: Handle<AudioInstance>,
+    volume: f64,
 }
 
 #[derive(Component, Deref, DerefMut)]
@@ -30,13 +32,16 @@ fn spawn_main_bgm(
     audio: Res<Audio>,
     game_audio: Res<GameAudio>,
 ) {
-    let volume = game_audio.main_volume * BGM_VOLUME;
+    let volume = game_audio.main_volume * MAIN_BGM_VOLUME;
     let handle = audio
         .play(assets.main_bgm.clone())
         .with_volume(volume)
         .looped()
         .handle();
-    commands.spawn(Bgm { handle });
+    commands.spawn(Bgm {
+        handle,
+        volume: MAIN_BGM_VOLUME,
+    });
 }
 
 fn update_bgm_volumes(
@@ -44,9 +49,9 @@ fn update_bgm_volumes(
     mut audio_instances: ResMut<Assets<AudioInstance>>,
     q_bgms: Query<&Bgm>,
 ) {
-    let volume = game_audio.main_volume * BGM_VOLUME;
     for bgm in &q_bgms {
         if let Some(instance) = audio_instances.get_mut(bgm.handle.id()) {
+            let volume = game_audio.main_volume * bgm.volume;
             instance.set_volume(volume, AudioTween::default());
         }
     }
@@ -71,12 +76,15 @@ fn spawn_ending_bgm(
     audio: Res<Audio>,
     game_audio: Res<GameAudio>,
 ) {
-    let volume = game_audio.main_volume * BGM_VOLUME;
+    let volume = game_audio.main_volume * ENDING_BGM_VOLUME;
     let handle = audio
         .play(assets.ending_bgm.clone())
         .with_volume(volume)
         .handle();
-    commands.spawn(Bgm { handle });
+    commands.spawn(Bgm {
+        handle,
+        volume: ENDING_BGM_VOLUME,
+    });
 }
 
 pub struct BgmPlugin;
@@ -85,10 +93,7 @@ impl Plugin for BgmPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(OnEnter(GameState::Gaming), spawn_main_bgm)
             .add_systems(OnEnter(GameState::Ending), despawn_bgms)
-            .add_systems(
-                Update,
-                (update_bgm_volumes.run_if(in_state(GameState::GameOver)),),
-            )
+            .add_systems(Update, update_bgm_volumes)
             .add_systems(
                 Update,
                 (spawn_ending_bgm.run_if(on_event::<TriggeredNarratorDialogue>()))

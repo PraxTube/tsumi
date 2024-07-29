@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_tweening::{lens::TransformPositionLens, Animator, EaseFunction, Tween};
 
 use crate::{world::camera::YSortChild, GameAssets};
 
@@ -11,6 +12,7 @@ use super::{
 pub const DEFAULT_ICON_POSITION: Vec2 = Vec2::new(0.0, 16.0);
 const HIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 24.0);
 const DEHIGHLIGHTED_ICON_POSITION: Vec2 = Vec2::new(0.0, 8.0);
+const REPOSITION_TIME: f32 = 0.2;
 
 pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> {
     match aspect {
@@ -33,26 +35,34 @@ pub fn icon_texture(assets: &Res<GameAssets>, aspect: &Aspect) -> Handle<Image> 
 }
 
 fn set_icon_pos(
-    q_icons: &mut Query<(&mut Transform, &mut YSortChild), With<AspectIcon>>,
+    commands: &mut Commands,
+    q_icons: &Query<(Entity, &Transform), With<AspectIcon>>,
     children: &Children,
     pos: Vec2,
 ) {
     for child in children.iter() {
-        let (mut transform, mut ysort) = match q_icons.get_mut(*child) {
+        let (entity, transform) = match q_icons.get(*child) {
             Ok(r) => r,
             Err(_) => continue,
         };
 
-        transform.translation.x = pos.x;
-        transform.translation.y = pos.y;
-        *ysort = YSortChild(pos.y + 1.0);
+        let tween = Tween::new(
+            EaseFunction::CubicOut,
+            std::time::Duration::from_secs_f32(REPOSITION_TIME),
+            TransformPositionLens {
+                start: transform.translation,
+                end: pos.extend(0.0),
+            },
+        );
+        commands.entity(entity).insert(Animator::new(tween));
     }
 }
 
 fn set_icons_pos(
+    mut commands: Commands,
     combiner: Res<Combiner>,
     q_sockets: Query<(&Children, &Socket)>,
-    mut q_icons: Query<(&mut Transform, &mut YSortChild), With<AspectIcon>>,
+    q_icons: Query<(Entity, &Transform), With<AspectIcon>>,
 ) {
     for (children, socket) in &q_sockets {
         let pos = if combiner.all_sockets_full
@@ -71,7 +81,13 @@ fn set_icons_pos(
         } else {
             DEFAULT_ICON_POSITION
         };
-        set_icon_pos(&mut q_icons, children, pos);
+        set_icon_pos(&mut commands, &q_icons, children, pos);
+    }
+}
+
+fn update_icon_ysorts(mut q_icons: Query<(&Transform, &mut YSortChild), With<AspectIcon>>) {
+    for (transform, mut ysort) in &mut q_icons {
+        *ysort = YSortChild(transform.translation.y + 1.0);
     }
 }
 
@@ -79,6 +95,6 @@ pub struct AspectIconPlugin;
 
 impl Plugin for AspectIconPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (set_icons_pos,));
+        app.add_systems(Update, (set_icons_pos, update_icon_ysorts));
     }
 }

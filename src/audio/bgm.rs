@@ -8,7 +8,7 @@ use crate::{npc::narrator::TriggeredNarratorDialogue, GameAssets, GameState};
 use super::GameAudio;
 
 const BGM_VOLUME: f64 = 0.08;
-const BGM_FADE_OUT: f32 = 2.0;
+const BGM_FADE_OUT: f32 = 4.0;
 
 #[derive(Component)]
 struct Bgm {
@@ -24,7 +24,7 @@ impl Default for UnmuteTimer {
     }
 }
 
-fn play_main_bgm(
+fn spawn_main_bgm(
     mut commands: Commands,
     assets: Res<GameAssets>,
     audio: Res<Audio>,
@@ -75,7 +75,6 @@ fn spawn_ending_bgm(
     let handle = audio
         .play(assets.ending_bgm.clone())
         .with_volume(volume)
-        .looped()
         .handle();
     commands.spawn(Bgm { handle });
 }
@@ -84,7 +83,7 @@ pub struct BgmPlugin;
 
 impl Plugin for BgmPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::Gaming), play_main_bgm)
+        app.add_systems(OnEnter(GameState::Gaming), spawn_main_bgm)
             .add_systems(OnEnter(GameState::Ending), despawn_bgms)
             .add_systems(
                 Update,

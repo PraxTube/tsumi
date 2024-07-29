@@ -10,7 +10,7 @@ use crate::{
     GameAssets, GameState,
 };
 
-const PLAYER_HIGHLIGHT_DISTANCE: f32 = 48.0;
+const PLAYER_HIGHLIGHT_DISTANCE: f32 = 32.0;
 const COMBINER_OFFSET: Vec3 = Vec3::new(128.0, 0.0, 0.0);
 
 #[derive(Component, Default)]
@@ -72,9 +72,12 @@ fn spawn_bed(
     ));
 }
 
-fn highlight_bed(
+fn highlight_and_select_bed(
+    player_input: Res<PlayerInput>,
     q_player: Query<&Transform, With<Player>>,
     mut q_bed: Query<(&Transform, &mut TextureAtlas), (With<Bed>, Without<Player>)>,
+    mut ev_player_went_to_bed: EventWriter<PlayerWentToBed>,
+    mut selected: Local<bool>,
 ) {
     let player_transform = match q_player.get_single() {
         Ok(r) => r,
@@ -85,36 +88,22 @@ fn highlight_bed(
         Err(_) => return,
     };
 
-    let index = if transform
-        .translation
-        .truncate()
-        .distance_squared(player_transform.translation.truncate() + PLAYER_PIVOT)
-        <= PLAYER_HIGHLIGHT_DISTANCE.powi(2)
+    let index = if !*selected
+        && transform
+            .translation
+            .truncate()
+            .distance_squared(player_transform.translation.truncate() + PLAYER_PIVOT)
+            <= PLAYER_HIGHLIGHT_DISTANCE.powi(2)
     {
+        if player_input.select_socket {
+            *selected = true;
+            ev_player_went_to_bed.send(PlayerWentToBed);
+        }
         1
     } else {
         0
     };
     atlas.index = index;
-}
-
-fn select_bed(
-    player_input: Res<PlayerInput>,
-    q_bed: Query<&TextureAtlas, With<Bed>>,
-    mut ev_player_went_to_bed: EventWriter<PlayerWentToBed>,
-) {
-    if !player_input.select_socket {
-        return;
-    }
-    let atlas = match q_bed.get_single() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-
-    if atlas.index != 1 {
-        return;
-    }
-    ev_player_went_to_bed.send(PlayerWentToBed);
 }
 
 pub struct MapBedPlugin;
@@ -125,8 +114,7 @@ impl Plugin for MapBedPlugin {
             Update,
             (
                 spawn_bed.run_if(on_event::<DialogueCompleteEvent>()),
-                highlight_bed,
-                select_bed,
+                highlight_and_select_bed,
             )
                 .run_if(in_state(GameState::Gaming)),
         )
